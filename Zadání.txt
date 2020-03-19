@@ -1,0 +1,19 @@
+Srovnání středů otisků prstů
+
+otisky z různých snímačů s různým pozadím
+prahování do černoílé (je hotovo -Ondra Kanich)
+zarvnání jader otisků (střed třídy)
+otočení obrázku podle delt, aby byly zarovnány
+opravení roztažením a stažením, aby papilární linie seděli
+morphing(mezikroky - ideálně video) - do teď všechno knihovny
+
+dostanu databéze s otisky
+
+otisky od stejného člověka - pokud vygeneruje stejný otisk?
+otisky prstů jiných uživtelů, ale stejné třídy - provede se morphing, vybere se správný střed a porovnají se mezi sebou (porovnání 1 otisku s morphingovým a s 2.)
+otestování na jiných třídách
+
+na projektovou praxi generovat otisk
+na diplomku optimalizace a testy
+
+na závěr článek 5-10 stran
