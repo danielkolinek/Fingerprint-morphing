@@ -34,7 +34,6 @@ def poincare_index_at(i, j, angles, tolerance):
     return "none"
 
 def calculate_singularities(im, angles, tolerance, W):
-    (x, y) = im.size
     result = im.convert("RGB")
 
     draw = ImageDraw.Draw(result)

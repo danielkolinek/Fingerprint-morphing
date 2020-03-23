@@ -2,6 +2,11 @@ import cv2
 import math
 import numpy as np
 
+
+#function gets grayscale image and returns:
+#   - orientation filed
+#   - smoothed orientation field by GaussianBlur
+#   - coherence matrix from (https://www.ijcaonline.org/allpdf/pxc387482.pdf page 3-4)
 def getOrientationField(img, block_size):
     #1. normalize image
     orientationMat = np.zeros(img.shape)
@@ -10,62 +15,58 @@ def getOrientationField(img, block_size):
     sobel_kernel = 3
     grad_x = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=sobel_kernel)
     grad_y = cv2.Sobel(img,cv2.CV_64F,0,1,ksize=sobel_kernel)
-    #cv2.imshow("grad_x", grad_x)
-    #cv2.imshow("grad_y", grad_y)
 
     #3. local orientation of each block center at pixel (i,j)
     y, x = img.shape
 
     #coherence matrix
     coherence =  np.zeros(img.shape)
-
+    
     #variables for smoothing orientation field
-    phi_x = np.zeros(img.shape)
-    phi_y = np.zeros(img.shape)
+    x_real = int(x/block_size)
+    y_real = int(y/block_size)
+    phi_x = np.zeros((y_real, x_real))
+    phi_y = np.zeros((y_real, x_real))
     orientationMatSmooth = np.zeros(img.shape)
 
-    #cycles
+    #---orientation field
     half_block_size = int(block_size/2)
     for i in range(half_block_size, x-half_block_size, block_size):
         for j in range(half_block_size, y-half_block_size, block_size):
             # Orientation field
             sum_Vx = 0
             sum_Vy = 0
-            sum_for_coherence = 0
+            sum_for_coherence_1 = 0
+            sum_for_coherence_2 = 0
             for u in range(i-half_block_size, i+half_block_size):
                 for v in range(j-half_block_size, j+half_block_size):
-                    sum_Vx += 2*grad_x[v][u]*grad_y[v][u]
-                    sum_Vy += (grad_x[v][u]**2) - (grad_y[v][u]**2)
-                    #sum_for_coherence += abs(sum_Vx*sum_Vy) 
-            sum_theta = (math.pi + math.atan2(sum_Vx, sum_Vy))/2
+                    sum_Vx += (grad_x[v][u]**2) - (grad_y[v][u]**2)
+                    sum_Vy += 2*grad_x[v][u]*grad_y[v][u]
+                    sum_for_coherence_1 += abs(sum_Vx-sum_Vy) 
+                    sum_for_coherence_2 += sum_Vx-sum_Vy
+            sum_theta = (math.pi + math.atan2(sum_Vy, sum_Vx))*0.5
             orientationMat[j][i] = sum_theta
 
-            #filling phi's for smoothing images
-            phi_x[j][i] = math.cos(2*sum_theta)
-            phi_y[j][i] = math.sin(2*sum_theta)
-            #coherence[j][i] = 0
-            if(sum_for_coherence > 0):
-                coherence[j][i] = abs(sum_Vx*sum_Vy)/sum_for_coherence
+            #filling phi's for smoothing orientation field
+            index_i = int((i-half_block_size)/block_size)
+            index_j = int((j-half_block_size)/block_size)
+            phi_x[index_j][index_i] = math.cos(2*sum_theta)
+            phi_y[index_j][index_i] = math.sin(2*sum_theta)
 
-    #smoothing image
+            coherence[j][i] = 0
+            if(sum_for_coherence_1 > 0):
+                coherence[j][i] = abs(sum_for_coherence_2)/sum_for_coherence_1
+
+    #---smoothing orientation field
     filter_size = 5
-    low_pass_filter = cv2.blur(img,(filter_size,filter_size))
+    low_pass_filter_phi_x = cv2.GaussianBlur(phi_x,(filter_size,filter_size), 1)
+    low_pass_filter_phi_y = cv2.GaussianBlur(phi_y,(filter_size,filter_size), 1)
     for i in range(half_block_size, x-half_block_size, block_size):
         for j in range(half_block_size, y-half_block_size, block_size):
-            #W = low pass filter (averaging)
-            half_filter_size = int(filter_size/2)
-            phi_x2 = 0
-            phi_y2 = 0
-            for u in range(i-half_filter_size, i+half_filter_size):
-                for v in range(j-half_filter_size, j+half_filter_size):
-                    #print(j,'-',v*block_size, '---',i,'-', u*block_size)
-                    phi_x2 += low_pass_filter[v][u] * phi_x[j-v*block_size][i-u*block_size] 
-                    phi_y2 += low_pass_filter[v][u] * phi_y[j-v*block_size][i-u*block_size]
-    
-            orientationMatSmooth[j][i] = math.atan2(phi_y2, phi_x2)/2
-            
-
-    return (orientationMat, orientationMatSmooth)
+            index_i = int((i-half_block_size)/block_size)
+            index_j = int((j-half_block_size)/block_size)
+            orientationMatSmooth[j][i] = math.atan2(low_pass_filter_phi_y[index_j][index_i], low_pass_filter_phi_x[index_j][index_i])*0.5
+    return (orientationMat, orientationMatSmooth, coherence)
 
 def drawOrientationField(img, orientation_field, block_size, im_name):
     half_block_size = int(block_size/2)
@@ -98,8 +99,6 @@ def drawCoherence(img, coherence, block_size, im_name):
                 color = (255, 0, 0) 
             else:
                 color = (0, 0, 255) 
-            #print(coherence[j][i])
-
             cv2.rectangle(backtorgb, (i-half_block_size, j-half_block_size), (i+half_block_size, j+half_block_size), color, -1)
     cv2.imshow(im_name, backtorgb)
     return
