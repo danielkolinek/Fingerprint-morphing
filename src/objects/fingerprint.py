@@ -72,6 +72,7 @@ class Fingerprint():
                         leftx = y
             line+=1
         return gray[downy:upy, leftx:rightx]
+        
     #function gets grayscale image and returns:
     #   - orientation filed
     #   - smoothed orientation field by GaussianBlur

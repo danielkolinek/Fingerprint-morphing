@@ -28,17 +28,19 @@ def moveFingerprint(fingerprint, transformStep, axis):
 
 def alighn(fingerprint_1, fingerprint_2):
     block_size = fingerprint_1.block_size
-    # get 
+
+    # get which one is bigger 
     vo_1_not_zero = np.count_nonzero(fingerprint_1.orientation_field)
     vo_2_not_zero = np.count_nonzero(fingerprint_2.orientation_field)
-    print(vo_1_not_zero)
-    print(vo_2_not_zero)
+    vo_non_zero_max = vo_1_not_zero if vo_1_not_zero > vo_2_not_zero else vo_2_not_zero
+    print(vo_non_zero_max)
     
 
 
     gray_s = fingerprint_1.fingerprint
     orientation_field_s = fingerprint_1.orientation_field
     mask_s = fingerprint_1.mask
+    
     # get all possible rotations
     allRotations = [orientation_field_s]
     for angle in range(30, 60, 30):    #30, 360, 30
@@ -48,6 +50,7 @@ def alighn(fingerprint_1, fingerprint_2):
         ori, _, _ = fingerprint_1.getOrientationField(degimg, block_size, degmask)
         allRotations.append(ori)
         print("Orientation field ", angle, " just done.")
+    
     # alighn all possible 
     
     return 
