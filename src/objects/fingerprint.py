@@ -8,6 +8,7 @@ class Fingerprint():
         self.fingerprint = self.addWhiteBorder(self.getGrayScaleNormalized(fingerprint),block_size)
         self.mask = self.getMask(self.fingerprint)
         self.orientation_field, self.smooth_orientation_field, self.coherence = self.getOrientationField(self.fingerprint, block_size, self.mask)
+        self.non_zero_orientation_field_count = np.count_nonzero(self.smooth_orientation_field)
 
 
     # BG is black, fingerprint white
@@ -153,10 +154,10 @@ class Fingerprint():
 
     def drawOrientationField(self, img, orientation_field, block_size):
         half_block_size = int(block_size/2)
-        backtorgb = np.ones(img.shape)#cv2.cvtColor(img,cv2.COLOR_GRAY2RGB)
+        backtorgb = np.ones(orientation_field.shape)#cv2.cvtColor(img,cv2.COLOR_GRAY2RGB)
         backtorgb = backtorgb*255
         #backtorgb = np.zeros(backtorgb.shape) #for black bg
-        y, x = img.shape
+        y, x = orientation_field.shape
         for i in range(half_block_size, x-half_block_size, block_size):
             for j in range(half_block_size, y-half_block_size, block_size):
                 if orientation_field[j][i] != 0:

@@ -39,7 +39,7 @@ def main():
     #core = detectCore(fingerprint_1)
     #cv2.imshow("Detected core", core)
 
-    alighn(fingerprint_1, fingerprint_2)
+    alighn(fingerprint_1, fingerprint_2, 2)
 
     # plot results
     fig = plt.figure()

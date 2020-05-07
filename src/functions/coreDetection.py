@@ -26,7 +26,7 @@ def getPointcare(fingerprint):
     delta_tolerance = 10*math.pi/180
     for j in range(barier, y-barier, fingerprint.block_size):
         for i in range(barier, x-barier, fingerprint.block_size):
-            angles = getAnglesInNeighbourhood(i, j, fingerprint.orientation_field, fingerprint.block_size)
+            angles = getAnglesInNeighbourhood(i, j, fingerprint.smooth_orientation_field, fingerprint.block_size)
             #---core singular point find
             index = angleDiffForDelta(angles)
             if max_diff < index and fingerprint.mask[j][i] == 255:
