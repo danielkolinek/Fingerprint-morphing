@@ -152,11 +152,12 @@ class Fingerprint():
                     
         return (orientationMat, orientationMatSmooth, coherence)
 
-    def drawOrientationField(self, img, orientation_field, block_size):
+    # Function for drawing orientation field
+    # to use picture as bg, just set backgroundImg = True and input img (img has to be in RGB)
+    def drawOrientationField(self, orientation_field, block_size, img=None, backgroundImg=False, color=(0,0, 255)):
         half_block_size = int(block_size/2)
-        backtorgb = np.ones(orientation_field.shape)#cv2.cvtColor(img,cv2.COLOR_GRAY2RGB)
-        backtorgb = backtorgb*255
-        #backtorgb = np.zeros(backtorgb.shape) #for black bg
+        result = cv2.cvtColor(np.ones(orientation_field.shape).astype('uint8')*255,cv2.COLOR_GRAY2RGB) if not backgroundImg else np.copy(img)
+        #result = np.zeros(result.shape) #for black bg
         y, x = orientation_field.shape
         for i in range(half_block_size, x-half_block_size, block_size):
             for j in range(half_block_size, y-half_block_size, block_size):
@@ -168,8 +169,8 @@ class Fingerprint():
                     y0 = j - movey
                     x1 = i + movex
                     y1 = j + movey
-                    cv2.line(backtorgb, (x0, y0), (x1, y1), (0,0, 255), 2)
-        return backtorgb
+                    cv2.line(result, (x0, y0), (x1, y1), color, 1)
+        return result
 
     def drawCoherence(self, img, coherence, block_size, im_name):
         y, x = coherence.shape
