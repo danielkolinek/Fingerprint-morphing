@@ -31,6 +31,10 @@ def main():
     fingerprint_1 = Fingerprint(fingerprint_1_image, block_size)
     fingerprint_2 = Fingerprint(fingerprint_2_image, block_size)
 
+    # make copy for show in plotlib
+    fingerprint_1_draw = np.copy(fingerprint_1.fingerprint)
+    fingerprint_2_draw = np.copy(fingerprint_2.fingerprint)
+
     # sort fingerprints based on their size of orientationfields
     if fingerprint_1.non_zero_orientation_field_count < fingerprint_2.non_zero_orientation_field_count:
         fingerprint_3 = fingerprint_1
@@ -48,13 +52,12 @@ def main():
     # get aligment
     max_pos, max_angle = alighn(fingerprint_1, fingerprint_2, 1)
 
-    # show alignment
-    _ , _, angled_orientation = rotateEverything(fingerprint_2, max_angle)
-    angled_orientation = upshape(angled_orientation, fingerprint_1.smooth_orientation_field.shape)
-    moved_or_field = moveFingerprint(angled_orientation, block_size, max_pos[0], 0)
-    moved_or_field = np.array(moveFingerprint(moved_or_field, block_size, max_pos[1], 1))
-    angled_orientation = downshape(moved_or_field, fingerprint_1.smooth_orientation_field.shape)
-    alignment_draw = fingerprint_1.drawOrientationField(angled_orientation,block_size, orientation_field_draw_1, True, (255,0,0))
+    # move fingerprint 2 from alignment results
+    fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape)
+
+    # show alignment of orientation fields
+    alignment_draw = fingerprint_1.drawOrientationField(fingerprint_2.smooth_orientation_field,block_size, orientation_field_draw_1, True, (255,0,0))
+
 
     # plot results
     fig = plt.figure()
@@ -62,10 +65,10 @@ def main():
     # grayscale fingerprints
     fig.set_figheight(15)
     gray1 = fig.add_subplot(3,4,1)
-    gray1.imshow(fingerprint_1.fingerprint, cmap='gray')
+    gray1.imshow(fingerprint_1_draw, cmap='gray')
     fig.set_figheight(15)
     gray2 = fig.add_subplot(3,4,2)
-    gray2.imshow(fingerprint_2.fingerprint, cmap='gray')
+    gray2.imshow(fingerprint_2_draw, cmap='gray')
 
     #orientation fields
     or1 = fig.add_subplot(3,4,5)

@@ -3,27 +3,26 @@ import cv2
 import math
 from scipy.ndimage.interpolation import rotate
 
-def moveFingerprint(orientation_field, block_size, transformStep, axis):
+def moveFingerprint(orientation_field, block_size, transformStep, axis, value=0):
     # roll image in direction
     blockStep = block_size*transformStep
     rolled = np.roll(orientation_field, blockStep, axis)
-    
+
     height, width = orientation_field.shape
     if axis == 0:
-        zeros = np.zeros((block_size, width))
-        ones =  np.ones((height-block_size, width))
+        zeros = np.ones((abs(blockStep), width))*value
+        ones =  np.ones((height-abs(blockStep), width))
         if transformStep > 0:
             mask = np.vstack([zeros,ones])
         else:
             mask = np.vstack([ones, zeros])
     else:
-        zeros = np.zeros((height, block_size))
-        ones =  np.ones((height, width-block_size))
+        zeros = np.ones((height, abs(blockStep)))*value
+        ones =  np.ones((height, width-abs(blockStep)))
         if transformStep > 0:
             mask = np.hstack([zeros,ones])
         else:
             mask = np.hstack([ones, zeros])
-
     return rolled*mask
 
 # gets fingerprint object and returns rotated img, mask and smoothedorientationfield
@@ -35,22 +34,21 @@ def rotateEverything(fingerprint, angle):
     degimg = rotate(degimg, angle=angle, cval=255)
     degmask = rotate(degmask, angle=angle, cval=0)
     degmask = np.where(degmask >200, 255, 0)
-    _ , ori, _ = fingerprint.getOrientationField(degimg, fingerprint.block_size, degmask)
-    return degimg, degmask, ori
+    orientation , smoooth, _ = fingerprint.getOrientationField(degimg, fingerprint.block_size, degmask)
+    return degimg, degmask, orientation, smoooth
 
 # adds rows or colls to array if is smaller then shape  
-def upshape(array, shape):
+def upshape(array, shape, value=0):
     # resize orientation field to get same or fields if is bigger
     if array.shape[0] < shape[0]:# height < bigger height
         overfitting_part = shape[0] - array.shape[0]
-        bottom = np.zeros((overfitting_part, array.shape[1]))
+        bottom = np.ones((overfitting_part, array.shape[1]))*value
+        tmp = np.copy(array)
         array = np.vstack([array, bottom])
-
     if array.shape[1] < shape[1]:# width < bigger width
         overfitting_part = shape[1] - array.shape[1]
-        bottom = np.zeros((array.shape[0], overfitting_part))
-        array = np.hstack([array, bottom])
-    
+        right = np.ones((array.shape[0], overfitting_part))*value
+        array = np.hstack([array, right])
     return array
 
 # removes rows or colls if array is bigger then shape
@@ -70,29 +68,30 @@ def downshape(array, shape):
 #  - baskkground = bigger image index (if fingerprint1.orientationfield is bigger, then returns 0.)
 #  - (x,y) = position of best alignment
 #  - Phi = angle of alignment 
-def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=30):
+def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=15):
     block_size = fingerprint_1.block_size
-    angle_range = 360
+    angle_range = 45
 
     # get all possible rotations of seond fingerprint
     print('Aligning process: ', flush=False)
-    allRotations = [fingerprint_2.orientation_field]
-    for angle in range(angle_step, angle_range, angle_step):    #30, 360, 30
-        _, _, ori = rotateEverything(fingerprint_2, angle)
+    allRotations = []
+    for angle in range(-angle_range, angle_range+angle_step, angle_step):    #30, 360, 30
+        _, _, _, ori = rotateEverything(fingerprint_2, angle)
         allRotations.append(ori)
-        print('Orientation fields: ', int(angle/(angle_range-angle_step)*100), "%", end="\r", flush=True)
+        print('Orientation fields: ', int(angle+angle_range/((angle_range)*2)*100), "%", end="\r", flush=True)
     print(flush=False)
     # alighn all possible
     steps_height, steps_width = fingerprint_1.fingerprint.shape
     # (-half; half)
-    steps_width = int((steps_width/2)/(block_size))
-    steps_height = int((steps_height/2)/(block_size))
+    steps_width = int((steps_width/5)/(block_size))
+    steps_height = int((steps_height/5)/(block_size))
 
     max_s = 0
     max_pos = (0,0)
     max_angle = 0
-    actual_angle = 0
+    actual_angle = -angle_range
 
+    iteration = 0
     for rotation in allRotations:
         #upshape
         rotation = upshape(rotation, fingerprint_1.orientation_field.shape)
@@ -121,27 +120,31 @@ def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=30):
 
                 # compute S(O1,O2) alignment
                 actual_s = np.sum(
-                    np.where(
-                        multiplied != 0, 
-                        (r1+r2)*(1-(2*abs(fingerprint_1.orientation_field-moved_or_field))/math.pi),
-                        0)
-                )/(r1*multiplied_non_zero+r2*multiplied_non_zero)
+                        np.where(
+                            np.logical_and(fingerprint_1.smooth_orientation_field!=0, moved_or_field!=0), 
+                            (r1+r2)*(1-(2*abs(fingerprint_1.smooth_orientation_field-moved_or_field))/math.pi),
+                            0)
+                    )/(r1*multiplied_non_zero+r2*multiplied_non_zero)
                 if max_s < actual_s:
                     max_s = actual_s
                     max_angle = actual_angle
                     max_pos = (x, y)  
-
                 """
-                cv2.imshow("OKOK", fingerprint_1.drawOrientationField(moved_or_field,block_size))
-                cv2.waitKey(0)
-                cv2.destroyAllWindows()
+                if actual_angle == 0 and x==0 and y==0:
+                    print(flush=False)
+                    print(actual_s)
+                    cv2.imshow("origo", fingerprint_1.drawOrientationField(fingerprint_1.orientation_field,block_size))
+                    cv2.imshow("moved", fingerprint_1.drawOrientationField(moved_or_field,block_size))
+                    cv2.waitKey(0)
+                    cv2.destroyAllWindows()
                 """
                     
-        print('Alighning process: ',int(actual_angle/(angle_range-angle_step)*100), "%", end="\r", flush=True)
+        print('Alighning process: ',int((iteration)/(len(allRotations)-1)*100), "%", end="\r", flush=True)
         actual_angle += angle_step 
+        iteration+=1
         
     print(flush=False)
-    print("Best alighnment S value is: ", max_s, " for angle: ", max_angle, " and position: ", max_pos)
+    print("Best alighnment S value is: ", "{:.2f}".format(max_s*100), "% for angle: ", max_angle, "° and moved position by: ", max_pos)
 
     # example how to move field based on returned value
     """

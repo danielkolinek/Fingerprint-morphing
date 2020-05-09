@@ -1,6 +1,8 @@
 import cv2
 import math
 import numpy as np
+from functions.alighnOrientFields import alighn, rotateEverything, moveFingerprint, upshape, downshape
+
 
 class Fingerprint():
     def __init__(self, fingerprint, block_size):
@@ -187,4 +189,32 @@ class Fingerprint():
                     color = (0, 0, 255) 
                 cv2.rectangle(backtorgb, (i-half_block_size, j-half_block_size), (i+half_block_size, j+half_block_size), color, -1)
         cv2.imshow(im_name, backtorgb)
-        return
+
+    def moveEverything(self, position, angle, shape):
+        #rotate everything
+        self.fingerprint, self.mask, self.orientation_field, self.smooth_orientation_field = rotateEverything(self, angle)
+        #upsize part
+        self.fingerprint = upshape(self.fingerprint, shape, 255).astype(np.uint8)
+        self.mask = upshape(self.mask, shape).astype(np.uint8)
+        self.orientation_field = upshape(self.orientation_field, shape)
+        self.smooth_orientation_field = upshape(self.smooth_orientation_field, shape)
+        #move everything
+        self.fingerprint = moveFingerprint(self.fingerprint, self.block_size, position[0], 0, 255)
+        self.fingerprint = np.array(moveFingerprint(self.fingerprint, self.block_size, position[1], 1, 255))   
+        self.mask = moveFingerprint(self.mask, self.block_size, position[0], 0)
+        self.mask = np.array(moveFingerprint(self.mask, self.block_size, position[1], 1))
+        self.orientation_field = moveFingerprint(self.orientation_field, self.block_size, position[0], 0)
+        self.orientation_field = np.array(moveFingerprint(self.orientation_field, self.block_size, position[1], 1))
+        self.smooth_orientation_field = moveFingerprint(self.smooth_orientation_field, self.block_size, position[0], 0)
+        self.smooth_orientation_field = np.array(moveFingerprint(self.smooth_orientation_field, self.block_size, position[1], 1))     
+        #downsize part
+        self.fingerprint = downshape(self.fingerprint, shape).astype(np.uint8)
+        self.mask = downshape(self.mask, shape)
+        self.orientation_field = downshape(self.orientation_field, shape)
+        self.smooth_orientation_field = downshape(self.smooth_orientation_field, shape)
+
+        cv2.imshow("mask", self.mask)
+        cv2.imshow("orientation_field", self.drawOrientationField(self.orientation_field, self.block_size))
+        cv2.imshow("orientation_field_smooth", self.drawOrientationField(self.smooth_orientation_field, self.block_size))
+        cv2.imshow("fingeprint", self.fingerprint)
+        
