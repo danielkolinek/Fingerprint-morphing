@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 # my files
 from functions.coreDetection import detectCore
-from functions.alighnOrientFields import alighn, rotateEverything, moveFingerprint, upshape, downshape
+from functions.alighnOrientFields import alighn, rotateEverything, moveFingerprint, upshape, downshape, getOnlyOverlayParts
 from objects.fingerprint import Fingerprint
 
 
@@ -58,6 +58,11 @@ def main():
     # show alignment of orientation fields
     alignment_draw = fingerprint_1.drawOrientationField(fingerprint_2.smooth_orientation_field,block_size, orientation_field_draw_1, True, (255,0,0))
 
+    # get only intersecting parts
+    getOnlyOverlayParts(fingerprint_1, fingerprint_2)
+
+    cv2.imshow("mask_intersection_1", fingerprint_1.drawOrientationField(fingerprint_1.smooth_orientation_field,fingerprint_1.block_size))
+    cv2.imshow("mask_intersection_2", fingerprint_2.drawOrientationField(fingerprint_2.smooth_orientation_field,fingerprint_2.block_size))
 
     # plot results
     fig = plt.figure()

@@ -212,9 +212,9 @@ class Fingerprint():
         self.mask = downshape(self.mask, shape)
         self.orientation_field = downshape(self.orientation_field, shape)
         self.smooth_orientation_field = downshape(self.smooth_orientation_field, shape)
-
+        """
         cv2.imshow("mask", self.mask)
         cv2.imshow("orientation_field", self.drawOrientationField(self.orientation_field, self.block_size))
         cv2.imshow("orientation_field_smooth", self.drawOrientationField(self.smooth_orientation_field, self.block_size))
         cv2.imshow("fingeprint", self.fingerprint)
-        
+        """

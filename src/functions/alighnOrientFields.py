@@ -8,22 +8,30 @@ def moveFingerprint(orientation_field, block_size, transformStep, axis, value=0)
     blockStep = block_size*transformStep
     rolled = np.roll(orientation_field, blockStep, axis)
 
+    # zero edges
     height, width = orientation_field.shape
     if axis == 0:
-        zeros = np.ones((abs(blockStep), width))*value
+        zeros = np.zeros((abs(blockStep), width))
         ones =  np.ones((height-abs(blockStep), width))
         if transformStep > 0:
             mask = np.vstack([zeros,ones])
         else:
             mask = np.vstack([ones, zeros])
     else:
-        zeros = np.ones((height, abs(blockStep)))*value
+        zeros = np.zeros((height, abs(blockStep)))
         ones =  np.ones((height, width-abs(blockStep)))
         if transformStep > 0:
             mask = np.hstack([zeros,ones])
         else:
             mask = np.hstack([ones, zeros])
-    return rolled*mask
+    
+    rolled = rolled*mask
+
+    # add to edges value if needed 
+    if value != 0:
+        mask = np.where(mask==0, 255, 0)
+        rolled = rolled+mask
+    return rolled
 
 # gets fingerprint object and returns rotated img, mask and smoothedorientationfield
 def rotateEverything(fingerprint, angle):
@@ -154,3 +162,19 @@ def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=15):
     """
 
     return max_pos, max_angle
+
+def getOnlyOverlayParts(fingerprint_1, fingerprint_2):
+    print("Getting interections")
+    # masks intersection
+    mask_intersection = np.where(np.logical_and(fingerprint_1.mask != 0, fingerprint_2.mask != 0), fingerprint_1.mask, 0)
+    mask_intersection = cv2.GaussianBlur(mask_intersection,(5,5), 1)
+    fingerprint_1.mask = fingerprint_2.mask = mask_intersection
+    # fingerprint img intersection
+    fingerprint_1.fingerprint = np.where(mask_intersection != 0, fingerprint_1.fingerprint, 255)
+    fingerprint_2.fingerprint = np.where(mask_intersection != 0, fingerprint_2.fingerprint, 255)
+    # orientationfields intersection
+    fingerprint_1.orientation_field = np.where(mask_intersection != 0, fingerprint_1.orientation_field, 0)
+    fingerprint_2.orientation_field = np.where(mask_intersection != 0, fingerprint_2.orientation_field, 0)
+    # orientationfields intersection
+    fingerprint_1.smooth_orientation_field = np.where(mask_intersection != 0, fingerprint_1.smooth_orientation_field, 0)
+    fingerprint_2.smooth_orientation_field = np.where(mask_intersection != 0, fingerprint_2.smooth_orientation_field, 0)
