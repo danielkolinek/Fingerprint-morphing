@@ -163,7 +163,7 @@ def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=15):
 
     return max_pos, max_angle
 
-def getOnlyOverlayParts(fingerprint_1, fingerprint_2):
+def cutIntersections(fingerprint_1, fingerprint_2):
     print("Getting interections")
     # masks intersection
     mask_intersection = np.where(np.logical_and(fingerprint_1.mask != 0, fingerprint_2.mask != 0), fingerprint_1.mask, 0)
@@ -173,8 +173,8 @@ def getOnlyOverlayParts(fingerprint_1, fingerprint_2):
     fingerprint_1.fingerprint = np.where(mask_intersection != 0, fingerprint_1.fingerprint, 255)
     fingerprint_2.fingerprint = np.where(mask_intersection != 0, fingerprint_2.fingerprint, 255)
     # orientationfields intersection
-    fingerprint_1.orientation_field = np.where(mask_intersection != 0, fingerprint_1.orientation_field, 0)
-    fingerprint_2.orientation_field = np.where(mask_intersection != 0, fingerprint_2.orientation_field, 0)
-    # orientationfields intersection
-    fingerprint_1.smooth_orientation_field = np.where(mask_intersection != 0, fingerprint_1.smooth_orientation_field, 0)
-    fingerprint_2.smooth_orientation_field = np.where(mask_intersection != 0, fingerprint_2.smooth_orientation_field, 0)
+    fingerprint_1.orientation_field = np.where(np.logical_and(fingerprint_1.orientation_field != 0, fingerprint_2.orientation_field != 0), fingerprint_1.orientation_field, 0)
+    fingerprint_2.orientation_field = np.where(np.logical_and(fingerprint_1.orientation_field != 0, fingerprint_2.orientation_field != 0), fingerprint_2.orientation_field, 0)
+    # smoothed orientationfields intersection
+    fingerprint_1.smooth_orientation_field = np.where(np.logical_and(fingerprint_1.smooth_orientation_field != 0, fingerprint_2.smooth_orientation_field != 0), fingerprint_1.smooth_orientation_field, 0)
+    fingerprint_2.smooth_orientation_field = np.where(np.logical_and(fingerprint_1.smooth_orientation_field != 0, fingerprint_2.smooth_orientation_field != 0), fingerprint_2.smooth_orientation_field, 0)

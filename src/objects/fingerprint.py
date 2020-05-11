@@ -12,7 +12,6 @@ class Fingerprint():
         self.orientation_field, self.smooth_orientation_field, self.coherence = self.getOrientationField(self.fingerprint, block_size, self.mask)
         self.non_zero_orientation_field_count = np.count_nonzero(self.smooth_orientation_field)
 
-
     # BG is black, fingerprint white
     def getMask(self, fingerprint):
         height, width = fingerprint.shape
@@ -74,6 +73,10 @@ class Fingerprint():
                     elif y < leftx:
                         leftx = y
             line+=1
+        self.downy = downy
+        self.upy = upy
+        self.leftx = leftx
+        self.rightx = rightx
         return gray[downy:upy, leftx:rightx]
         
     #function gets grayscale image and returns:
