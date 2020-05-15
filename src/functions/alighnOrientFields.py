@@ -87,6 +87,7 @@ def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=15):
         _, _, _, ori = rotateEverything(fingerprint_2, angle)
         allRotations.append(ori)
         print('Orientation fields: ', int(angle+angle_range/((angle_range)*2)*100), "%", end="\r", flush=True)
+    print('Orientation fields: ', 100, "%", end="\r", flush=True)
     print(flush=False)
     # alighn all possible
     steps_height, steps_width = fingerprint_1.fingerprint.shape

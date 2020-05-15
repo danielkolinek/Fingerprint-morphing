@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from functions.coreDetection import detectCore
 from functions.alighnOrientFields import alighn, rotateEverything, moveFingerprint, upshape, downshape, cutIntersections
 from objects.fingerprint import Fingerprint
-
+from functions.localRingeFrequencies import localRidgeFreq
 
 def main():
     #Check parametres
@@ -60,30 +60,60 @@ def main():
 
     # get only intersecting parts
     cutIntersections(fingerprint_1, fingerprint_2)
+    #cv2.imshow("sm_or_field_1", fingerprint_1.drawOrientationField(fingerprint_1.smooth_orientation_field,fingerprint_1.block_size))
+    #cv2.imshow("sm_or_field_2", fingerprint_2.drawOrientationField(fingerprint_2.smooth_orientation_field,fingerprint_2.block_size))
 
-    cv2.imshow("sm_or_field_1", fingerprint_1.drawOrientationField(fingerprint_1.smooth_orientation_field,fingerprint_1.block_size))
-    cv2.imshow("sm_or_field_2", fingerprint_2.drawOrientationField(fingerprint_2.smooth_orientation_field,fingerprint_2.block_size))
+    # get intersections for drawing
+    intersection_gray_1 = fingerprint_1.fingerprint
+    intersection_gray_2 = fingerprint_2.fingerprint
 
-    # plot results
+    # get local ringe frequencies
+    freq_1 = localRidgeFreq(fingerprint_1)
+    freq_2 = localRidgeFreq(fingerprint_2)
+
+    ##### plot results #####
+
+    ## plot alighning part
+
     fig = plt.figure()
-    fig.canvas.set_window_title('Results of morphing')
+    fig.canvas.set_window_title('Results of aligning')
     # grayscale fingerprints
     fig.set_figheight(15)
-    gray1 = fig.add_subplot(3,4,1)
+    gray1 = fig.add_subplot(3,2,1)
     gray1.imshow(fingerprint_1_draw, cmap='gray')
-    fig.set_figheight(15)
-    gray2 = fig.add_subplot(3,4,2)
+
+    gray2 = fig.add_subplot(3,2,2)
     gray2.imshow(fingerprint_2_draw, cmap='gray')
 
     #orientation fields
-    or1 = fig.add_subplot(3,4,5)
+    or1 = fig.add_subplot(3,2,3)
     or1.imshow(orientation_field_draw_1, cmap='gray')
-    or2 = fig.add_subplot(3,4,6)
+    or2 = fig.add_subplot(3,2,4)
     or2.imshow(orientation_field_draw_2, cmap='gray')
     
     # alignment
-    ali = fig.add_subplot(3,4,9)
+    ali = fig.add_subplot(3,2,5)
     ali.imshow(alignment_draw, cmap='gray')
+
+    
+
+    ## plot optimal cutline part
+    fig_1 = plt.figure()
+    fig_1.canvas.set_window_title('Results of cutline')
+
+    # intersecting fingerprints
+    gray1_1 = fig_1.add_subplot(3,3,1)
+    gray1_1.imshow(intersection_gray_1, cmap='gray')
+
+    gray2_2 = fig_1.add_subplot(3,3,4)
+    gray2_2.imshow(intersection_gray_2, cmap='gray')
+
+    # ridge frequency
+    freq_1_draw = fig_1.add_subplot(3,3,2)
+    freq_1_draw.imshow(freq_1*255, cmap='gray')
+
+    freq_2_draw = fig_1.add_subplot(3,3,5)
+    freq_2_draw.imshow(freq_2*255, cmap='gray')
 
     #
     #tmp1 = fig.add_subplot(3,2,5)

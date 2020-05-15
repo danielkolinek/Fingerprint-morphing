@@ -28,7 +28,6 @@ def localRidgeFreq(fingerprint):
     for j in range(half_block_size, height-half_block_size, block_size):
         for i in range(half_block_size, width-half_block_size, block_size):
             if fingerprint.smooth_orientation_field[j][i] == 0.0 : continue #check if on fingerprint
-            theta = fingerprint.smooth_orientation_field[j][i]
 
             # compute x-signature
             X = []
@@ -43,28 +42,22 @@ def localRidgeFreq(fingerprint):
                     if u >= 0 and u < width and v >= 0 and v < height:
                         sumG += fingerprint.fingerprint[v][u]
                 X.append(sumG/w)
+            
             # get count of peaks
-            last = X[0]
-            peaks_count = 1
-            up = False
-            if X[0] < X[1]:
-                up = True 
+            last = - 100000
+            peaks_count = 0
             for x in X:
-                if x > last: # still not or right on peak
-                    if not up:
-                        up = True
-                        peaks_count += 1
+                if x >= last: # still not or right on peak
+                    last = x
                 elif x < last: # peak in iteration before
-                    if up:
-                        up = False
-                        peaks_count += 1
-                last = x
+                    last = x
+                    peaks_count += 1
             
             # check if last is peak
             if X[-1] > X [-2] : 
                 peaks_count += 1
             
-            """ old version of get count of peaks (was working probably better)
+            """ old version of get how many ... (was working probably better)
             low = True
             pixels_count = 0
             peaks_count = 0
@@ -79,36 +72,23 @@ def localRidgeFreq(fingerprint):
             # get average 
             average_pixels = 0
             #print(l)
-            average_pixels = (l) / peaks_count
+            average_pixels = peaks_count / (l-peaks_count)
             
             # count freq omega
             tmp_freq = 0
             if average_pixels != 0:
                 tmp_freq = 1 / average_pixels
-           
-            Omega[j-half_block_size:j+half_block_size, i-half_block_size:i+half_block_size] = tmp_freq #if tmp_freq <= 1/2 and tmp_freq >=1/25 else -1
 
-            # step 4 to 6 is missing (No idea how to do that)
-            """
-            print(Omega[j][i])
-            
-            if tmp_freq > 1/2 or tmp_freq < 1/25:
-                print(j,i)
-                print(X) 
-                print(peaks_count)
-                print(l-peaks_count)
-                print(tmp_freq)
-                exit()
-            
+            Omega[j][i] = tmp_freq if tmp_freq <= 1/2 and tmp_freq >=1/25 else -1
 
             all_count+=1
             if Omega[j][i] == -1:
                 bad_all+=1
-            """
+                
                 #cv2.imshow("oriented_window", oriented_window)
                 #cv2.waitKey(0)
                 #cv2.destroyAllWindows()
             #if Omega[j][i] == -1: print(tmp_freq)
             #return
-    #print(bad_all/all_count)
-    return Omega
+    print(bad_all/all_count)
+    return #array
