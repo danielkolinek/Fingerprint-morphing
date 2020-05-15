@@ -111,4 +111,8 @@ def localRidgeFreq(fingerprint):
             #if Omega[j][i] == -1: print(tmp_freq)
             #return
     #print(bad_all/all_count)
+
+    # low pass part
+    filter_size = 7
+    Omega = cv2.GaussianBlur(Omega,(filter_size,filter_size), 0)
     return Omega

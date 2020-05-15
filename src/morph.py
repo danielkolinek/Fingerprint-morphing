@@ -9,6 +9,7 @@ from functions.coreDetection import detectCore
 from functions.alighnOrientFields import alighn, rotateEverything, moveFingerprint, upshape, downshape, cutIntersections
 from objects.fingerprint import Fingerprint
 from functions.localRingeFrequencies import localRidgeFreq
+from functions.minutiae import minutiae
 
 def main():
     #Check parametres
@@ -31,15 +32,17 @@ def main():
     fingerprint_1 = Fingerprint(fingerprint_1_image, block_size)
     fingerprint_2 = Fingerprint(fingerprint_2_image, block_size)
 
-    # make copy for show in plotlib
-    fingerprint_1_draw = np.copy(fingerprint_1.fingerprint)
-    fingerprint_2_draw = np.copy(fingerprint_2.fingerprint)
-
+    minutiae_1 = minutiae(fingerprint_1)
     # sort fingerprints based on their size of orientationfields
     if fingerprint_1.non_zero_orientation_field_count < fingerprint_2.non_zero_orientation_field_count:
         fingerprint_3 = fingerprint_1
         fingerprint_1 = fingerprint_2
         fingerprint_2 = fingerprint_3
+
+    
+    # make copy for show in plotlib
+    fingerprint_1_draw = np.copy(fingerprint_1.fingerprint)
+    fingerprint_2_draw = np.copy(fingerprint_2.fingerprint)
 
     # get orientation field visible for humans
     orientation_field_draw_1 = fingerprint_1.drawOrientationField(fingerprint_1.smooth_orientation_field, fingerprint_1.block_size)
@@ -71,6 +74,13 @@ def main():
     freq_1 = localRidgeFreq(fingerprint_1)
     freq_2 = localRidgeFreq(fingerprint_2)
 
+    # get minutiae
+    minutiae_1 = minutiae(fingerprint_1)
+
+
+
+
+
     ##### plot results #####
 
     ## plot alighning part
@@ -100,7 +110,7 @@ def main():
     ## plot optimal cutline part
     fig_1 = plt.figure()
     fig_1.canvas.set_window_title('Results of cutline')
-
+    fig_1.set_figheight(15)
     # intersecting fingerprints
     gray1_1 = fig_1.add_subplot(3,3,1)
     gray1_1.imshow(intersection_gray_1, cmap='gray')
@@ -114,7 +124,7 @@ def main():
 
     freq_2_draw = fig_1.add_subplot(3,3,5)
     freq_2_draw.imshow(freq_2*255, cmap='gray')
-
+    
     #
     #tmp1 = fig.add_subplot(3,2,5)
     #tmp1.imshow(ori30, cmap='gray')
