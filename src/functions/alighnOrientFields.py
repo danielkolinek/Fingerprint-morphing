@@ -148,7 +148,7 @@ def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=15):
                     cv2.destroyAllWindows()
                 """
                     
-        print('Alighning process: ',int((iteration)/(len(allRotations)-1)*100), "%", end="\r", flush=True)
+        print('Aligning orientation fields: ',int((iteration)/(len(allRotations)-1)*100), "%", end="\r", flush=True)
         actual_angle += angle_step 
         iteration+=1
         

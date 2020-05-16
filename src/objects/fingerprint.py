@@ -221,3 +221,19 @@ class Fingerprint():
         cv2.imshow("orientation_field_smooth", self.drawOrientationField(self.smooth_orientation_field, self.block_size))
         cv2.imshow("fingeprint", self.fingerprint)
         """
+
+    # bg = 255, fingerprint = 0
+    def binarise(self, img, window_size = 10, delta = .95):
+        height, width = img.shape
+        result = np.ones(img.shape)*255
+        for i in range(0, height - window_size // 2, window_size):
+            for j in range(0, width - window_size // 2, window_size):
+                # Rolling window array and mean of window-contained values.
+                window = img[i: i + window_size, j: j + window_size]
+                threshold_val = window.mean()
+                
+                # Pixel iteration within the window.
+                result[i: i + window_size, j: j + window_size] = np.where(window <= threshold_val * delta, 0, 255) 
+
+        # Store as integer to save memory (couse 0 or 1 value).
+        return result.astype("uint8")  

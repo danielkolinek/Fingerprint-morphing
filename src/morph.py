@@ -9,7 +9,7 @@ from functions.coreDetection import detectCore
 from functions.alighnOrientFields import alighn, rotateEverything, moveFingerprint, upshape, downshape, cutIntersections
 from objects.fingerprint import Fingerprint
 from functions.localRingeFrequencies import localRidgeFreq
-from functions.minutiae import minutiae
+from functions.minutiae import minutiae, drawMinutiae
 
 def main():
     #Check parametres
@@ -29,10 +29,11 @@ def main():
         exit(42)
 
     # initialize fingerprints
+    print("Fingerprint_1 preparation")
     fingerprint_1 = Fingerprint(fingerprint_1_image, block_size)
+    print("Fingerprint_2 preparation")
     fingerprint_2 = Fingerprint(fingerprint_2_image, block_size)
 
-    minutiae_1 = minutiae(fingerprint_1)
     # sort fingerprints based on their size of orientationfields
     if fingerprint_1.non_zero_orientation_field_count < fingerprint_2.non_zero_orientation_field_count:
         fingerprint_3 = fingerprint_1
@@ -76,7 +77,7 @@ def main():
 
     # get minutiae
     minutiae_1 = minutiae(fingerprint_1)
-
+    minutiae_2 = minutiae(fingerprint_2)
 
 
 
@@ -125,12 +126,12 @@ def main():
     freq_2_draw = fig_1.add_subplot(3,3,5)
     freq_2_draw.imshow(freq_2*255, cmap='gray')
     
-    #
-    #tmp1 = fig.add_subplot(3,2,5)
-    #tmp1.imshow(ori30, cmap='gray')
+    # plot miniatues
+    minutiae_1_draw = fig_1.add_subplot(3,3,3)
+    minutiae_1_draw.imshow(drawMinutiae(intersection_gray_1, minutiae_1), cmap='gray')
 
-    #mask = fig.add_subplot(3,2,6)
-    #mask.imshow(mask30, cmap='gray')
+    minutiae_2_draw = fig_1.add_subplot(3,3,6)
+    minutiae_2_draw.imshow(drawMinutiae(intersection_gray_2, minutiae_2), cmap='gray')
 
     #show plots
     plt.show()
