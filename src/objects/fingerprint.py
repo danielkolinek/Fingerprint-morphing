@@ -237,3 +237,22 @@ class Fingerprint():
 
         # Store as integer to save memory (couse 0 or 1 value).
         return result.astype("uint8")  
+
+    def middle_pos(self):
+        height, width = self.mask.shape
+        min_width = width
+        max_width = 0
+        min_height = height
+        max_height = 0
+        for y in range(height):
+            for x in range(width):
+                if self.mask[y][x] != 0:
+                    if min_width > x : min_width = x
+                    if max_width < x : max_width = x
+                    if min_height > y : min_height = y
+                    if max_height < y : max_height = y
+                    print(self.mask[y][x])
+        
+        middle_width = ((max_width-min_width)//2)
+        middle_height = ((max_height-min_height)//2)
+        return (middle_width, middle_height)

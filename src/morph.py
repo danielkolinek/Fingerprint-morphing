@@ -5,14 +5,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # my files
-from functions.coreDetection import detectCore
+from functions.coreDetection import detectCore, drawDetectedCore
 from functions.alighnOrientFields import alighn, rotateEverything, moveFingerprint, upshape, downshape, cutIntersections
 from objects.fingerprint import Fingerprint
 from functions.localRingeFrequencies import localRidgeFreq
 from functions.minutiae import minutiae, drawMinutiae
 
-def main():
-    #Check parametres
+
+if __name__ == "__main__":
+    
+        #Check parametres
     if(len(sys.argv)!= 4):
         print("Bad arguments")
         exit(42)
@@ -34,13 +36,19 @@ def main():
     print("Fingerprint_2 preparation")
     fingerprint_2 = Fingerprint(fingerprint_2_image, block_size)
 
+
+    #detectCore(fingerprint_1)
+
+    
     # sort fingerprints based on their size of orientationfields
     if fingerprint_1.non_zero_orientation_field_count < fingerprint_2.non_zero_orientation_field_count:
         fingerprint_3 = fingerprint_1
         fingerprint_1 = fingerprint_2
         fingerprint_2 = fingerprint_3
 
-    
+    # detect most changes in fingerprint
+    chang_pos = detectCore(fingerprint_1)
+
     # make copy for show in plotlib
     fingerprint_1_draw = np.copy(fingerprint_1.fingerprint)
     fingerprint_2_draw = np.copy(fingerprint_2.fingerprint)
@@ -72,15 +80,23 @@ def main():
     intersection_gray_2 = fingerprint_2.fingerprint
 
     # get local ringe frequencies
+    print("Local Ringe Frequency 1")
     freq_1 = localRidgeFreq(fingerprint_1)
+    print("Local Ringe Frequency 2")
     freq_2 = localRidgeFreq(fingerprint_2)
 
     # get minutiae
     minutiae_1 = minutiae(fingerprint_1)
     minutiae_2 = minutiae(fingerprint_2)
 
-
-
+    # get cutline
+    #controll if fingerprint1 core is still on foreground
+    if fingerprint_1.mask[chang_pos[1]][chang_pos[0]] == 0:
+        # if not, then let it be middle of fingerprint
+        print("Position of barycenter of the intersection region recalculation")
+        chang_pos = fingerprint_1.middle_pos()
+        
+        print(chang_pos)
 
     ##### plot results #####
 
@@ -133,13 +149,14 @@ def main():
     minutiae_2_draw = fig_1.add_subplot(3,3,6)
     minutiae_2_draw.imshow(drawMinutiae(intersection_gray_2, minutiae_2), cmap='gray')
 
+    # plot cutline
+    chang_draw = drawDetectedCore(fingerprint_1.fingerprint, chang_pos)
+    cutline_draw = fig_1.add_subplot(3,3,8)
+    cutline_draw.imshow(chang_draw, cmap='gray')
+
+
     #show plots
     plt.show()
     #debug shows with cv2
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-
-if __name__ == "__main__":
-    
-    # Models fine tuning procedure.
-    main()

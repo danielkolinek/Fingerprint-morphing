@@ -4,7 +4,6 @@ import math
 from scipy.ndimage import rotate
 import time
 def localRidgeFreq(fingerprint):
-    print("Local Ringe Frquency")
     w = fingerprint.block_size
     l = w * 2       # has to be multiple block_size
     half_w = w/2
