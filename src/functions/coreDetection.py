@@ -69,5 +69,5 @@ def detectCore(fingerprint):
 
 def drawDetectedCore(img, position):
     draw = cv2.cvtColor(img,cv2.COLOR_GRAY2RGB)
-    cv2.circle(draw, position, 10, (255,0,0), -1)
+    cv2.circle(draw, position, 5, (255,0,0), -1)
     return draw

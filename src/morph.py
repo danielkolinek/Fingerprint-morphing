@@ -10,7 +10,7 @@ from functions.alighnOrientFields import alighn, rotateEverything, moveFingerpri
 from objects.fingerprint import Fingerprint
 from functions.localRingeFrequencies import localRidgeFreq
 from functions.minutiae import minutiae, drawMinutiae
-
+from functions.cutline import getCutline, drawCutline
 
 if __name__ == "__main__":
     
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         fingerprint_2 = fingerprint_3
 
     # detect most changes in fingerprint
-    chang_pos = detectCore(fingerprint_1)
+    barycenter = detectCore(fingerprint_1)
 
     # make copy for show in plotlib
     fingerprint_1_draw = np.copy(fingerprint_1.fingerprint)
@@ -91,13 +91,15 @@ if __name__ == "__main__":
 
     # get cutline
     #controll if fingerprint1 core is still on foreground
-    if fingerprint_1.mask[chang_pos[1]][chang_pos[0]] == 0:
+    if fingerprint_1.mask[barycenter[1]][barycenter[0]] == 0:
         # if not, then let it be middle of fingerprint
         print("Position of barycenter of the intersection region recalculation")
-        chang_pos = fingerprint_1.middle_pos()
+        barycenter = fingerprint_1.middle_pos()
         
-        print(chang_pos)
+        print(barycenter)
 
+    cutline = getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutiae_1, minutiae_2, 20)
+    
     ##### plot results #####
 
     ## plot alighning part
@@ -149,10 +151,16 @@ if __name__ == "__main__":
     minutiae_2_draw = fig_1.add_subplot(3,3,6)
     minutiae_2_draw.imshow(drawMinutiae(intersection_gray_2, minutiae_2), cmap='gray')
 
-    # plot cutline
-    chang_draw = drawDetectedCore(fingerprint_1.fingerprint, chang_pos)
+    # plot cutline on fingerprint 1 and 2
+    cutline_img = drawDetectedCore(fingerprint_1.fingerprint, barycenter) # .astype('uint8')
+    cutline_img = drawCutline(cutline, cutline_img)
+    cutline_draw = fig_1.add_subplot(3,3,7)
+    cutline_draw.imshow(cutline_img, cmap='gray')
+
+    cutline_img = drawDetectedCore(fingerprint_2.fingerprint, barycenter) # .astype('uint8')
+    cutline_img = drawCutline(cutline, cutline_img)
     cutline_draw = fig_1.add_subplot(3,3,8)
-    cutline_draw.imshow(chang_draw, cmap='gray')
+    cutline_draw.imshow(cutline_img, cmap='gray')
 
 
     #show plots
