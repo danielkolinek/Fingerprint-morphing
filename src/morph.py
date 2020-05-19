@@ -11,6 +11,7 @@ from objects.fingerprint import Fingerprint
 from functions.localRingeFrequencies import localRidgeFreq
 from functions.minutiae import minutiae, drawMinutiae
 from functions.cutline import getCutline, drawCutline
+from functions.imageBasedMorphing import imageBasedMorphing
 
 if __name__ == "__main__":
     
@@ -98,8 +99,15 @@ if __name__ == "__main__":
         
         print(barycenter)
 
-    cutline = getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutiae_1, minutiae_2, 20)
-    
+    d_max = 30
+    cutline = getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutiae_1, minutiae_2, d_max)
+    morph_res = imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1, minutiae_2)
+
+
+
+
+
+
     ##### plot results #####
 
     ## plot alighning part
@@ -162,6 +170,9 @@ if __name__ == "__main__":
     cutline_draw = fig_1.add_subplot(3,3,8)
     cutline_draw.imshow(cutline_img, cmap='gray')
 
+    # plot morph
+    morph_draw = fig_1.add_subplot(3,3,9)
+    morph_draw.imshow(morph_res, cmap='gray')
 
     #show plots
     plt.show()

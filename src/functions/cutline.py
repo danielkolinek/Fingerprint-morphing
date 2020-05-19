@@ -5,6 +5,10 @@ import numpy as np
 import sys
 import cv2
 
+# a_l = line[0], b_l = line[1], c_l = line[2]
+def countdDistL(line, x, y):
+    return abs(line[0]*x + line[1]*y + line[2])/math.sqrt(line[0]**2 + line[1]**2)
+
 def countC_mask(fingerprint, d_max, beta, barycenter):
     # the line l passing through p with angle beta
     a_l = math.sin(beta)
@@ -17,7 +21,7 @@ def countC_mask(fingerprint, d_max, beta, barycenter):
     C_mask = np.zeros((fingerprint.fingerprint.shape))
     for j in range(half_block_size, height, fingerprint.block_size):
         for i in range(half_block_size, width, fingerprint.block_size):
-            dist_l = abs(a_l*i + b_l*j + c_l)/math.sqrt(a_l**2 + b_l**2)
+            dist_l = countdDistL((a_l, b_l, c_l), i, j)
             if(fingerprint.smooth_orientation_field[j][i] != 0 and d_max >= dist_l):
                 C_mask[j][i] = 1
     return C_mask, a_l, b_l, c_l
@@ -26,7 +30,8 @@ def countZ(v, u, t):
     return 1/1+math.exp(-t*(v-u))
 
 # returns tuple : (count of points bellow, ount of points above)
-def countPointsAboveBellow(a_l, b_l, c_l, points):
+def countPointsAboveBellow(line, points):
+    a_l, b_l, c_l = line
     bellow_count = 0
     above_count = len(points)
     for point in points:
@@ -56,7 +61,7 @@ def getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutia
     # go throught all angles and get max_S_c with angle beta
     max_S_c = - 42
     max_line = (0, 0, 0)
-
+    max_angle = 0
     # get min_F and max_F
     min_F_1 = np.min(freq_1)
     min_F_2 = np.min(freq_2)
@@ -64,7 +69,7 @@ def getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutia
     max_F_1 = np.max(freq_1)
     max_F_2 = np.max(freq_2)
     max_F = max_F_1 if max_F_1 < max_F_2 else max_F_2
-
+    
     for angle in range(0, 180+30, angle_deg_step):
         beta = math.radians(angle)
         # get C mask
@@ -92,8 +97,8 @@ def getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutia
         mu_m = max(len(minutiae_1), len(minutiae_2))
         tau = 0
         # get zetas
-        A_N_1, A_P_1 = countPointsAboveBellow(a_l, b_l, c_l, minutiae_1)
-        A_N_2, A_P_2 = countPointsAboveBellow(a_l, b_l, c_l, minutiae_2)
+        A_N_1, A_P_1 = countPointsAboveBellow((a_l, b_l, c_l), minutiae_1)
+        A_N_2, A_P_2 = countPointsAboveBellow((a_l, b_l, c_l), minutiae_2)
         zeta_m_1 = (countZ(A_P_1, mu_m, tau) + countZ(A_N_2, mu_m, tau))/2
         zeta_m_2 = (countZ(A_P_2, mu_m, tau) + countZ(A_N_1, mu_m, tau))/2
 
@@ -106,10 +111,11 @@ def getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutia
         if S_c > max_S_c:
             max_S_c = S_c
             max_line = (a_l, b_l, c_l)
-        
-        print("Counting cutline: ", angle/180*100,"%", end="\r", flush=True)
-    print(max_S_c)
-    print(max_line)
+            max_angle = angle
+        print("Counting cutline: ",int(angle/180*100),"%", end="\r", flush=True)
+
+    print(flush=False)
+    print("Cutline estimated under", max_angle, "° a=",max_line[0], "b=", max_line[1], "c=", max_line[2])
     return max_line
 
 
