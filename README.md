@@ -22,7 +22,7 @@ Aplication for fingerprint morphing
 -   `--blocksize int`
     -   Blocksize for orientation field (image will be divided into blocksize x blocksize squares and for each square will be counted orientation, frequency image)
 
-# Example run:
+## Example run:
 `python3 morph.py --image_1 ../img/DB1_B/101_2.tif --image_2 ../img/DB1_B/102_2.tif --blocksize 10`
 
 ## Author: 
