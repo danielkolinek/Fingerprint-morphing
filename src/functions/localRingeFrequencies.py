@@ -1,3 +1,15 @@
+"""
+   	Project Practice PP1 2019/2020 << Morphing of Fingerprints >>
+    File:   localRingeFrequencies.py
+    Author: Daniel Kolinek
+    Date:   05/2020
+    Brief:  Implements estimation of local ridge frequencies of fingerprint
+
+    Code inspired by paper: Fingerprint Image Enhancement: Algorithm and Performance Evaluation
+    [Online at: https://ieeexplore.ieee.org/document/709565].
+    Version: 1.0
+"""
+
 import numpy as np
 import cv2
 import math

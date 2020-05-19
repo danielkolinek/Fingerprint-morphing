@@ -1,8 +1,20 @@
+"""
+   	Project Practice PP1 2019/2020 << Morphing of Fingerprints >>
+    File:   coreDetection.py
+    Author: Daniel Kolinek
+    Date:   05/2020
+    Brief:  Implements fingerprint basic core/delta detection by Pointcare image
+
+    Code inspired by paper: Singular Point Detection for Efﬁcient Fingerprint Classiﬁcation
+    [Online at: https://www.researchgate.net/publication/230771380_Singular_Point_Detection_for_Efficient_Fingerprint_Classification].
+    Version: 1.2
+"""
+
+# pointcare from https://www.researchgate.net/publication/230771380_Singular_Point_Detection_for_Efficient_Fingerprint_Classification
+
 import numpy as np
 import cv2
 import math
-
-# https://www.researchgate.net/publication/230771380_Singular_Point_Detection_for_Efficient_Fingerprint_Classification
 
 def getAnglesInNeighbourhood(i, j, orientation_field, block_size):
     """
@@ -21,6 +33,7 @@ def getAnglesInNeighbourhood(i, j, orientation_field, block_size):
         res.append(orientation_field[j+neighbour[1]][i+neighbour[0]])
     return res
 
+# pointcare value at specific position
 def countPC(angles):
     pi_half = math.pi/2
     Bc = 0

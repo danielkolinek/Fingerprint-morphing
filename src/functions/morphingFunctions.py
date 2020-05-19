@@ -1,3 +1,17 @@
+"""
+   	Project Practice PP1 2019/2020 << Morphing of Fingerprints >>
+    File:   morphingFunctions.py
+    Author: Daniel Kolinek
+    Date:   05/2020
+    Brief:  Implements functions needed for fingerprint morphing
+
+    Code inspired by paper: On the Feasibility of Creating Double-Identity Fingerprints
+    [Online at: https://www.researchgate.net/publication/311622605_On_the_Feasibility_of_Creating_Double-Identity_Fingerprints].
+    Version: 1.0
+"""
+
+# morphing functions implemented like: https://www.researchgate.net/publication/311622605_On_the_Feasibility_of_Creating_Double-Identity_Fingerprints
+
 import numpy as np
 import cv2
 from functions.cutline import countdDistL, countPointsAboveBellow, countZ

@@ -1,3 +1,14 @@
+"""
+   	Project Practice PP1 2019/2020 << Morphing of Fingerprints >>
+    File:   alighnOrientFields.py
+    Author: Daniel Kolinek
+    Date:   05/2020
+    Brief:  Implements fingerprint alignment by orientation fields
+
+    Code for alignment inspired by paper: On the Feasibility of Creating Double-Identity Fingerprints
+    [Online at: https://ieeexplore.ieee.org/document/7782346].
+    Version: 1.0
+"""
 import numpy as np
 import cv2
 import math

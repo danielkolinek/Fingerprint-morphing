@@ -1,4 +1,14 @@
-# cutline implemented like: https://www.researchgate.net/publication/311622605_On_the_Feasibility_of_Creating_Double-Identity_Fingerprints
+"""
+   	Project Practice PP1 2019/2020 << Morphing of Fingerprints >>
+    File:   cutline.py
+    Author: Daniel Kolinek
+    Date:   05/2020
+    Brief:  Implements cutline estimation
+
+    Code inspired by paper: On the Feasibility of Creating Double-Identity Fingerprints
+    [Online at: https://www.researchgate.net/publication/311622605_On_the_Feasibility_of_Creating_Double-Identity_Fingerprints].
+    Version: 1.2
+"""
 
 import math
 import numpy as np
@@ -7,7 +17,8 @@ import cv2
 
 # a_l = line[0], b_l = line[1], c_l = line[2]
 def countdDistL(line, x, y):
-    return abs(line[0]*x + line[1]*y + line[2])/math.sqrt(line[0]**2 + line[1]**2)
+    a_l, b_l, c_l = line
+    return abs(a_l*x + b_l*y + c_l)/math.sqrt(a_l**2 + b_l**2)
 
 def countC_mask(fingerprint, d_max, beta, barycenter):
     # the line l passing through p with angle beta
@@ -26,6 +37,7 @@ def countC_mask(fingerprint, d_max, beta, barycenter):
                 C_mask[j][i] = 1
     return C_mask, a_l, b_l, c_l
 
+# counts Z for zeta in 12 equalization of paper
 def countZ(v, u, t):
     return 1/1+math.exp(-t*(v-u))
 
@@ -42,8 +54,11 @@ def countPointsAboveBellow(line, points):
             above_count -= 1
     return (bellow_count, above_count)
 
+# gets y for given x on given line
+# a_l = line[0], b_l = line[1], c_l = line[2]
 def getY(line, x):
-    return (-line[0]*x-line[2])/line[1]
+    a_l, b_l, c_l = line
+    return (-a_l*x-c_l)/b_l
 
 def drawCutline(line, img):
     start_x = -1000

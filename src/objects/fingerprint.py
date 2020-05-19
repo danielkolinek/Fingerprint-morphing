@@ -1,3 +1,17 @@
+"""
+   	Project Practice PP1 2019/2020 << Morphing of Fingerprints >>
+    File:   fingerprint.py
+    Author: Daniel Kolinek
+    Date:   05/2020
+    Brief:  Implements object representing fingerprint, some basic funstions like
+            creating orientation field, cutting backgroung, moving fingerprint or changinging
+            angle of fingerprint.
+
+    Code for orinetation field inspired by paper:   Fingerprint Core Point Detection Algorithm Using
+                                                    Orientation Field Based Multiple Features 
+    [Online at: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.206.5591&rep=rep1&type=pdf].
+    Version: 1.0
+"""
 import cv2
 import math
 import numpy as np

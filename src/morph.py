@@ -1,3 +1,11 @@
+"""
+   	Project Practice PP1 2019/2020 << Morphing of Fingerprints >>
+    File:   morph.py
+    Author: Daniel Kolinek
+    Date:   05/2020
+    Brief:  Implements morphing of two fingerprints
+    Version: 1.0
+"""
 import sys
 import cv2
 import numpy as np
@@ -15,7 +23,7 @@ from functions.imageBasedMorphing import imageBasedMorphing
 
 if __name__ == "__main__":
     
-        #Check parametres
+    #Check parametres
     if(len(sys.argv)!= 4):
         print("Bad arguments")
         exit(42)
@@ -36,10 +44,6 @@ if __name__ == "__main__":
     fingerprint_1 = Fingerprint(fingerprint_1_image, block_size)
     print("Fingerprint_2 preparation")
     fingerprint_2 = Fingerprint(fingerprint_2_image, block_size)
-
-
-    #detectCore(fingerprint_1)
-
     
     # sort fingerprints based on their size of orientationfields
     if fingerprint_1.non_zero_orientation_field_count < fingerprint_2.non_zero_orientation_field_count:
@@ -57,10 +61,6 @@ if __name__ == "__main__":
     # get orientation field visible for humans
     orientation_field_draw_1 = fingerprint_1.drawOrientationField(fingerprint_1.smooth_orientation_field, fingerprint_1.block_size)
     orientation_field_draw_2 = fingerprint_2.drawOrientationField(fingerprint_2.smooth_orientation_field, fingerprint_2.block_size)
-
-    #core point find
-    #core = detectCore(fingerprint_1)
-    #cv2.imshow("Detected core", core)
 
     # get aligment
     max_pos, max_angle = alighn(fingerprint_1, fingerprint_2, 1)
@@ -102,9 +102,6 @@ if __name__ == "__main__":
     d_max = 30
     cutline = getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutiae_1, minutiae_2, d_max)
     morph_res = imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1, minutiae_2)
-
-
-
 
 
 

@@ -1,3 +1,14 @@
+"""
+   	Project Practice PP1 2019/2020 << Morphing of Fingerprints >>
+    File:   minutiae.py
+    Author: Daniel Kolinek
+    Date:   05/2020
+    Brief:  Implements estimation of minutiae points
+
+    Used lib from: https://github.com/tudoriliuta/FingerMatch/tree/master/src/libs
+    Version: 1.2
+"""
+
 import numpy as np
 import cv2
 import math
