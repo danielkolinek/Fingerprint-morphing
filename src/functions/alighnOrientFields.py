@@ -46,6 +46,7 @@ def moveFingerprint(orientation_field, block_size, transformStep, axis, value=0)
 
 # gets fingerprint object and returns rotated img, mask and smoothedorientationfield
 def rotateEverything(fingerprint, angle):
+    if angle == 0: return fingerprint.fingerprint, fingerprint.mask, fingerprint.orientation_field, fingerprint.smooth_orientation_field
     #create copy of eveything
     degimg = np.copy(fingerprint.fingerprint)
     degmask = np.copy(fingerprint.mask)

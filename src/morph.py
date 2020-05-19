@@ -23,7 +23,7 @@ from functions.cutline import getCutline, drawCutline
 from functions.imageBasedMorphing import imageBasedMorphing
 
 if __name__ == "__main__":
-
+    # run like python3 morph.py --image_1 ../img/DB1_B/101_2.tif --image_2 ../img/DB1_B/102_2.tif --blocksize 10
     parser = argparse.ArgumentParser(
         description='Morph two fingeprints')
     parser.add_argument("--image_1",
@@ -33,7 +33,7 @@ if __name__ == "__main__":
                         metavar="/path/to/second/fingerprint/image/", required=True,
                         help="Path to second fingerprint image")
     parser.add_argument('--blocksize', required=True,
-                        metavar="Blocksize for orientation field",
+                        metavar="int",
                         help="Blocksize for orientation field (image will be divided into blocksize x blocksize squares\
                         and for each square will be counted orientation)")
     args = parser.parse_args()
