@@ -6,6 +6,7 @@
     Brief:  Implements morphing of two fingerprints
     Version: 1.0
 """
+import argparse
 import sys
 import cv2
 import numpy as np
@@ -22,19 +23,28 @@ from functions.cutline import getCutline, drawCutline
 from functions.imageBasedMorphing import imageBasedMorphing
 
 if __name__ == "__main__":
-    
-    #Check parametres
-    if(len(sys.argv)!= 4):
-        print("Bad arguments")
-        exit(42)
+
+    parser = argparse.ArgumentParser(
+        description='Morph two fingeprints')
+    parser.add_argument("--image_1",
+                        metavar="/path/to/first/fingerprint/image/", required=True,
+                        help="Path to first fingerprint image")
+    parser.add_argument("--image_2",
+                        metavar="/path/to/second/fingerprint/image/", required=True,
+                        help="Path to second fingerprint image")
+    parser.add_argument('--blocksize', required=True,
+                        metavar="Blocksize for orientation field",
+                        help="Blocksize for orientation field (image will be divided into blocksize x blocksize squares\
+                        and for each square will be counted orientation)")
+    args = parser.parse_args()
     
     #Get blocksize
-    block_size = int(sys.argv[3])
+    block_size = int(args.blocksize)
 
     #Try to load images of fingerprints
     try:
-        fingerprint_1_image = cv2.imread(sys.argv[1])
-        fingerprint_2_image = cv2.imread(sys.argv[2])
+        fingerprint_1_image = cv2.imread(args.image_1)
+        fingerprint_2_image = cv2.imread(args.image_2)
     except:
         print("Wrong file name")
         exit(42)
