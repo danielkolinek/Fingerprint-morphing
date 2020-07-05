@@ -95,11 +95,13 @@ def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=15):
     # get all possible rotations of seond fingerprint
     print('Aligning process: ', flush=False)
     allRotations = []
-    for angle in range(-angle_range, angle_range+angle_step, angle_step):    #30, 360, 30
+    perc = 0
+    for angle in range(-angle_range, angle_range, angle_step):    #30, 360, 30
         _, _, _, ori = rotateEverything(fingerprint_2, angle)
         allRotations.append(ori)
-        print('Orientation fields: ', int(angle+angle_range/((angle_range)*2)*100), "%", end="\r", flush=True)
-    print('Orientation fields: ', 100, "%", end="\r", flush=True)
+        # perc to print
+        perc += angle_step
+        print('Orientation fields: ', int(perc/(angle_range*2)*100), "%", end="\r", flush=True)
     print(flush=False)
     # alighn all possible
     steps_height, steps_width = fingerprint_1.fingerprint.shape
@@ -128,7 +130,7 @@ def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=15):
                 moved_or_field = downshape(moved_or_field, fingerprint_1.orientation_field.shape)
 
                 # check min alighment rule
-                multiplied = moved_or_field * fingerprint_1.orientation_field
+                multiplied = moved_or_field * fingerprint_1.smooth_orientation_field
                 multiplied_non_zero = np.count_nonzero(multiplied)
                 align_cover = multiplied_non_zero / fingerprint_1.non_zero_orientation_field_count
                 if  align_cover  < minvr:

@@ -36,6 +36,9 @@ if __name__ == "__main__":
                         metavar="int",
                         help="Blocksize for orientation field (image will be divided into blocksize x blocksize squares\
                         and for each square will be counted orientation)")
+    parser.add_argument('--save', required=False,
+                        metavar="filename",
+                        help="filename for result (example \"--save result\" will create result.jpg)")
     args = parser.parse_args()
     
     #Get blocksize
@@ -76,11 +79,10 @@ if __name__ == "__main__":
     max_pos, max_angle = alighn(fingerprint_1, fingerprint_2, 1)
 
     # move fingerprint 2 from alignment results
-    fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape)
+    fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape) #recalc_ori_2 = fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape)
 
     # show alignment of orientation fields
     alignment_draw = fingerprint_1.drawOrientationField(fingerprint_2.smooth_orientation_field,block_size, orientation_field_draw_1, True, (255,0,0))
-
     # get only intersecting parts
     cutIntersections(fingerprint_1, fingerprint_2)
     #cv2.imshow("sm_or_field_1", fingerprint_1.drawOrientationField(fingerprint_1.smooth_orientation_field,fingerprint_1.block_size))
@@ -113,8 +115,11 @@ if __name__ == "__main__":
     cutline = getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutiae_1, minutiae_2, d_max)
     morph_res = imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1, minutiae_2)
 
-
-
+    #save result
+    try: 
+        cv2.imwrite(args.save+".jpg", morph_res)
+    except: 
+        None
     ##### plot results #####
 
     ## plot alighning part
@@ -134,12 +139,14 @@ if __name__ == "__main__":
     or1.imshow(orientation_field_draw_1, cmap='gray')
     or2 = fig.add_subplot(3,2,4)
     or2.imshow(orientation_field_draw_2, cmap='gray')
-    
+
+    # recalculated second ori
+    #recalc_ori_2_draw = fig.add_subplot(3,2,6)
+    #recalc_ori_2_draw.imshow(recalc_ori_2, cmap='gray')
+
     # alignment
     ali = fig.add_subplot(3,2,5)
     ali.imshow(alignment_draw, cmap='gray')
-
-    
 
     ## plot optimal cutline part
     fig_1 = plt.figure()
@@ -179,8 +186,11 @@ if __name__ == "__main__":
 
     # plot morph
     morph_draw = fig_1.add_subplot(3,3,9)
+    #cv2.imshow("morph", morph_res.astype('uint8'))
     morph_draw.imshow(morph_res, cmap='gray')
+    
 
+    
     #show plots
     plt.show()
     #debug shows with cv2

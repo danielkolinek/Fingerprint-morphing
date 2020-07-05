@@ -7,9 +7,9 @@
             creating orientation field, cutting backgroung, moving fingerprint or changinging
             angle of fingerprint.
 
-    Code for orinetation field inspired by paper:   Fingerprint Core Point Detection Algorithm Using
-                                                    Orientation Field Based Multiple Features 
-    [Online at: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.206.5591&rep=rep1&type=pdf].
+    Code for orinetation field inspired by paper:   Fingerprint Orientation Field Enhancement
+ 
+    [Online at: http://www.math.tau.ac.il/~turkel/imagepapers/fingerprint.pdf].
     Version: 1.0
 """
 import cv2
@@ -96,7 +96,7 @@ class Fingerprint():
     #function gets grayscale image and returns:
     #   - orientation filed
     #   - smoothed orientation field by GaussianBlur
-    #   - coherence matrix from (https://www.ijcaonline.org/allpdf/pxc387482.pdf page 3-4)
+    #   - coherence matrix from (http://www.math.tau.ac.il/~turkel/imagepapers/fingerprint.pdf page 3-4)
     def getOrientationField(self, img, block_size, mask):
         #1. normalize image
         orientationMat = np.zeros(img.shape)
@@ -210,6 +210,7 @@ class Fingerprint():
     def moveEverything(self, position, angle, shape):
         #rotate everything
         self.fingerprint, self.mask, self.orientation_field, self.smooth_orientation_field = rotateEverything(self, angle)
+        #just_rotate = self.fingerprint
         #upsize part
         self.fingerprint = upshape(self.fingerprint, shape, 255).astype(np.uint8)
         self.mask = upshape(self.mask, shape).astype(np.uint8)
@@ -229,6 +230,8 @@ class Fingerprint():
         self.mask = downshape(self.mask, shape)
         self.orientation_field = downshape(self.orientation_field, shape)
         self.smooth_orientation_field = downshape(self.smooth_orientation_field, shape)
+
+        #return just_rotate
         """
         cv2.imshow("mask", self.mask)
         cv2.imshow("orientation_field", self.drawOrientationField(self.orientation_field, self.block_size))
@@ -265,7 +268,6 @@ class Fingerprint():
                     if max_width < x : max_width = x
                     if min_height > y : min_height = y
                     if max_height < y : max_height = y
-                    print(self.mask[y][x])
         
         middle_width = ((max_width-min_width)//2)
         middle_height = ((max_height-min_height)//2)

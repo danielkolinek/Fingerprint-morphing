@@ -60,11 +60,24 @@ def getY(line, x):
     a_l, b_l, c_l = line
     return (-a_l*x-c_l)/b_l
 
+def getX(line, y):
+    a_l, b_l, c_l = line
+    return (-b_l*y-c_l)/a_l
+
 def drawCutline(line, img):
     start_x = -1000
-    start_y =int(getY(line, start_x))
+    start_y = -1000
+    if abs(int(getY(line, start_x))) > 42000: 
+        start_x = int(getX(line, start_y))
+    else:
+        start_y =int(getY(line, start_x))
     end_x = 1000
-    end_y = int(getY(line, end_x))
+    end_y = 1000
+    if abs(int(getY(line, end_x))) > 42000: 
+        end_x = int(getX(line, end_y))
+    else:
+        end_y =int(getY(line, end_x))
+    #print((start_x, start_y), (end_x, end_y))
     return cv2.line(img, (start_x, start_y), (end_x, end_y), (0, 0, 255), 2) 
 
 
@@ -85,7 +98,7 @@ def getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutia
     max_F_2 = np.max(freq_2)
     max_F = max_F_1 if max_F_1 < max_F_2 else max_F_2
     
-    for angle in range(0, 180+30, angle_deg_step):
+    for angle in range(0, 180+angle_deg_step, angle_deg_step):
         beta = math.radians(angle)
         # get C mask
         C_mask, a_l, b_l, c_l = countC_mask(fingerprint_1, d_max, beta, barycenter)
