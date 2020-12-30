@@ -11,9 +11,6 @@
 """
 
 # morphing functions implemented like: https://www.researchgate.net/publication/311622605_On_the_Feasibility_of_Creating_Double-Identity_Fingerprints
-
-import numpy as np
-import cv2
 from functions.cutline import countdDistL, countPointsAboveBellow, countZ
 
 # a_l = line[0], b_l = line[1], c_l = line[2]
