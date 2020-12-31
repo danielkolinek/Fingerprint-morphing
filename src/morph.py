@@ -6,6 +6,7 @@
     Brief:  Implements morphing of two fingerprints
     Version: 1.0
 """
+import os
 import sys
 import cv2
 import numpy as np
@@ -27,23 +28,13 @@ from objects.PlotRes import PlotRes
 
 def saveImageTiffDPI(image, filename, dpi=500):
     filename += '.tif' 
-    """cv2.imshow("OKOK", image)
-    #debug shows with cv2
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    """
-    #cv2.imwrite(filename, image)
-    #im = Image.open(filename)
     im = Image.fromarray(np.uint8(image), 'L')
     im.save(filename, dpi=(dpi, dpi))
 
 
-def morphing(args, fingerprint_1_image, fingerprint_2_image):
+def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False):
     #init ploting obj
     plot_res = PlotRes()
-
-    #Get blocksize
-    block_size = int(args.blocksize)
 
     # initialize fingerprints
     print("Fingerprint_1 preparation")
@@ -106,14 +97,8 @@ def morphing(args, fingerprint_1_image, fingerprint_2_image):
     d_max = 30
     cutline = getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutiae_1, minutiae_2, d_max)
     morph_res = imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1, minutiae_2)
-
-    #save result
-    try: 
-        cv2.imwrite(args.save+".jpg", morph_res)
-    except: 
-        None
     
-    if(args.plot):
+    if(plot):
         #plot results
         plot_res.fingerprint_1_end = fingerprint_1.fingerprint   
         plot_res.fingerprint_2_end = fingerprint_2.fingerprint    
@@ -128,19 +113,51 @@ if __name__ == "__main__":
     parser = parse_args()
     args = parser.parse_args()
 
+    file_suffix = args.suf
+
     fingerprint_1_image = None
     fingerprint_2_image = None
 
+    block_size = int(args.blocksize)
+    plot = args.plot
 
     #Try to load images of fingerprints
     if args.image_1 is not None and args.image_2 is not None:
         fingerprint_1_image = cv2.imread(args.image_1)
         fingerprint_2_image = cv2.imread(args.image_2)
-        morph_res = morphing(args, fingerprint_1_image, fingerprint_2_image)
+        morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot)
         if args.save is not None:
             saveImageTiffDPI(morph_res, args.save)
     elif args.tests is not None :
-        print("tests")
+        folder = args.tests
+        res_folder = folder+'/../morph-res/'
+        names_gone_throught = []
+        if not os.path.exists(res_folder):
+            os.makedirs(res_folder)
+
+        file_err = open(res_folder+"/err.txt", "w")
+        
+        for (dirpath1, dirnames1, filenames1) in os.walk(folder):
+            for filename1 in filenames1:
+                if filename1.endswith(file_suffix): 
+                    fingerprint_1_image = cv2.imread(os.sep.join([dirpath1, filename1]))
+                    names_gone_throught.append(filename1)
+                    for (dirpath2, dirnames2, filenames2) in os.walk(folder):
+                        for filename2 in filenames2:
+                            if filename2.endswith(file_suffix) and (filename2 not in names_gone_throught): 
+                                fingerprint_2_image = cv2.imread(os.sep.join([dirpath2, filename2]))
+                                morph_res_save_filename = res_folder + filename1[:-4] + '-' + filename2[:-4]
+                                try:
+                                    morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image)
+                                    saveImageTiffDPI(morph_res, morph_res_save_filename)
+                                    print("******************************")
+                                    print(morph_res_save_filename)
+                                    print("******************************")
+                                except:
+                                    file_err.write(filename1[:-4] + '-' + filename2[:-4] + "\n")
+        file_err.close()
+
+
     else:
         parser.print_help()
         exit(42)

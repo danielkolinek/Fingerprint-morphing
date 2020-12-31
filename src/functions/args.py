@@ -22,5 +22,8 @@ def parse_args():
     parser.add_argument('--plot', 
                         action='store_true',  
                         help="Plot result with all steps")
+    parser.add_argument('--suf', required=False,
+                        metavar="suffix of file (.bmp /.tif /...)",  
+                        help="input suffix of file")
 
     return parser
