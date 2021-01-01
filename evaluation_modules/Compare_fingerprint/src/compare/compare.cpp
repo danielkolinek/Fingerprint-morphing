@@ -44,7 +44,7 @@ class Params
 	//-i1 6 -i2 7 -geni 9
 	//-f1 ../../img/01_li.bmp -f2 ../../img/01_ri.bmp -gen ../../img/unknown.bmp
 	//fingerprits can be compared like images (fingerprint1), or compare fingerprints in db (index1 ..)
-	//-folder F:\DK\VUT\MIT\otisky\Fingerprint-morphing\DB1 -suf .tif
+	//-folder F:\DK\VUT\MIT\otisky\fvc2002\DB1 -suf .tif
 public:
 	bool photos = false;					// compare by photos
 	bool valid = true;						// are params valid?
@@ -131,7 +131,9 @@ void help() {
 	-fN fingerN.bmp			: source image for fingerprint\n\
 	-iN fingerprintIndexN	: index for fingerprint\n\
 	-gen genFinger.bmp		: source image for generated fingerprint\n\
-	-geni genIndex			: index for generated fingerprint\n\n\
+	-geni genIndex			: index for generated fingerprint\n\
+	-folder path/to/folder	: path to folder with inputs to be tested (inputs of morphing not results!!)\n\
+	-suf sufix				: sufix of images in folder\n\n\
 Use source images or indexes. No combinations of -iN and fN are allowed. Exception is for generated fingerprint, where it can be used with -iN as index or image." << endl;
 }
 
