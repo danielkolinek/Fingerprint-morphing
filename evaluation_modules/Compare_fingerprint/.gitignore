@@ -1,0 +1,5 @@
+build/*
+!build/result.csv
+.vs
+*.bmp
+*.tif
