@@ -60,3 +60,6 @@ git/
 zaloha/
 study/
 zadani.txt
+
+*.tif
+*.bmp
