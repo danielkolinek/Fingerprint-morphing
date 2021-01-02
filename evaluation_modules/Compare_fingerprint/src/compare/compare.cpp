@@ -125,7 +125,7 @@ public:
 };
 
 void help() {
-	cout << "./compare -db _ -s -f1 _ -f2 _ -i1 _ -i2 _ -gen _ -geni _\n\n\
+	cout << "./compare.exe -db _ -s -f1 _ -f2 _ -i1 _ -i2 _ -gen _ -geni _\n\n\
 	-db databaseString		: optional, default is iengine.db\n\
 	-s						: for saving result to db\n\
 	-fN fingerN.bmp			: source image for fingerprint\n\
@@ -245,6 +245,10 @@ int main(int argc, char** argv)
 	//If iengine.db does not exist, an empty database is created from scratch
 	ret = IEngine_Connect(params.db_string);
 	CHECK_ERROR("IEngine_Connect", ret);
+
+	//Set trashold for comparison to 0
+	ret = IEngine_SetParameter(CFG_SIMILARITY_THRESHOLD, 0);
+	CHECK_ERROR("IEngine_SetParameter", ret);
 
 	//if perform tests
 	if (params.testFolder != "") {

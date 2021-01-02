@@ -1,5 +1,5 @@
 """
-   	Project Practice PP1 2019/2020 << Morphing of Fingerprints >>
+    Morphing of Fingerprints
     File:   minutiae.py
     Author: Daniel Kolinek
     Date:   05/2020

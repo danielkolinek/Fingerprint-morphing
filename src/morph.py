@@ -1,10 +1,10 @@
 """
-   	Project Practice PP1 2019/2020 << Morphing of Fingerprints >>
+   	Morphing of Fingerprints
     File:   morph.py
     Author: Daniel Kolinek
-    Date:   05/2020
+    Date:   02/2020
     Brief:  Implements morphing of two fingerprints
-    Version: 1.0
+    Version: 1.2
 """
 import os
 import sys
@@ -128,6 +128,7 @@ if __name__ == "__main__":
         morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot)
         if args.save is not None:
             saveImageTiffDPI(morph_res, args.save)
+    #Else load images from testing folder
     elif args.tests is not None :
         folder = args.tests
         res_folder = folder+'/../morph-res/'
@@ -157,7 +158,7 @@ if __name__ == "__main__":
                                     file_err.write(filename1[:-4] + '-' + filename2[:-4] + "\n")
         file_err.close()
 
-
+    #Else bad params
     else:
         parser.print_help()
         exit(42)

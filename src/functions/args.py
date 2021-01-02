@@ -1,3 +1,13 @@
+"""
+    Morphing of Fingerprints
+    File:   args.py
+    Author: Daniel Kolinek
+    Date:   01/2021
+    Brief:  Implements work with arguments
+
+    Version: 1.0
+"""
+
 import argparse
 
 # run like python3 morph.py --image_1 ../img/DB1_B/101_2.tif --image_2 ../img/DB1_B/102_2.tif --blocksize 10
@@ -18,12 +28,12 @@ def parse_args():
                         help="filename for result (example \"--save result\" will create result.jpg)")
     parser.add_argument('--tests', required=False,
                         metavar="folder",
-                        help="folder including test images")
+                        help="Folder including test images")
     parser.add_argument('--plot', 
                         action='store_true',  
                         help="Plot result with all steps")
     parser.add_argument('--suf', required=False,
-                        metavar="suffix of file (.bmp /.tif /...)",  
-                        help="input suffix of file")
+                        metavar="Suffix of file (.bmp /.tif /...)",  
+                        help="Input suffix of file")
 
     return parser

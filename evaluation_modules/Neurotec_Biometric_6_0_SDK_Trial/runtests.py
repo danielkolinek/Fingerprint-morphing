@@ -47,13 +47,16 @@ for (dirpath, dirnames, filenames) in os.walk(morph_folder):
             filename2 = folder + divider +filename[dash_pos+1:filename.rindex('.')]+morph_suf
             morph_filename = os.sep.join([dirpath, filename])
             #start evaluation for fingerprint1
-            index = int(subprocess.run([exe, filename1, morph_filename], stdout=subprocess.PIPE).returncode)
-            results[index] += 1 
+            index1 = int(subprocess.run([exe, filename1, morph_filename], stdout=subprocess.PIPE).returncode)
             actual_test += 1
             print('Test '+ str(actual_test) +' of ' + str(files_count), end='\r') # print actual step
             #start evaluation for fingerprint2
-            index = int(subprocess.run([exe, filename2, morph_filename], stdout=subprocess.PIPE).returncode)
-            results[index] += 1 
+            index2 = int(subprocess.run([exe, filename2, morph_filename], stdout=subprocess.PIPE).returncode)
+            if(index1 > 48 and index2 > 48):
+                results[index1] += 1 
+                results[index2] += 1 
+            else:
+                results[0] += 2
             actual_test += 1
             print('Test '+ str(actual_test) +' of ' + str(files_count), end='\r') # print actual step
             #write res to file

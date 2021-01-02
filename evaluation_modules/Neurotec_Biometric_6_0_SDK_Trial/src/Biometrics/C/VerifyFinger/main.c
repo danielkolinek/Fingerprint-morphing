@@ -66,9 +66,9 @@ void destroy_everything(HNSubject hProbeSubject, HNSubject hGallerySubject, HNBi
 //F:\DK\VUT\MIT\otisky\Fingerprint-morphing\src\scripts\res\101_1.tif F:\DK\VUT\MIT\otisky\Fingerprint-morphing\src\scripts\res\101_3.tif
 
 void help() {
-	PrintErrorMsg(N_T("./VerifyFinger path/to/folder sufix\n\n\
-	path/to/folder	: path to folder with inputs to be tested (inputs of morphing not results!!)\n\
-	sufix		: sufix of images in folder\n\n"), 1);
+	PrintErrorMsg(N_T("VerifyFinger.exe fingerprint1 fingerprint2\n\n\
+	fingerprint1	: path to first fingerprint)\n\
+	fingerprint2	: path to second fingerprint\n\n"), 1);
 }
 
 NInt detect(HNBiometricClient hBiometricClient, const NChar* components, const NChar* fingerprint1, const NChar* fingerprint2) {
@@ -177,7 +177,7 @@ NInt detect(HNBiometricClient hBiometricClient, const NChar* components, const N
 	}
 	else
 	{
-		// retrieve matching results from hProbeSubject
+		// retrieve matching results from hProbeSubject normal is 48
 		result = NSubjectGetMatchingResult(hProbeSubject, 0, &hMatchingResults);
 		if (NFailed(result))
 		{
