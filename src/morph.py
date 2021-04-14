@@ -64,7 +64,10 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False)
 
     # move fingerprint 2 from alignment results
     fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape) #recalc_ori_2 = fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape)
-
+    print(fingerprint_1.normalized_b_w.shape)
+    print(fingerprint_1.mask.shape)
+    print(fingerprint_2.normalized_b_w.shape)
+    print(fingerprint_2.mask.shape)
     # show alignment of orientation fields
     plot_res.alignment_draw = fingerprint_1.drawOrientationField(fingerprint_2.smooth_orientation_field,block_size, plot_res.fingerprint_1_start, True, (255,0,0))
     # get only intersecting parts

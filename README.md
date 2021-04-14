@@ -34,7 +34,7 @@ Aplication for fingerprint morphing
 -   `--suf`
     -   Suffix of file (.bmp /.tif /...)
 ## Example run:
-`python3 morph.py --image_1 ../img/DB1_B/101_2.tif --image_2 ../img/DB1_B/102_2.tif --blocksize 10 --save result`
+`python morph.py --image_1 ../img/DB1_B/101_2.tif --image_2 ../img/DB1_B/102_2.tif --blocksize 10 --save result`
 
 ## Author: 
     Daniel Kolínek, xkolin05

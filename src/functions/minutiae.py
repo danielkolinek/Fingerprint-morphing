@@ -27,7 +27,7 @@ def drawMinutiae(img, minutiaes, gray=True):
 
 def minutiae(fingerprint):
     print("Processing thinned image")
-    thinned = enhance_image(fingerprint.fingerprint)
+    thinned = enhance_image(fingerprint.normalized_b_w, fingerprint.mask)
     print("Processing minutiae")
     minutiaes = process_minutiae(thinned)    
     return minutiaes

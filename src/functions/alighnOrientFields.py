@@ -46,16 +46,18 @@ def moveFingerprint(orientation_field, block_size, transformStep, axis, value=0)
 
 # gets fingerprint object and returns rotated img, mask and smoothedorientationfield
 def rotateEverything(fingerprint, angle):
-    if angle == 0: return fingerprint.fingerprint, fingerprint.mask, fingerprint.orientation_field, fingerprint.smooth_orientation_field
+    if angle == 0: return fingerprint.fingerprint, fingerprint.mask, fingerprint.orientation_field, fingerprint.smooth_orientation_field, fingerprint.normalized_b_w
     #create copy of eveything
     degimg = np.copy(fingerprint.fingerprint)
     degmask = np.copy(fingerprint.mask)
+    degnormalized = np.copy(fingerprint.normalized_b_w)
     #compute
     degimg = rotate(degimg, angle=angle, cval=255)
+    degnormalized = rotate(degnormalized, angle=angle, cval=255)
     degmask = rotate(degmask, angle=angle, cval=0)
     degmask = np.where(degmask >200, 255, 0)
     orientation , smoooth, _ = fingerprint.getOrientationField(degimg, fingerprint.block_size, degmask)
-    return degimg, degmask, orientation, smoooth
+    return degimg, degmask, orientation, smoooth, degnormalized
 
 # adds rows or colls to array if is smaller then shape  
 def upshape(array, shape, value=0):
@@ -97,7 +99,7 @@ def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=15):
     allRotations = []
     perc = 0
     for angle in range(-angle_range, angle_range, angle_step):    #30, 360, 30
-        _, _, _, ori = rotateEverything(fingerprint_2, angle)
+        _, _, _, ori, _ = rotateEverything(fingerprint_2, angle)
         allRotations.append(ori)
         # perc to print
         perc += angle_step
@@ -181,7 +183,7 @@ def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=15):
 def cutIntersections(fingerprint_1, fingerprint_2):
     print("Getting interections")
     # masks intersection
-    mask_intersection = np.where(np.logical_and(fingerprint_1.mask != 0, fingerprint_2.mask != 0), fingerprint_1.mask, 0)
+    mask_intersection = np.where(np.logical_and(fingerprint_1.mask != False, fingerprint_2.mask != False), 1.0, 0.0)
     mask_intersection = cv2.GaussianBlur(mask_intersection,(5,5), 1)
     fingerprint_1.mask = fingerprint_2.mask = mask_intersection
     # fingerprint img intersection

@@ -14,7 +14,7 @@ cv2.ocl.setUseOpenCL(False)
 from libs.processing import thin_image, clean_points
 
 
-def enhance_image(image: np.array, block_orientation: int = 16, threshold: float = 0.1,
+def enhance_image(img_normalised: np.array, mask: np.array, block_orientation: int = 16, threshold: float = 0.1,
                   sigma_gradient: int = 1, sigma_block: int = 7, sigma_orientation: int = 7,
                   block_frequency: int = 38, window_size: int = 5, min_wave_length: int = 5,
                   max_wave_length: int = 15, padding: int = None, skeletonise: bool = True):
@@ -28,17 +28,6 @@ def enhance_image(image: np.array, block_orientation: int = 16, threshold: float
     
     """
 
-    # CLAHE adjusted image - histogram equalisation.
-    img_clahe = apply_clahe(image)
-
-    # Padding image for applying window frequency mask.
-    if padding is not None:
-        top, bottom, left, right = [padding] * 4
-        img_clahe = cv2.copyMakeBorder(img_clahe, top, bottom, left, right, cv2.BORDER_CONSTANT, value=255)
-
-    # Normalise images
-    img_normalised, mask = ridge_segment(img_clahe, block_orientation, threshold)
-
     # Pixel orientation
     img_orientation = ridge_orient(img_normalised, sigma_gradient, sigma_block, sigma_orientation)
 
@@ -47,7 +36,7 @@ def enhance_image(image: np.array, block_orientation: int = 16, threshold: float
                                          min_wave_length, max_wave_length)
 
     # Gabor filter
-    image_filtered = ridge_filter(img_normalised, img_orientation, med * mask, .65, .65)
+    image_filtered = ridge_filter(img_normalised, img_orientation, med * mask.astype(int), .65, .65)
 
     image_enhanced = (image_filtered < -3)
 
@@ -136,7 +125,11 @@ def ridge_frequency(image: np.array, mask, orient: int, block_size: int, window_
 
     rows, cols = image.shape
     freq = np.zeros((rows, cols))
-
+    """
+    print(image.shape)
+    print(freq.shape)
+    print(mask.shape)
+    """
     for r in range(0, rows - block_size, block_size):
         for c in range(0, cols - block_size, block_size):
             block_image = image[r: r + block_size][:, c: c + block_size]
@@ -259,7 +252,7 @@ def normalise(image: np.array):
     return normed
 
 
-def ridge_segment(im, blksze, thresh):
+def ridge_segment(im, blksze, thresh=0.1):
 
     rows, cols = im.shape
 

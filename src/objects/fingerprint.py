@@ -16,14 +16,20 @@ import cv2
 import math
 import numpy as np
 from functions.alighnOrientFields import alighn, rotateEverything, moveFingerprint, upshape, downshape
-
+from libs.enhancing import ridge_orient, ridge_segment, apply_clahe
 
 class Fingerprint():
     def __init__(self, fingerprint, block_size):
         self.block_size = block_size
-        self.fingerprint = self.addWhiteBorder(self.getGrayScaleNormalized(fingerprint),block_size)
-        self.mask = self.getMask(self.fingerprint)
+        #get normalized gray fingerprint
+        self.fingerprint = self.addWhiteBorder(self.getGrayScaleNormalized(fingerprint), block_size)
+        img_clahe = apply_clahe(self.fingerprint)
+        #get normalized black and white image
+        self.normalized_b_w, self.mask = ridge_segment(img_clahe, block_size)
+        
         self.orientation_field, self.smooth_orientation_field, self.coherence = self.getOrientationField(self.fingerprint, block_size, self.mask)
+        #self.orientation_field = ridge_orient(self.fingerprint, 1, block_size, block_size)
+        #self.smooth_orientation_field = self.orientation_field
         self.non_zero_orientation_field_count = np.count_nonzero(self.smooth_orientation_field)
 
     # BG is black, fingerprint white
@@ -138,7 +144,7 @@ class Fingerprint():
                         sum_Vy += 2*grad_x[v][u]*grad_y[v][u]
                         sum_for_coherence_1 += abs(sum_Vx-sum_Vy) 
                         sum_for_coherence_2 += sum_Vx-sum_Vy
-                        if (mask[v][u] != 0):
+                        if (mask[v][u]):
                             foreground = True
 
                 orientationMat[j][i] = 0
@@ -209,10 +215,11 @@ class Fingerprint():
 
     def moveEverything(self, position, angle, shape):
         #rotate everything
-        self.fingerprint, self.mask, self.orientation_field, self.smooth_orientation_field = rotateEverything(self, angle)
+        self.fingerprint, self.mask, self.orientation_field, self.smooth_orientation_field, self.normalized_b_w = rotateEverything(self, angle)
         #just_rotate = self.fingerprint
         #upsize part
         self.fingerprint = upshape(self.fingerprint, shape, 255).astype(np.uint8)
+        self.normalized_b_w = upshape(self.normalized_b_w, shape, 255).astype(np.uint8)
         self.mask = upshape(self.mask, shape).astype(np.uint8)
         self.orientation_field = upshape(self.orientation_field, shape)
         self.smooth_orientation_field = upshape(self.smooth_orientation_field, shape)
