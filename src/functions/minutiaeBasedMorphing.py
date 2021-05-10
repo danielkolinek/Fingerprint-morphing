@@ -23,6 +23,19 @@ def minutiaeBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae
     morph_freq = morph_ori_freq(d_max, cutline, freq_1, freq_2, minutiae_1, minutiae_2, F_P)
     morph_minutiae = morph_minutiae_fun(minutiae_1, minutiae_2, cutline)
 
+    #save data for later use (for developing purpose) 
+    """
+    width = morph_minutiae.shape
+    for x in range(width):
+        print(morph_minutiae[x])
+    """
+    #easy save as numpy
+    np.savetxt('morph_input_gen/morph_ori.csv',morph_ori, delimiter=',')
+    np.savetxt('morph_input_gen/morph_freq.csv', morph_freq, delimiter=',')
+    #save list of tupples as 
+    with open('morph_input_gen/morph_minutiae.csv', 'w') as fp:
+        fp.write('\n'.join('{},{}'.format(x[0],x[1]) for x in morph_minutiae))
+
     return morph_freq
 
 """
@@ -47,8 +60,7 @@ def morph_ori_freq(d_max, cutline, field_1, field_2, minutiae_1, minutiae_2, F_P
     return morph_res
 
 def morph_minutiae_fun(minutiae_1, minutiae_2, cutline):
-    morph_minutiae = getPointsAboveBellow(cutline, minutiae_1)[1]
-    morph_minutiae.append(getPointsAboveBellow(cutline, minutiae_2)[0])
+    morph_minutiae = getPointsAboveBellow(cutline, minutiae_1)[1]+getPointsAboveBellow(cutline, minutiae_2)[0]
     return morph_minutiae
 
 def getPointsAboveBellow(line, points):
