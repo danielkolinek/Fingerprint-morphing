@@ -35,5 +35,8 @@ def parse_args():
     parser.add_argument('--suf', required=False,
                         metavar="Suffix of file (.bmp /.tif /...)",  
                         help="Input suffix of file")
+    parser.add_argument('--type', required=False,
+                        metavar="Type of morphed fingerprint generation",  
+                        help="1 = picture based, 2 = minutiae based")
 
     return parser

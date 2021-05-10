@@ -21,6 +21,7 @@ def countWlmaxXY(d_max, x, y, line):
     if line[0]*x + line[1]*y + line[2] >= 0: return 1 - max_part
     else: return max_part
 
+#counts PN from equation. returns 1 for fingerprint 1 beeing F_P, 2 for fingerprint 2 beeing F_P
 def getPN(minutiae_1, minutiae_2, cutline, fingerprint_1, fingerprint_2):
     mu_m = max(len(minutiae_1), len(minutiae_2))
     tau = 0
@@ -30,5 +31,5 @@ def getPN(minutiae_1, minutiae_2, cutline, fingerprint_1, fingerprint_2):
     zeta_m_1 = (countZ(A_P_1, mu_m, tau) + countZ(A_N_2, mu_m, tau))/2
     zeta_m_2 = (countZ(A_P_2, mu_m, tau) + countZ(A_N_1, mu_m, tau))/2
 
-    if zeta_m_1 >= zeta_m_2: return fingerprint_1.fingerprint, fingerprint_2.fingerprint
-    else: return fingerprint_2.fingerprint, fingerprint_1.fingerprint
+    if zeta_m_1 >= zeta_m_2: return 1
+    else: return 2

@@ -44,6 +44,13 @@ def enhance_image(img_normalised: np.array, mask: np.array, block_orientation: i
         # Applies image thinning and sets background to white.
         image_enhanced = thin_image(image_enhanced)
         image_enhanced = clean_points(image_enhanced)
+        
+    """
+    #show thinning
+    cv2.imshow("Skeleton", (image_enhanced*255).astype('uint8'))
+    cv2.waitKey(0)   
+    cv2.destroyAllWindows() 
+    """
 
     # Normalising image and processing background - and ridges.
     # image_enhanced = image_enhanced // image_enhanced.max()  # [0, 1] values

@@ -18,7 +18,9 @@ def imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1,
     morph_res = np.ones(fingerprint_1.fingerprint.shape)*255
     height, width = fingerprint_1.fingerprint.shape
     
-    F_P, F_N = getPN(minutiae_1, minutiae_2, cutline, fingerprint_1, fingerprint_2) 
+    if(getPN(minutiae_1, minutiae_2, cutline, fingerprint_1, fingerprint_2) != 1):
+        F_P = fingerprint_2.fingerprint
+        F_N = fingerprint_1.fingerprint
     
     for y in range(height):
         for x in range(width):

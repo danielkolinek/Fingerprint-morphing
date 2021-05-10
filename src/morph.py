@@ -23,6 +23,7 @@ from functions.localRingeFrequencies import localRidgeFreq
 from functions.minutiae import minutiae
 from functions.cutline import getCutline
 from functions.imageBasedMorphing import imageBasedMorphing
+from functions.minutiaeBasedMorphing import minutiaeBasedMorphing
 from functions.args import parse_args
 from objects.PlotRes import PlotRes
 
@@ -32,7 +33,7 @@ def saveImageTiffDPI(image, filename, dpi=500):
     im.save(filename, dpi=(dpi, dpi))
 
 
-def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False):
+def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False, morphing_type = 1):
     #init ploting obj
     plot_res = PlotRes()
 
@@ -64,10 +65,6 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False)
 
     # move fingerprint 2 from alignment results
     fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape) #recalc_ori_2 = fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape)
-    print(fingerprint_1.normalized_b_w.shape)
-    print(fingerprint_1.mask.shape)
-    print(fingerprint_2.normalized_b_w.shape)
-    print(fingerprint_2.mask.shape)
     # show alignment of orientation fields
     plot_res.alignment_draw = fingerprint_1.drawOrientationField(fingerprint_2.smooth_orientation_field,block_size, plot_res.fingerprint_1_start, True, (255,0,0))
     # get only intersecting parts
@@ -99,8 +96,15 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False)
 
     d_max = 30
     cutline = getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutiae_1, minutiae_2, d_max)
-    morph_res = imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1, minutiae_2)
+
+    if (morphing_type == 1):
+        # get image based image
+        morph_res = imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1, minutiae_2)
+    else:
+        morph_res = minutiaeBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1, minutiae_2, freq_1, freq_2)
     
+    
+
     if(plot):
         #plot results
         plot_res.fingerprint_1_end = fingerprint_1.fingerprint   
@@ -123,12 +127,13 @@ if __name__ == "__main__":
 
     block_size = int(args.blocksize)
     plot = args.plot
+    morphing_type = 1 if (args.type or args.type > 2 or args.type <1) is None else int(args.type)
 
     #Try to load images of fingerprints
     if args.image_1 is not None and args.image_2 is not None:
         fingerprint_1_image = cv2.imread(args.image_1)
         fingerprint_2_image = cv2.imread(args.image_2)
-        morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot)
+        morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, morphing_type)
         if args.save is not None:
             saveImageTiffDPI(morph_res, args.save)
     #Else load images from testing folder
