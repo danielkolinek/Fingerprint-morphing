@@ -17,11 +17,12 @@ from functions.morphingFunctions import countWlmaxXY, getPN
 """
     generate new fingerprint based on minutiae
 """
-def minutiaeBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1, minutiae_2, freq_1, freq_2):
-    F_P = getPN(minutiae_1, minutiae_2, cutline, fingerprint_1, fingerprint_2) 
-    morph_ori = morph_ori_freq(d_max, cutline, fingerprint_1.smooth_orientation_field, fingerprint_2.smooth_orientation_field, minutiae_1, minutiae_2, F_P)
-    morph_freq = morph_ori_freq(d_max, cutline, freq_1, freq_2, minutiae_1, minutiae_2, F_P)
-    morph_minutiae = morph_minutiae_fun(minutiae_1, minutiae_2, cutline)
+def minutiaeBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, terminations_1, bifurcations_1, terminations_2, bifurcations_2, freq_1, freq_2):
+    F_P = getPN(terminations_1+ bifurcations_1, terminations_2+ bifurcations_2, cutline, fingerprint_1, fingerprint_2) 
+    morph_ori = morph_ori_freq(d_max, cutline, fingerprint_1.smooth_orientation_field, fingerprint_2.smooth_orientation_field, terminations_1+ bifurcations_1, terminations_2+ bifurcations_2, F_P)
+    morph_freq = morph_ori_freq(d_max, cutline, freq_1, freq_2, terminations_1+ bifurcations_1, terminations_2+ bifurcations_2, F_P)
+    morph_terminations = morph_minutiae_fun(terminations_1, terminations_2, cutline)
+    morph_bifurcations = morph_minutiae_fun(bifurcations_1, bifurcations_2, cutline)
 
     #save data for later use (for developing purpose) 
     """
@@ -33,8 +34,10 @@ def minutiaeBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae
     np.savetxt('morph_input_gen/morph_ori.csv',morph_ori, delimiter=',')
     np.savetxt('morph_input_gen/morph_freq.csv', morph_freq, delimiter=',')
     #save list of tupples as 
-    with open('morph_input_gen/morph_minutiae.csv', 'w') as fp:
-        fp.write('\n'.join('{},{}'.format(x[0],x[1]) for x in morph_minutiae))
+    with open('morph_input_gen/morph_terminations.csv', 'w') as fp:
+        fp.write('\n'.join('{},{}'.format(x[0],x[1]) for x in morph_terminations))
+    with open('morph_input_gen/morph_bifurcations.csv', 'w') as fp:
+        fp.write('\n'.join('{},{}'.format(x[0],x[1]) for x in morph_bifurcations))
 
     return morph_freq
 

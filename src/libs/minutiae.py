@@ -161,7 +161,7 @@ def process_minutiae(image: np.array):
     terminations = clean_minutiae(image, terminations)
     bifurcations = clean_minutiae(image, bifurcations)
 
-    return terminations + bifurcations
+    return terminations, bifurcations
 
 
 def generate_tuple_profile(minutiae: list) -> dict:

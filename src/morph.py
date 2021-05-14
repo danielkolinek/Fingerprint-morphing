@@ -83,8 +83,8 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
     plot_res.freq_2 = freq_2 = localRidgeFreq(fingerprint_2)
 
     # get minutiae
-    minutiae_1 = minutiae(fingerprint_1)
-    minutiae_2 = minutiae(fingerprint_2)
+    terminations_1, bifurcations_1 = minutiae(fingerprint_1)
+    terminations_2, bifurcations_2 = minutiae(fingerprint_2)
 
     # get cutline
     #controll if fingerprint1 core is still on foreground
@@ -95,13 +95,13 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
         print(barycenter)
 
     d_max = 30
-    cutline = getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, minutiae_1, minutiae_2, d_max)
+    cutline = getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, terminations_1+bifurcations_1, terminations_2+bifurcations_2, d_max)
 
     if (morphing_type == 1):
         # get image based image
-        morph_res = imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1, minutiae_2)
+        morph_res = imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, terminations_1+ bifurcations_1, terminations_2+ bifurcations_2)
     else:
-        morph_res = minutiaeBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1, minutiae_2, freq_1, freq_2)
+        morph_res = minutiaeBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, terminations_1, bifurcations_1, terminations_2, bifurcations_2, freq_1, freq_2)
     
     
 
@@ -109,7 +109,7 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
         #plot results
         plot_res.fingerprint_1_end = fingerprint_1.fingerprint   
         plot_res.fingerprint_2_end = fingerprint_2.fingerprint    
-        plot_res.drawRes(minutiae_1, minutiae_2, barycenter, cutline, morph_res)
+        plot_res.drawRes(terminations_1+bifurcations_1, terminations_2+bifurcations_2, barycenter, cutline, morph_res)
 
     return morph_res
 

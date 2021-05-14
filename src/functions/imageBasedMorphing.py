@@ -21,6 +21,9 @@ def imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1,
     if(getPN(minutiae_1, minutiae_2, cutline, fingerprint_1, fingerprint_2) != 1):
         F_P = fingerprint_2.fingerprint
         F_N = fingerprint_1.fingerprint
+    else:
+        F_P = fingerprint_1.fingerprint
+        F_N = fingerprint_2.fingerprint
     
     for y in range(height):
         for x in range(width):
