@@ -144,7 +144,6 @@ def ridge_frequency(image: np.array, mask, orient: int, block_size: int, window_
 
             freq[r: r + block_size][:, c: c + block_size] = frequest(block_image, block_orientation, window_size,
                                                                      min_wave_length, max_wave_length)
-
     freq = freq * mask
     freq_1d = np.reshape(freq, (1, rows * cols))
     ind = np.where(freq_1d > 0)

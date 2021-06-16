@@ -30,4 +30,4 @@ def minutiae(fingerprint):
     thinned = enhance_image(fingerprint.normalized_b_w, fingerprint.mask)
     print("Processing minutiae")
     terminations, bifurcations = process_minutiae(thinned)    
-    return terminations, bifurcations
+    return terminations, bifurcations, thinned

@@ -33,7 +33,7 @@ def saveImageTiffDPI(image, filename, dpi=500):
     im.save(filename, dpi=(dpi, dpi))
 
 
-def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False, morphing_type = 1):
+def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False, morphing_type = 1, center = False):
     #init ploting obj
     plot_res = PlotRes()
 
@@ -42,15 +42,29 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
     fingerprint_1 = Fingerprint(fingerprint_1_image, block_size)
     print("Fingerprint_2 preparation")
     fingerprint_2 = Fingerprint(fingerprint_2_image, block_size)
-    
-    # sort fingerprints based on their size of orientationfields
-    if fingerprint_1.non_zero_orientation_field_count < fingerprint_2.non_zero_orientation_field_count:
-        fingerprint_3 = fingerprint_1
-        fingerprint_1 = fingerprint_2
-        fingerprint_2 = fingerprint_3
+
+
+    #adjust size of fingerprints to be same
+    height1, width1 = fingerprint_1.fingerprint.shape
+    height2, width2 = fingerprint_2.fingerprint.shape
+    if(width1 > width2):
+        scale_percent = width2/width1
+        width = int(width1 * scale_percent)
+        height = int(height1 * scale_percent)  
+        fingerprint_1.fingerprint = cv2.resize(fingerprint_1.fingerprint, (width, height))
+    else:
+        scale_percent = width1/width2
+        width = int(width2 * scale_percent)
+        height = int(height2 * scale_percent)  
+        fingerprint_2.fingerprint = cv2.resize(fingerprint_2.fingerprint, (width, height))
+
+    fingerprint_1.count_rest()
+    fingerprint_2.count_rest()
 
     # detect most changes in fingerprint
-    barycenter = detectCore(fingerprint_1)
+    barycenter = (0,0)
+    if center != True:
+        barycenter = detectCore(fingerprint_1)
 
     # make copy for show in plotlib
     plot_res.fingerprint_1_start = np.copy(fingerprint_1.fingerprint)
@@ -65,8 +79,10 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
 
     # move fingerprint 2 from alignment results
     fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape) #recalc_ori_2 = fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape)
+    
+
     # show alignment of orientation fields
-    plot_res.alignment_draw = fingerprint_1.drawOrientationField(fingerprint_2.smooth_orientation_field,block_size, plot_res.fingerprint_1_start, True, (255,0,0))
+    plot_res.alignment_draw = fingerprint_2.fingerprint
     # get only intersecting parts
     cutIntersections(fingerprint_1, fingerprint_2)
     #cv2.imshow("sm_or_field_1", fingerprint_1.drawOrientationField(fingerprint_1.smooth_orientation_field,fingerprint_1.block_size))
@@ -83,20 +99,22 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
     plot_res.freq_2 = freq_2 = localRidgeFreq(fingerprint_2)
 
     # get minutiae
-    terminations_1, bifurcations_1 = minutiae(fingerprint_1)
-    terminations_2, bifurcations_2 = minutiae(fingerprint_2)
+    terminations_1, bifurcations_1, thinned_1 = minutiae(fingerprint_1)
+    terminations_2, bifurcations_2, thinned_2 = minutiae(fingerprint_2)
 
     # get cutline
     #controll if fingerprint1 core is still on foreground
-    if fingerprint_1.mask[barycenter[1]][barycenter[0]] == 0:
+    if fingerprint_1.mask[barycenter[1]][barycenter[0]] == 0 or center == True:
         # if not, then let it be middle of fingerprint
         print("Position of barycenter of the intersection region recalculation")
-        barycenter = fingerprint_1.middle_pos()  
+        barycenter = fingerprint_1.getCenter(thinned_1)
         print(barycenter)
 
     d_max = 30
     cutline = getCutline(fingerprint_1, fingerprint_2, freq_1, freq_2, barycenter, terminations_1+bifurcations_1, terminations_2+bifurcations_2, d_max)
 
+    #recalculate mask for fingerprint 1
+    #fingerprint_1.mask = fingerprint_1.recalc_mask()
     if (morphing_type == 1):
         # get image based image
         morph_res = imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, terminations_1+ bifurcations_1, terminations_2+ bifurcations_2)
@@ -133,29 +151,27 @@ if __name__ == "__main__":
     if args.image_1 is not None and args.image_2 is not None:
         fingerprint_1_image = cv2.imread(args.image_1)
         fingerprint_2_image = cv2.imread(args.image_2)
-        morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, morphing_type)
+        morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, morphing_type, args.center)
         if args.save is not None:
             saveImageTiffDPI(morph_res, args.save)
     #Else load images from testing folder
-    elif args.tests is not None :
-        folder = args.tests
-        res_folder = folder+'/../morph-res/'
+    elif args.folder1 is not None and args.folder2 is not None and args.folder3 is not None:
         names_gone_throught = []
-        if not os.path.exists(res_folder):
-            os.makedirs(res_folder)
+        if not os.path.exists(args.folder3):
+            os.makedirs(args.folder3)
 
-        file_err = open(res_folder+"/err.txt", "w")
+        file_err = open(args.folder3+"/err.txt", "w")
         
-        for (dirpath1, dirnames1, filenames1) in os.walk(folder):
+        for (dirpath1, dirnames1, filenames1) in os.walk(args.folder1):
             for filename1 in filenames1:
                 if filename1.endswith(file_suffix): 
                     fingerprint_1_image = cv2.imread(os.sep.join([dirpath1, filename1]))
                     names_gone_throught.append(filename1)
-                    for (dirpath2, dirnames2, filenames2) in os.walk(folder):
+                    for (dirpath2, dirnames2, filenames2) in os.walk(args.folder2):
                         for filename2 in filenames2:
                             if filename2.endswith(file_suffix) and (filename2 not in names_gone_throught): 
                                 fingerprint_2_image = cv2.imread(os.sep.join([dirpath2, filename2]))
-                                morph_res_save_filename = res_folder + filename1[:-4] + '-' + filename2[:-4]
+                                morph_res_save_filename = args.folder3 + '/' + filename1[:-4] + '-' + filename2[:-4]
                                 try:
                                     morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image)
                                     saveImageTiffDPI(morph_res, morph_res_save_filename)

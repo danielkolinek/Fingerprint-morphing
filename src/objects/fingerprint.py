@@ -23,36 +23,100 @@ class Fingerprint():
         self.block_size = block_size
         #get normalized gray fingerprint
         self.fingerprint = self.addWhiteBorder(self.getGrayScaleNormalized(fingerprint), block_size)
+        
+
+    def count_rest(self):
         img_clahe = apply_clahe(self.fingerprint)
         #get normalized black and white image
-        self.normalized_b_w, self.mask = ridge_segment(img_clahe, block_size)
-        
-        self.orientation_field, self.smooth_orientation_field, self.coherence = self.getOrientationField(self.fingerprint, block_size, self.mask)
+        self.normalized_b_w, _ = ridge_segment(img_clahe, self.block_size)
+        self.mask = self.getMask(self.fingerprint)
+
+        self.orientation_field, self.smooth_orientation_field, self.coherence = self.getOrientationField(self.fingerprint, self.block_size, self.mask)
         #self.orientation_field = ridge_orient(self.fingerprint, 1, block_size, block_size)
         #self.smooth_orientation_field = self.orientation_field
         self.non_zero_orientation_field_count = np.count_nonzero(self.smooth_orientation_field)
 
+    #gets center of fingerprint (from mask)
+    def getCenter(self, thinned):
+        height, width = thinned.shape
+        y_axis = [height, 0]
+        x_axis = [width, 0]
+        for y in range(height):
+            for x in range(width):
+                if thinned[y][x] == 1:
+                    if x < x_axis[0]:
+                        x_axis[0] = x
+                    if x > x_axis[1]: 
+                        x_axis[1] = x
+
+                    if y < y_axis[0]:
+                        y_axis[0] = y
+                    if y > y_axis[1]: 
+                        y_axis[1] = y
+        x_middle = int((x_axis[0] + x_axis[1]) /2) 
+        y_middle = int((y_axis[0] + y_axis[1]) /2) 
+        self.center = (x_middle, y_middle)
+        
+        #waits for user to press any key 
+        #(this is necessary to avoid Python kernel form crashing)
+        cv2.waitKey(0) 
+        
+        #closing all open windows 
+        cv2.destroyAllWindows() 
+        return self.center
+
     # BG is black, fingerprint white
     def getMask(self, fingerprint):
         height, width = fingerprint.shape
-        mask = np.zeros(fingerprint.shape)
-        half_block_size = int(self.block_size/2)
-
+        start_y = -1000
+        start_y_right = True
+        last_x_left = -1000
+        last_x_right = -1000
+        self.mask = np.zeros(fingerprint.shape)
         for y in range(height):
             start = 0
             end = 0
             detected_dark = False
-            for x in range(0, width):
+            for x in range(width):
                 if fingerprint[y][x] < 200:
+                    if start_y == -1000:
+                        y_count = 0
+                        for y_actual in range(y, y+7):
+                            if fingerprint[y_actual][x] < 200:
+                                y_count+=1
+                        if y_count > 3:
+                            start_y = 1
                     if not detected_dark:
                         detected_dark = True
                         start = x
                     else:
                         end = x
-            if detected_dark:
-                for x in range(start, end):
-                    mask[y][x] = 255
-        return mask
+            if detected_dark and start_y != -1000:
+                if start_y_right:
+                    last_x_left = start
+                    last_x_right = end
+                    start_y_right = False
+                max_start = len(self.mask[y])
+                max_move = 3
+                start = self.moveMaxValX(start, last_x_left, max_move, max_start)
+                end = self.moveMaxValX(end, last_x_right, max_move, max_start)
+                last_x_left = start
+                last_x_right = end
+                for x in range(width):
+                    if x >= start and x <= end:
+                        self.mask[y][x] = True
+                    else:
+                        self.mask[y][x] = False
+        return self.mask    
+
+    def moveMaxValX(self, val, oldVal, maxMove, maxVal):
+        if oldVal-val < maxMove and oldVal + maxMove < maxVal:
+            val = oldVal + maxMove
+        elif oldVal-val > maxMove and oldVal - maxMove > 0 :
+            val = oldVal - maxMove
+        else:
+            val = oldVal
+        return val
 
     def getGrayScaleNormalized(self, img):
         #load image in grey
@@ -225,7 +289,9 @@ class Fingerprint():
         self.smooth_orientation_field = upshape(self.smooth_orientation_field, shape)
         #move everything
         self.fingerprint = moveFingerprint(self.fingerprint, self.block_size, position[0], 0, 255)
-        self.fingerprint = np.array(moveFingerprint(self.fingerprint, self.block_size, position[1], 1, 255))   
+        self.fingerprint = np.array(moveFingerprint(self.fingerprint, self.block_size, position[1], 1, 255))
+        self.normalized_b_w = moveFingerprint(self.normalized_b_w, self.block_size, position[0], 0, 255)
+        self.normalized_b_w = np.array(moveFingerprint(self.normalized_b_w, self.block_size, position[1], 1, 255))   
         self.mask = moveFingerprint(self.mask, self.block_size, position[0], 0)
         self.mask = np.array(moveFingerprint(self.mask, self.block_size, position[1], 1))
         self.orientation_field = moveFingerprint(self.orientation_field, self.block_size, position[0], 0)
@@ -234,6 +300,7 @@ class Fingerprint():
         self.smooth_orientation_field = np.array(moveFingerprint(self.smooth_orientation_field, self.block_size, position[1], 1))     
         #downsize part
         self.fingerprint = downshape(self.fingerprint, shape).astype(np.uint8)
+        self.normalized_b_w = downshape(self.normalized_b_w, shape).astype(np.uint8)
         self.mask = downshape(self.mask, shape)
         self.orientation_field = downshape(self.orientation_field, shape)
         self.smooth_orientation_field = downshape(self.smooth_orientation_field, shape)
@@ -261,21 +328,3 @@ class Fingerprint():
 
         # Store as integer to save memory (couse 0 or 1 value).
         return result.astype("uint8")  
-
-    def middle_pos(self):
-        height, width = self.mask.shape
-        min_width = width
-        max_width = 0
-        min_height = height
-        max_height = 0
-        for y in range(height):
-            for x in range(width):
-                if self.mask[y][x] != 0:
-                    if min_width > x : min_width = x
-                    if max_width < x : max_width = x
-                    if min_height > y : min_height = y
-                    if max_height < y : max_height = y
-        
-        middle_width = ((max_width-min_width)//2)
-        middle_height = ((max_height-min_height)//2)
-        return (middle_width, middle_height)

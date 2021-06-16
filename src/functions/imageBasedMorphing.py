@@ -27,7 +27,7 @@ def imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1,
     
     for y in range(height):
         for x in range(width):
-            if fingerprint_1.mask[y][x] == 0: continue
+            if fingerprint_1.mask[y][x] == False: continue
 
             wlmaxXY = countWlmaxXY(d_max, x, y, cutline)
 

@@ -39,7 +39,7 @@ def minutiaeBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, terminat
     with open('morph_input_gen/morph_bifurcations.csv', 'w') as fp:
         fp.write('\n'.join('{},{}'.format(x[0],x[1]) for x in morph_bifurcations))
 
-    return morph_freq
+    return morph_ori
 
 """
     function for morphing orientation field or frequency characteristic of ridges
