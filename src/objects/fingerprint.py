@@ -29,7 +29,7 @@ class Fingerprint():
         img_clahe = apply_clahe(self.fingerprint)
         #get normalized black and white image
         self.normalized_b_w, _ = ridge_segment(img_clahe, self.block_size)
-        self.mask = self.getMask(self.fingerprint)
+        self.mask = self.getMaskMaxMove(self.fingerprint)
 
         self.orientation_field, self.smooth_orientation_field, self.coherence = self.getOrientationField(self.fingerprint, self.block_size, self.mask)
         #self.orientation_field = ridge_orient(self.fingerprint, 1, block_size, block_size)
@@ -68,6 +68,29 @@ class Fingerprint():
     # BG is black, fingerprint white
     def getMask(self, fingerprint):
         height, width = fingerprint.shape
+        mask = np.zeros(fingerprint.shape)
+        half_block_size = int(self.block_size/2)
+
+        for y in range(height):
+            start = 0
+            end = 0
+            detected_dark = False
+            for x in range(0, width):
+                if fingerprint[y][x] < 200:
+                    if not detected_dark:
+                        detected_dark = True
+                        start = x
+                    else:
+                        end = x
+            if detected_dark:
+                for x in range(start, end):
+                    mask[y][x] = True
+        return mask
+
+    # BG is black, fingerprint white
+    def getMaskMaxMove(self, fingerprint):
+        max_move = 5
+        height, width = fingerprint.shape
         start_y = -1000
         start_y_right = True
         last_x_left = -1000
@@ -97,7 +120,6 @@ class Fingerprint():
                     last_x_right = end
                     start_y_right = False
                 max_start = len(self.mask[y])
-                max_move = 3
                 start = self.moveMaxValX(start, last_x_left, max_move, max_start)
                 end = self.moveMaxValX(end, last_x_right, max_move, max_start)
                 last_x_left = start

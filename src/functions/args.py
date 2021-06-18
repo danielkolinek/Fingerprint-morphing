@@ -14,9 +14,9 @@ run :
     python morph.py --image_1 ../../db/fit_db_classes/arch/a/1101_2_1_P3.bmp --image_2 ../../db/fit_db_classes/arch/a/1284_2_3_L4.bmp --blocksize 10 --type 1 --plot
 or for testing:
     python morph.py `
-        --folder1 ../../db/fit_db_classes/arch/a `
-        --folder2 ../../db/fit_db_classes/arch/b `
-        --folder3 ../../db/fit_db_classes/arch/res `
+        --folder1 ../../db/fit_db_classes/left_loop/a `
+        --folder2 ../../db/fit_db_classes/left_loop/b `
+        --folder3 ../../db/fit_db_classes/left_loop/res `
         --blocksize 10 --suf bmp --type 1
 """
 def parse_args():

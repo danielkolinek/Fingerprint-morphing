@@ -121,6 +121,7 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
     else:
         morph_res = minutiaeBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, terminations_1, bifurcations_1, terminations_2, bifurcations_2, freq_1, freq_2)
     
+    morph_res = fingerprint_1.cropBg(morph_res)
     
 
     if(plot):
@@ -173,7 +174,7 @@ if __name__ == "__main__":
                                 fingerprint_2_image = cv2.imread(os.sep.join([dirpath2, filename2]))
                                 morph_res_save_filename = args.folder3 + '/' + filename1[:-4] + '-' + filename2[:-4]
                                 try:
-                                    morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image)
+                                    morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, morphing_type, args.center)
                                     saveImageTiffDPI(morph_res, morph_res_save_filename)
                                     print("******************************")
                                     print(morph_res_save_filename)
