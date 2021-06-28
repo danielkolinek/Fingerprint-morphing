@@ -45,7 +45,7 @@ class Params
 	//-i1 6 -i2 7 -geni 9
 	//-f1 ../../img/01_li.bmp -f2 ../../img/01_ri.bmp -gen ../../img/unknown.bmp
 	//fingerprits can be compared like images (fingerprint1), or compare fingerprints in db (index1 ..)
-	//-folder F:\DK\VUT\MIT\otisky\fvc2002\DB1 -suf .tif
+	//-folder C:\Users\danie\Documents\VUT\Otisky\db\fit_db_classes\arch -suf .bmp
 public:
 	bool photos = false;					// compare by photos
 	bool valid = true;						// are params valid?
@@ -57,8 +57,8 @@ public:
 	int index2 = -1;						// index to db for fingerprint 2
 	const char* generateFingerprint = "";	// source image for generated fingerprint 1
 	int generateFingerprintIndex = -1;		// source image for generated fingerprint 2 
-	string testFolder = "";			// source folder for testing
-	string suf = "";			// source folder for testing
+	string testFolder = "";					// source folder for testing
+	string suf = "";						// suffix of fingerprint images in folder
 
 	Params(int argc, char** argv)
 	{
@@ -254,12 +254,11 @@ int main(int argc, char** argv)
 	//if perform tests
 	if (params.testFolder != "") {
 		//paths to folders with fingerprints
-		string tmp = params.testFolder;
-		size_t dash_pos = tmp.rfind("\\");
-		path res_morph = tmp.substr(0, dash_pos) +"\\morph-res\\";
-		path in = tmp;
+		string folder_a = params.testFolder + "\\a\\";
+		string folder_b = params.testFolder + "\\b\\";
+		string folder_res = params.testFolder + "\\res\\";
 		//morph results that will be written in csv
-		const int morph_len = 1000;
+		const int morph_len = 1010;
 		int morph_results[morph_len] = {};
 		//info printing
 		int info_iterator = 0;
@@ -267,31 +266,32 @@ int main(int argc, char** argv)
 		cout << info_string + to_string(info_iterator);
 
 		//Go through folder and compare input images with morphed
-		for (recursive_directory_iterator next(res_morph), end; next != end; ++next) {
-			string filename = next->path().filename().string();
+		for (recursive_directory_iterator next(folder_res), end; next != end; ++next) {
+			string filename_res = next->path().filename().string();
 			string filepath = next->path().string();
-			//morphed images should be only in .tif format
-			if (has_suffix(filename, ".tif")) {
-				//controll bash argument for input sufix
-				if (params.suf != "") {
-					auto [in1, in2] = getFileNames(filepath, in, params.suf);
-					//first fingerprint
-					int userID = registerFingerprint(in1.c_str());
-					int score = matchFingerprints(userID, filepath.c_str(), params);
-					morph_results[score] += 1;
-					//second fingerprint
-					userID = registerFingerprint(in2.c_str());
-					score = matchFingerprints(userID, filepath.c_str(), params);
-					morph_results[score] += 1;
-					//print how much done (only for info)
-					cout << string((info_string + to_string(info_iterator)).length(), '\b');
-					info_iterator++;
-					cout << info_string + to_string(info_iterator);
-				}
-				else {
-					help();
-					exit(1);
-				}
+
+
+			int dashpos = filename_res.find("-");
+			int pointpos = filename_res.find(".");
+			string filename_a = folder_a + filename_res.substr(0, dashpos) + params.suf;
+			string filename_b = folder_b + filename_res.substr(dashpos+1, pointpos-(dashpos + 1)) + params.suf;
+
+			//controll bash argument for input sufix
+			if (params.suf != "" && has_suffix(filename_res, ".tif")) {
+				//first fingerprint
+				int userID = registerFingerprint(filename_a.c_str());
+				int score1 = matchFingerprints(userID, filepath.c_str(), params);
+
+				//second fingerprint
+				userID = registerFingerprint(filename_b.c_str());
+				int score2 = matchFingerprints(userID, filepath.c_str(), params);
+				int score = score1 > score2 ? score2 : score1;
+
+				morph_results[score] += 1;
+				//print how much done (only for info)
+				cout << string((info_string + to_string(info_iterator)).length(), '\b');
+				info_iterator++;
+				cout << info_string + to_string(info_iterator);
 			}
 		}
 		//write results to csv file

@@ -16,8 +16,8 @@ or for testing:
     python morph.py `
         --folder1 ../../db/fit_db_classes/left_loop/a `
         --folder2 ../../db/fit_db_classes/left_loop/b `
-        --folder3 ../../db/fit_db_classes/left_loop/res `
-        --blocksize 10 --suf bmp --type 1
+        --folder3 ../../db/fit_db_classes/left_loop/res_center `
+        --blocksize 10 --suf bmp --type 1 --center
 """
 def parse_args():
     parser = argparse.ArgumentParser(description='Morph two fingeprints')
