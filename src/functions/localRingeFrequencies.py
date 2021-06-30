@@ -75,18 +75,6 @@ def localRidgeFreq(fingerprint):
             if X[-1] > X [-2] : 
                 peaks_count += 1
             
-            """ old version of get count of peaks (was working probably better)
-            low = True
-            pixels_count = 0
-            peaks_count = 0
-            for x in X:
-                if x > 125 and low:
-                    low = False
-                    peaks_count += 1
-                elif x <= 125:
-                    low = True
-                    pixels_count +=1
-            """
             # get average 
             average_pixels = 0
             #print(l)
@@ -98,30 +86,6 @@ def localRidgeFreq(fingerprint):
                 tmp_freq = 1 / average_pixels
            
             Omega[j-half_block_size:j+half_block_size, i-half_block_size:i+half_block_size] = tmp_freq #if tmp_freq <= 1/2 and tmp_freq >=1/25 else -1
-
-            # step 4 to 6 is missing (No idea how to do that)
-            """
-            print(Omega[j][i])
-            
-            if tmp_freq > 1/2 or tmp_freq < 1/25:
-                print(j,i)
-                print(X) 
-                print(peaks_count)
-                print(l-peaks_count)
-                print(tmp_freq)
-                exit()
-            
-
-            all_count+=1
-            if Omega[j][i] == -1:
-                bad_all+=1
-            """
-                #cv2.imshow("oriented_window", oriented_window)
-                #cv2.waitKey(0)
-                #cv2.destroyAllWindows()
-            #if Omega[j][i] == -1: print(tmp_freq)
-            #return
-    #print(bad_all/all_count)
 
     # low pass part
     filter_size = 7
