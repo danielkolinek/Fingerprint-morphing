@@ -11,13 +11,13 @@
 import argparse
 """
 run :
-    python morph.py --image_1 ../../db/fit_db_classes/arch/a/1101_2_1_P3.bmp --image_2 ../../db/fit_db_classes/arch/a/1284_2_3_L4.bmp --blocksize 10 --type 1 --plot
+    python morph.py --image_1 ../../db/fit_db_classes/arch/a/1101_2_1_P3.bmp --image_2 ../../db/fit_db_classes/arch/a/1284_2_3_L4.bmp --blocksize 10 --plot
 or for testing:
     python morph.py `
         --folder1 ../../db/fit_db_classes/left_loop/a `
         --folder2 ../../db/fit_db_classes/left_loop/b `
         --folder3 ../../db/fit_db_classes/left_loop/res_center `
-        --blocksize 10 --suf bmp --type 1 --center
+        --blocksize 10 --suf bmp --center --eq
 """
 def parse_args():
     parser = argparse.ArgumentParser(description='Morph two fingeprints')
@@ -47,13 +47,16 @@ def parse_args():
                         action='store_true',  
                         help="Plot result with all steps")
     parser.add_argument('--suf', required=False,
-                        metavar="Suffix of file (.bmp /.tif /...)",  
+                        metavar=".bmp/.tif /...",  
                         help="Input suffix of file")
-    parser.add_argument('--type', required=False,
-                        metavar="Type of morphed fingerprint generation",  
-                        help="1 = picture based, 2 = minutiae based")
     parser.add_argument('--center', 
                         action='store_true',  
                         help="Set barycenter as center of first fingerprint")
+    parser.add_argument('--eq', 
+                        action='store_true',  
+                        help="Equalize histogram of the result")
+    parser.add_argument('--gaus', 
+                        action='store_true',  
+                        help="Equalize histogram of the result")
 
     return parser

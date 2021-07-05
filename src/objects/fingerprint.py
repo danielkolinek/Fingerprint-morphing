@@ -17,12 +17,14 @@ import math
 import numpy as np
 from functions.alighnOrientFields import alighn, rotateEverything, moveFingerprint, upshape, downshape
 from libs.enhancing import ridge_orient, ridge_segment, apply_clahe
+from PIL import Image
 
 class Fingerprint():
     def __init__(self, fingerprint, block_size):
         self.block_size = block_size
         #get normalized gray fingerprint
         self.fingerprint = self.addWhiteBorder(self.getGrayScaleNormalized(fingerprint), block_size)
+
         
 
     def count_rest(self):

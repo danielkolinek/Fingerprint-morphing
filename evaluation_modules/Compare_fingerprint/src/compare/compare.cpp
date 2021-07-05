@@ -256,7 +256,7 @@ int main(int argc, char** argv)
 		//paths to folders with fingerprints
 		string folder_a = params.testFolder + "\\a\\";
 		string folder_b = params.testFolder + "\\b\\";
-		string folder_res = params.testFolder + "\\res\\";
+		string folder_res = params.testFolder + "\\res_center\\";
 		//morph results that will be written in csv
 		const int morph_len = 1010;
 		int morph_results[morph_len] = {};

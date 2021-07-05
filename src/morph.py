@@ -33,7 +33,7 @@ def saveImageTiffDPI(image, filename, dpi=500):
     im.save(filename, dpi=(dpi, dpi))
 
 
-def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False, morphing_type = 1, center = False):
+def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False, center = False, eq=False, gaus=False):
     #init ploting obj
     plot_res = PlotRes()
 
@@ -115,22 +115,23 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
 
     #recalculate mask for fingerprint 1
     #fingerprint_1.mask = fingerprint_1.recalc_mask()
-    if (morphing_type == 1):
-        # get image based image
-        morph_res = imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, terminations_1+ bifurcations_1, terminations_2+ bifurcations_2)
-    else:
-        morph_res = minutiaeBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, terminations_1, bifurcations_1, terminations_2, bifurcations_2, freq_1, freq_2)
+    # get image based image
+    morph_res = imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, terminations_1+ bifurcations_1, terminations_2+ bifurcations_2)
     
     morph_res = fingerprint_1.cropBg(morph_res)
     
 
-    if(plot):
+    if plot:
         #plot results
         plot_res.fingerprint_1_end = fingerprint_1.fingerprint   
         plot_res.fingerprint_2_end = fingerprint_2.fingerprint    
         plot_res.drawRes(terminations_1+bifurcations_1, terminations_2+bifurcations_2, barycenter, cutline, morph_res)
-
+    if gaus:
+        morph_res = cv2.GaussianBlur(morph_res,(5,5),cv2.BORDER_DEFAULT) 
+    if eq :
+        return cv2.GaussianBlur(cv2.equalizeHist(morph_res.astype(np.uint8)),(5,5),cv2.BORDER_DEFAULT) 
     return morph_res
+    
 
     
 if __name__ == "__main__":
@@ -146,13 +147,12 @@ if __name__ == "__main__":
 
     block_size = int(args.blocksize)
     plot = args.plot
-    morphing_type = 1 if (args.type or args.type > 2 or args.type <1) is None else int(args.type)
 
     #Try to load images of fingerprints
     if args.image_1 is not None and args.image_2 is not None:
         fingerprint_1_image = cv2.imread(args.image_1)
         fingerprint_2_image = cv2.imread(args.image_2)
-        morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, morphing_type, args.center)
+        morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, args.center, args.eq, args.gaus)
         if args.save is not None:
             saveImageTiffDPI(morph_res, args.save)
     #Else load images from testing folder
@@ -174,7 +174,7 @@ if __name__ == "__main__":
                                 fingerprint_2_image = cv2.imread(os.sep.join([dirpath2, filename2]))
                                 morph_res_save_filename = args.folder3 + '/' + filename1[:-4] + '-' + filename2[:-4]
                                 try:
-                                    morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, morphing_type, args.center)
+                                    morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, args.center, args.eq, args.gaus)
                                     saveImageTiffDPI(morph_res, morph_res_save_filename)
                                     print("******************************")
                                     print(morph_res_save_filename)
