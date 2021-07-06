@@ -54,9 +54,9 @@ def parse_args():
                         help="Set barycenter as center of first fingerprint")
     parser.add_argument('--eq', 
                         action='store_true',  
-                        help="Equalize histogram of the result")
+                        help="Use CLAHE on result")
     parser.add_argument('--gaus', 
                         action='store_true',  
-                        help="Equalize histogram of the result")
+                        help="Use gaussian blur on result")
 
     return parser

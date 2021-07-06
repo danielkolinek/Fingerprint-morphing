@@ -129,7 +129,8 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
     if gaus:
         morph_res = cv2.GaussianBlur(morph_res,(5,5),cv2.BORDER_DEFAULT) 
     if eq :
-        return cv2.GaussianBlur(cv2.equalizeHist(morph_res.astype(np.uint8)),(5,5),cv2.BORDER_DEFAULT) 
+        clahe = cv.createCLAHE(clipLimit=3.0, tileGridSize=(8,8))
+        return clahe.apply(morph_res.astype(np.uint8))
     return morph_res
     
 
