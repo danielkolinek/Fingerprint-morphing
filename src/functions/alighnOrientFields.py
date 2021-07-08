@@ -55,7 +55,6 @@ def rotateEverything(fingerprint, angle):
     degimg = rotate(degimg, angle=angle, cval=255)
     degnormalized = rotate(degnormalized, angle=angle, cval=255)
     degmask = rotate(degmask, angle=angle, cval=0)
-    degmask = np.where(degmask >200, 255, 0)
     orientation , smoooth, _ = fingerprint.getOrientationField(degimg, fingerprint.block_size, degmask)
     return degimg, degmask, orientation, smoooth, degnormalized
 

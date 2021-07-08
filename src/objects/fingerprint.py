@@ -70,7 +70,6 @@ class Fingerprint():
     def getMask(self, fingerprint):
         height, width = fingerprint.shape
         mask = np.zeros(fingerprint.shape)
-        half_block_size = int(self.block_size/2)
 
         for y in range(height):
             start = 0
@@ -231,7 +230,7 @@ class Fingerprint():
                         sum_Vy += 2*grad_x[v][u]*grad_y[v][u]
                         sum_for_coherence_1 += abs(sum_Vx-sum_Vy) 
                         sum_for_coherence_2 += sum_Vx-sum_Vy
-                        if (mask[v][u] != 0):
+                        if (mask[v][u] == True):
                             foreground = True
 
                 orientationMat[j][i] = 0
