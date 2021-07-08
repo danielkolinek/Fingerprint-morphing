@@ -1,40 +1,11 @@
-# Morph fingerprints
-
-Aplication for fingerprint morphing
+# Thesis: Evaluation of Fingerprint Morphing Methods Compared to a Real System
 
 ## Contents:
--   img: Some example input images
--   src: source code
-    - functions: functions need
-
-## Run morphing
-`python3 morph.py [-h] --image_1 _ --image_2 _ --blocksize _ --save --tests _ --plot _ --suf _`         
-
--   `-h`, `--help`
-    -   show help
-
--   `--image_1 /path/to/first/fingerprint/image/`
-    -   Path to first fingerprint image
-
--   `--image_2 /path/to/second/fingerprint/image/`
-    -   Path to second fingerprint image
-
--   `--blocksize int`
-    -   Blocksize for orientation field (image will be divided into blocksize x blocksize squares and for each square will be counted orientation, frequency image)
-
--   `--save`
-    -   Filename for result image, not required, if not given no save will be created (example `--save result` will create result.jpg)
-
--   `--tests`
-    -   Folder including test images
-
--   `--plot`
-    -   Plot result with all steps
-
--   `--suf`
-    -   Suffix of file (.bmp /.tif /...)
-## Example run:
-`python morph.py --image_1 ../img/DB1_B/101_2.tif --image_2 ../img/DB1_B/102_2.tif --blocksize 10 --save result --type 1`
+- evaluation_modules: Source codes for fingerprint matching and classifying terminal applications
+- morphing: Source codes for terminal fingerprint morphing application
+- thesis: Digital version of this thesis
+- pip-install-req.sh: Bash script for installing needed Python 3 packages
+- README.md: Contexts of storage media
 
 ## Author: 
     Daniel Kolínek, xkolin05

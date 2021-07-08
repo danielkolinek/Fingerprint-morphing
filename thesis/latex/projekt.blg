@@ -1,0 +1,110 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: projekt.aux
+Reallocating 'name_of_file' (item size: 1) to 25 items.
+The style file: bib-styles/Pysny/enplain.bst
+Reallocating 'name_of_file' (item size: 1) to 35 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'wiz_functions' (item size: 4) to 6000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Database file #1: projekt-20-literatura-bibliography.bib
+Warning--to sort, need author or key in Skinanat76:online
+Warning--to sort, need author or key in Morpholo62:online
+Warning--empty year in Morpholo62:online
+Warning--empty url in Morpholo62:online
+Warning--empty year and revised in Morpholo62:online
+Warning--empty year in Skinanat76:online
+Warning--empty url in Skinanat76:online
+Warning--empty year and revised in Skinanat76:online
+Warning--empty journal in attack2
+Warning--empty edition in attack2
+Warning--empty number in attack2
+Warning--empty edition in babler1991embryologic
+Warning--empty edition in syntetic_gen_paper
+Warning--empty year in 01BioPrednaska
+Warning--empty url in 01BioPrednaska
+Warning--empty year and revised in 01BioPrednaska
+Warning--empty edition in morphing_paper
+Warning--empty number in morphing_paper
+Warning--empty isbn and issn in morphing3
+Warning--empty edition in dil1
+Warning--empty edition in haralick1987image
+Warning--empty edition in heijmans1990algebraic
+Warning--empty journal in henry1900classification
+Warning--empty edition in henry1900classification
+Warning--empty number in henry1900classification
+Warning--empty edition in hong1998fingerprint
+Warning--empty edition in idkitsdk
+Warning--empty isbn in idkitsdk
+Warning--empty edition in 1262027
+Warning--empty edition in jain2007handbook
+Warning--empty isbn in jain2007handbook
+Warning--empty edition in jain2011introduction
+Warning--empty isbn in jain2011introduction
+Warning--empty edition in jain2015attacks
+Warning--empty edition in jang1990analysis
+Warning--empty editor and organization in thinning
+Warning--empty booktitle in thinning
+Warning--empty edition in morphing2
+Warning--empty edition in ori
+Warning--empty edition in maltoni2009handbook
+Warning--empty isbn in maltoni2009handbook
+Warning--empty edition in mwema2015simple
+Warning--empty edition in veri6
+Warning--empty isbn in veri6
+Warning--empty edition in serra1988mathematical
+Warning--empty number in serra1988mathematical
+Warning--empty edition in dil2
+Warning--empty edition in serra1983image
+Warning--empty isbn in serra1983image
+Warning--empty edition in shih2009image
+Warning--empty isbn in shih2009image
+Warning--empty edition in histogram
+Warning--empty number in histogram
+Warning--empty edition in morphing1
+You've used 32 entries,
+            3721 wiz_defined-function locations,
+            964 strings with 9950 characters,
+and the built_in function-call counts, 16125 in all, are:
+= -- 1202
+> -- 613
+< -- 73
++ -- 266
+- -- 223
+* -- 949
+:= -- 2196
+add.period$ -- 104
+call.type$ -- 32
+change.case$ -- 210
+chr.to.int$ -- 112
+cite$ -- 86
+duplicate$ -- 956
+empty$ -- 1969
+format.name$ -- 143
+if$ -- 3763
+int.to.chr$ -- 0
+int.to.str$ -- 32
+missing$ -- 0
+newline$ -- 203
+num.names$ -- 61
+pop$ -- 422
+preamble$ -- 1
+purify$ -- 154
+quote$ -- 0
+skip$ -- 638
+stack$ -- 0
+substring$ -- 849
+swap$ -- 188
+text.length$ -- 21
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 64
+warning$ -- 54
+while$ -- 136
+width$ -- 34
+write$ -- 371
+(There were 54 warnings)
