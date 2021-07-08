@@ -7,23 +7,18 @@
     Version: 1.2
 """
 import os
-import sys
 import cv2
 import numpy as np
 from PIL import Image
-import scipy
-# matplotlib
-import matplotlib.pyplot as plt
 
 # my files
 from functions.coreDetection import detectCore
-from functions.alighnOrientFields import alighn, rotateEverything, moveFingerprint, upshape, downshape, cutIntersections
+from functions.alighnOrientFields import alighn, cutIntersections
 from objects.fingerprint import Fingerprint
 from functions.localRingeFrequencies import localRidgeFreq
 from functions.minutiae import minutiae
 from functions.cutline import getCutline
 from functions.imageBasedMorphing import imageBasedMorphing
-from functions.minutiaeBasedMorphing import minutiaeBasedMorphing
 from functions.args import parse_args
 from objects.PlotRes import PlotRes
 
@@ -82,7 +77,8 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
     
 
     # show alignment of orientation fields
-    plot_res.alignment_draw = fingerprint_2.fingerprint
+    plot_res.alignment_draw =  np.where(fingerprint_2.fingerprint !=255, fingerprint_2.fingerprint, fingerprint_1.fingerprint)
+
     # get only intersecting parts
     cutIntersections(fingerprint_1, fingerprint_2)
     #cv2.imshow("sm_or_field_1", fingerprint_1.drawOrientationField(fingerprint_1.smooth_orientation_field,fingerprint_1.block_size))
@@ -129,7 +125,7 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
     if gaus:
         morph_res = cv2.GaussianBlur(morph_res,(5,5),cv2.BORDER_DEFAULT) 
     if eq :
-        clahe = cv.createCLAHE(clipLimit=3.0, tileGridSize=(8,8))
+        clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8,8))
         return clahe.apply(morph_res.astype(np.uint8))
     return morph_res
     

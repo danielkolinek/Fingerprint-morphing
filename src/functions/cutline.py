@@ -12,7 +12,6 @@
 
 import math
 import numpy as np
-import sys
 import cv2
 
 # a_l = line[0], b_l = line[1], c_l = line[2]

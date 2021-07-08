@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import cv2
 
 from functions.minutiae import drawMinutiae
 from functions.coreDetection import drawDetectedCore

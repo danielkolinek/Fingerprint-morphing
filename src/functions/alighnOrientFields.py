@@ -123,7 +123,6 @@ def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=15):
 
         for y in range(-steps_height, steps_width, step_size):
             for x in range(-steps_width, steps_width,step_size):
-
                 # move orientation field
                 moved_or_field = moveFingerprint(rotation, block_size, x, 0)
                 moved_or_field = np.array(moveFingerprint(moved_or_field, block_size, y, 1))
@@ -136,7 +135,6 @@ def alighn(fingerprint_1, fingerprint_2, step_size=2, minvr=0.3, angle_step=15):
                 multiplied_non_zero = np.count_nonzero(multiplied)
                 align_cover = multiplied_non_zero / fingerprint_1.non_zero_orientation_field_count
                 if  align_cover  < minvr:
-                    #print(align_cover)
                     break
                 
                 # just for now

@@ -14,7 +14,7 @@ import cv2
 import math
 
 from libs.enhancing import enhance_image
-from libs.minutiae import process_minutiae, plot_minutiae
+from libs.minutiae import process_minutiae
 
 # if gray, than convert image to RGB (be carefull with opencv)
 def drawMinutiae(img, minutiaes, gray=True):

@@ -13,8 +13,6 @@
 import numpy as np
 import cv2
 import math
-from scipy.ndimage import rotate
-import time
 def localRidgeFreq(fingerprint):
     w = fingerprint.block_size
     l = w * 2       # has to be multiple block_size

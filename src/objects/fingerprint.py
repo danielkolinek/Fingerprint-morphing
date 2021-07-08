@@ -15,9 +15,8 @@
 import cv2
 import math
 import numpy as np
-from functions.alighnOrientFields import alighn, rotateEverything, moveFingerprint, upshape, downshape
-from libs.enhancing import ridge_orient, ridge_segment, apply_clahe
-from PIL import Image
+from functions.alighnOrientFields import  rotateEverything, moveFingerprint, upshape, downshape
+from libs.enhancing import ridge_segment, apply_clahe
 
 class Fingerprint():
     def __init__(self, fingerprint, block_size):
@@ -232,7 +231,7 @@ class Fingerprint():
                         sum_Vy += 2*grad_x[v][u]*grad_y[v][u]
                         sum_for_coherence_1 += abs(sum_Vx-sum_Vy) 
                         sum_for_coherence_2 += sum_Vx-sum_Vy
-                        if (mask[v][u]):
+                        if (mask[v][u] != 0):
                             foreground = True
 
                 orientationMat[j][i] = 0

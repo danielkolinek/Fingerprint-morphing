@@ -11,8 +11,6 @@
 """
 
 # pointcare from https://www.researchgate.net/publication/230771380_Singular_Point_Detection_for_Efficient_Fingerprint_Classification
-
-import numpy as np
 import cv2
 import math
 

@@ -11,7 +11,6 @@
 """
 
 import numpy as np
-import cv2
 from functions.morphingFunctions import countWlmaxXY, getPN
 
 def imageBasedMorphing(d_max, cutline, fingerprint_1, fingerprint_2, minutiae_1, minutiae_2):
