@@ -20,6 +20,7 @@ from functions.minutiae import minutiae
 from functions.cutline import getCutline
 from functions.imageBasedMorphing import imageBasedMorphing
 from functions.args import parse_args
+from functions.alighnMasks import alighn_masks
 from objects.PlotRes import PlotRes
 
 def saveImageTiffDPI(image, filename, dpi=500):
@@ -28,7 +29,7 @@ def saveImageTiffDPI(image, filename, dpi=500):
     im.save(filename, dpi=(dpi, dpi))
 
 
-def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False, center = False, eq=False, gaus=False):
+def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False, center = False, eq=False, gaus=False, alighn_mask=False):
     #init ploting obj
     plot_res = PlotRes()
 
@@ -70,7 +71,10 @@ def morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot = False,
     plot_res.orientation_field_2 = fingerprint_2.drawOrientationField(fingerprint_2.smooth_orientation_field, fingerprint_2.block_size)
 
     # get aligment
-    max_pos, max_angle = alighn(fingerprint_1, fingerprint_2, 1)
+    if not alighn_mask:
+        max_pos, max_angle = alighn(fingerprint_1, fingerprint_2, 1)
+    else:
+        max_pos, max_angle = alighn_masks(fingerprint_1.mask, fingerprint_2.mask, fingerprint_1.block_size)
 
     # move fingerprint 2 from alignment results
     fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape) #recalc_ori_2 = fingerprint_2.moveEverything(max_pos, max_angle, fingerprint_1.fingerprint.shape)
@@ -149,7 +153,7 @@ if __name__ == "__main__":
     if args.image_1 is not None and args.image_2 is not None:
         fingerprint_1_image = cv2.imread(args.image_1)
         fingerprint_2_image = cv2.imread(args.image_2)
-        morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, args.center, args.eq, args.gaus)
+        morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, args.center, args.eq, args.gaus, args.mask)
         if args.save is not None:
             saveImageTiffDPI(morph_res, args.save)
     #Else load images from testing folder
@@ -171,7 +175,7 @@ if __name__ == "__main__":
                                 fingerprint_2_image = cv2.imread(os.sep.join([dirpath2, filename2]))
                                 morph_res_save_filename = args.folder3 + '/' + filename1[:-4] + '-' + filename2[:-4]
                                 try:
-                                    morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, args.center, args.eq, args.gaus)
+                                    morph_res = morphing(block_size, fingerprint_1_image, fingerprint_2_image, plot, args.center, args.eq, args.gaus, args.mask)
                                     saveImageTiffDPI(morph_res, morph_res_save_filename)
                                     print("******************************")
                                     print(morph_res_save_filename)

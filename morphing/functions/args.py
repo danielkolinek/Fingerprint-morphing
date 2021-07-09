@@ -14,10 +14,10 @@ run :
     python morph.py --image_1 ../../db/fit_db_classes/arch/a/1101_2_1_P3.bmp --image_2 ../../db/fit_db_classes/arch/a/1284_2_3_L4.bmp --blocksize 10 --plot
 or for testing:
     python morph.py `
-        --folder1 ../../db/fit_db_classes/left_loop/a `
-        --folder2 ../../db/fit_db_classes/left_loop/b `
-        --folder3 ../../db/fit_db_classes/left_loop/res_center `
-        --blocksize 10 --suf bmp --center --eq
+        --folder1 ../../db/fit_db_classes/arch/a `
+        --folder2 ../../db/fit_db_classes/arch/b `
+        --folder3 ../../db/fit_db_classes/arch/res_center `
+        --blocksize 10 --suf bmp --center --mask
 """
 def parse_args():
     parser = argparse.ArgumentParser(description='Morph two fingeprints')
@@ -58,5 +58,8 @@ def parse_args():
     parser.add_argument('--gaus', 
                         action='store_true',  
                         help="Use gaussian blur on result")
+    parser.add_argument('--mask', 
+                        action='store_true',  
+                        help="Allighn fingerprints by masks")
 
     return parser
