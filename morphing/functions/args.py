@@ -11,12 +11,12 @@
 import argparse
 """
 run :
-    python morph.py --image_1 ../../db/fit_db_classes/arch/a/1101_2_1_P3.bmp --image_2 ../../db/fit_db_classes/arch/a/1284_2_3_L4.bmp --blocksize 10 --plot
+    python morph.py --image_2 ../img/DB1_B/101_2.tif --image_1 ../img/DB1_B/102_2.tif --blocksize 10 --plot
 or for testing:
     python morph.py `
-        --folder1 ../../db/fit_db_classes/arch/a `
-        --folder2 ../../db/fit_db_classes/arch/b `
-        --folder3 ../../db/fit_db_classes/arch/res_center `
+        --folder1 ../../db/fit_db_classes/whorl/a `
+        --folder2 ../../db/fit_db_classes/whorl/b `
+        --folder3 ../../db/fit_db_classes/whorl/res_mask `
         --blocksize 10 --suf bmp --center --mask
 """
 def parse_args():

@@ -2,6 +2,27 @@
 \makeatother
 \begin{thebibliography}{10}
 
+\bibitem{Neurotechonline}
+{\em Fingerprint, face, eye iris, voice and palm print identification, speaker
+  and object recognition software} [\url{https://www.neurotechnology.com/}].
+\newblock {\small (Accessed on 07/25/2021)}.
+
+\bibitem{FVC2002S73:online}
+{\em FVC2002 - Second International Fingerprint Verification Competition}
+  [\url{http://bias.csr.unibo.it/fvc2002/}].
+\newblock {\small (Accessed on 07/17/2021)}.
+
+\bibitem{GitHubme63:online}
+{\em GitHub - mehmetaydar/fingerprint-alignment: Fingerprint enhancement,
+  minutiaes extraction, core point detection, alignment of minutiaes based on
+  core point.} [\url{https://github.com/mehmetaydar/fingerprint-alignment}].
+\newblock {\small (Accessed on 07/25/2021)}.
+
+\bibitem{innovatricsonline}
+{\em Innovatrics | Biometric Solutions | Trusted by Governments and Enterprise}
+  [\url{https://www.innovatrics.com/}].
+\newblock {\small (Accessed on 07/25/2021)}.
+
 \bibitem{Morpholo62:online}
 {\em Morphology - Thinning}
   [\url{https://homepages.inf.ed.ac.uk/rbf/HIPR2/thin.htm}].
@@ -23,6 +44,16 @@
 \newblock {\em Birth defects original article series}.
 \newblock 1991, vol.~27, no.~2, p.~95--112.
 
+\bibitem{frr_described}
+{\sc\bgroup}Bolle{\egroup}, R., {\sc\bgroup}Pankanti{\egroup}, S.
+  and~{\sc\bgroup}Ratha{\egroup}, N.
+\newblock Evaluation techniques for biometrics-based authentication systems
+  (FRR).
+\newblock In:~{\em Proceedings 15th International Conference on Pattern
+  Recognition. ICPR-2000}.
+\newblock 2000, vol. 2, p.~831--837 vol.2.
+\newblock DOI: 10.1109/ICPR.2000.906204.
+
 \bibitem{syntetic_gen_paper}
 {\sc\bgroup}{Cappelli}{\egroup}, R., {\sc\bgroup}{Maio}{\egroup}, D.,
   {\sc\bgroup}{Lumini}{\egroup}, A. and~{\sc\bgroup}{Maltoni}{\egroup}, D.
@@ -31,6 +62,16 @@
 \newblock 2007, vol.~29, no.~9, p.~1489--1503.
 \newblock DOI: 10.1109/TPAMI.2007.1087.
 
+\bibitem{binarization}
+{\sc\bgroup}Carneiro{\egroup}, R. F.~L., {\sc\bgroup}Bessa{\egroup}, J.~A.,
+  {\sc\bgroup}De Moraes{\egroup}, J.~L., {\sc\bgroup}Neto{\egroup}, E.~C.
+  and~{\sc\bgroup}De Alexandria{\egroup}, A.~R.
+\newblock Techniques of binarization, thinning and feature extraction applied
+  to a fingerprint system.
+\newblock {\em International Journal of Computer Applications}.
+\newblock Foundation of Computer Science.
+\newblock 2014, vol.~103, no.~10, p.~4.
+
 \bibitem{imageProcessing}
 {\sc\bgroup}{da Silva}{\egroup}, E.~A. and~{\sc\bgroup}Mendonça{\egroup},
   G.~V.
@@ -38,10 +79,17 @@
 \newblock In: {\sc\bgroup}CHEN{\egroup}, W.-K.,  ed.~{\em The Electrical
   Engineering Handbook}.
 \newblock Burlington: Academic Press, 2005, p.~891--910.
-\newblock DOI: https://doi.org/10.1016/B978-012170960-0/50064-5.
 \newblock ISBN 978-0-12-170960-0.
-\newblock Available at:
-  ~{\small\url{https://www.sciencedirect.com/science/article/pii/B9780121709600500645}}.
+
+\bibitem{daluz2018fundamentals}
+{\sc\bgroup}Daluz{\egroup}, H.~M.
+\newblock {\em Fundamentals of fingerprint analysis}.
+\newblock CRC Press, 2018.
+
+\bibitem{morph_new}
+{\sc\bgroup}Dougherty{\egroup}, E.
+\newblock {\em Mathematical morphology in image processing}.
+\newblock CRC press, 2018.
 
 \bibitem{01BioPrednaska}
 {\sc\bgroup}Drahanský{\egroup}, M. and~{\sc\bgroup}Kanich{\egroup}, O.
@@ -65,21 +113,27 @@
 \newblock In: Wiley Online Library.~{\em Computer Graphics Forum}.
 \newblock 2020, vol. 39, no. 6, p.~303--313.
 
-\bibitem{dil1}
-{\sc\bgroup}{Haralick}{\egroup}, R.~M., {\sc\bgroup}{Sternberg}{\egroup}, S.~R.
-  and~{\sc\bgroup}{Zhuang}{\egroup}, X.
+\bibitem{hack_3}
+{\sc\bgroup}Ghouzali{\egroup}, S., {\sc\bgroup}Lafkih{\egroup}, M.,
+  {\sc\bgroup}Abdul{\egroup}, W., {\sc\bgroup}Mikram{\egroup}, M.,
+  {\sc\bgroup}Haziti{\egroup}, M. et~al.
+\newblock Trace Attack against Biometric Mobile Applications.
+\newblock {\em Mobile Information Systems}.
+\newblock january 2016, vol.~2016, p.~1--15.
+\newblock DOI: 10.1155/2016/2065948.
+
+\bibitem{goutsias2000mathematical}
+{\sc\bgroup}Goutsias{\egroup}, J. and~{\sc\bgroup}Heijmans{\egroup}, H.~J.
+\newblock {\em Mathematical morphology}.
+\newblock IOS press, 2000.
+
+\bibitem{morphilogy2}
+{\sc\bgroup}Haralick{\egroup}, R.~M., {\sc\bgroup}Sternberg{\egroup}, S.~R.
+  and~{\sc\bgroup}Zhuang{\egroup}, X.
 \newblock Image Analysis Using Mathematical Morphology.
 \newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence}.
 \newblock 1987, PAMI-9, no.~4, p.~532--550.
 \newblock DOI: 10.1109/TPAMI.1987.4767941.
-
-\bibitem{haralick1987image}
-{\sc\bgroup}Haralick{\egroup}, R.~M., {\sc\bgroup}Sternberg{\egroup}, S.~R.
-  and~{\sc\bgroup}Zhuang{\egroup}, X.
-\newblock Image analysis using mathematical morphology.
-\newblock {\em IEEE transactions on pattern analysis and machine intelligence}.
-\newblock IEEE.
-\newblock 1987, no.~4, p.~532--550.
 
 \bibitem{heijmans1990algebraic}
 {\sc\bgroup}Heijmans{\egroup}, H.~J. and~{\sc\bgroup}Ronse{\egroup}, C.
@@ -93,6 +147,24 @@
 {\sc\bgroup}Henry{\egroup}, E.
 \newblock Classification and Uses of Finger Prints, London: Routledge.
 \newblock 1900.
+
+\bibitem{holder2011fingerprint}
+{\sc\bgroup}Holder{\egroup}, E.~H., {\sc\bgroup}Robinson{\egroup}, L.~O.
+  and~{\sc\bgroup}Laub{\egroup}, J.~H.
+\newblock {\em The fingerprint sourcebook}.
+\newblock US Department. of Justice, Office of Justice Programs, National
+  Institute of~…, 2011.
+
+\bibitem{hong1999classification}
+{\sc\bgroup}Hong{\egroup}, L. and~{\sc\bgroup}Jain{\egroup}, A.
+\newblock Classification of fingerprint images.
+\newblock 1999, vol.~2, p.~665--672.
+
+\bibitem{hong2004fingerprint}
+{\sc\bgroup}Hong{\egroup}, L. and~{\sc\bgroup}Jain{\egroup}, A.
+\newblock Fingerprint enhancement.
+\newblock Springer.
+\newblock 2004, p.~127--143.
 
 \bibitem{hong1998fingerprint}
 {\sc\bgroup}Hong{\egroup}, L., {\sc\bgroup}Wan{\egroup}, Y.
@@ -140,6 +212,13 @@
 \newblock IEEE.
 \newblock 1990, vol.~12, no.~6, p.~541--551.
 
+\bibitem{improvement}
+{\sc\bgroup}Jiang{\egroup}, X. and~{\sc\bgroup}Ser{\egroup}, W.
+\newblock Online fingerprint template improvement.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence}.
+\newblock 2002, vol.~24, no.~8, p.~1121--1126.
+\newblock DOI: 10.1109/TPAMI.2002.1023807.
+
 \bibitem{thinning}
 {\sc\bgroup}Kasaei{\egroup}, S., {\sc\bgroup}Deriche{\egroup}, M.
   and~{\sc\bgroup}Boashash{\egroup}, B.
@@ -149,6 +228,15 @@
 \newblock January 1998, p.~303 -- 306 vol.1.
 \newblock DOI: 10.1109/TENCON.1997.647317.
 \newblock ISBN 0-7803-4365-4.
+
+\bibitem{fnmr_1}
+{\sc\bgroup}Khandelwal{\egroup}, C., {\sc\bgroup}Maheshwari{\egroup}, R.
+  and~{\sc\bgroup}Shinde{\egroup}, U.
+\newblock Review Paper on Applications of Principal Component Analysis in
+  Multimodal Biometrics System.
+\newblock {\em Procedia Computer Science}.
+\newblock december 2016, vol.~92, p.~481--486.
+\newblock DOI: 10.1016/j.procs.2016.07.371.
 
 \bibitem{morphing2}
 {\sc\bgroup}Liao{\egroup}, J., {\sc\bgroup}Lima{\egroup}, R.~S.,
@@ -161,7 +249,6 @@
 \newblock september 2014, vol.~33, no.~5.
 \newblock DOI: 10.1145/2629494.
 \newblock ISSN 0730-0301.
-\newblock Available at: ~{\small\url{https://doi.org/10.1145/2629494}}.
 
 \bibitem{ori}
 {\sc\bgroup}{Lin Hong}{\egroup}, {\sc\bgroup}{Yifei Wan}{\egroup}
@@ -170,11 +257,42 @@
 \newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence}.
 \newblock 1998, vol.~20, no.~8, p.~777--789.
 
+\bibitem{ultrasonic}
+{\sc\bgroup}Lu{\egroup}, Y.
+\newblock {\em Piezoelectric Micromachined Ultrasonic Transducers for
+  Fingerprint Sensing}.
+\newblock Dissertation.
+
 \bibitem{maltoni2009handbook}
 {\sc\bgroup}Maltoni{\egroup}, D., {\sc\bgroup}Maio{\egroup}, D.,
   {\sc\bgroup}Jain{\egroup}, A.~K. and~{\sc\bgroup}Prabhakar{\egroup}, S.
 \newblock {\em Handbook of fingerprint recognition}.
 \newblock Springer Science \& Business Media, 2009.
+
+\bibitem{optical}
+{\sc\bgroup}Memon{\egroup}, S., {\sc\bgroup}Sepasian{\egroup}, M.
+  and~{\sc\bgroup}Balachandran{\egroup}, W.
+\newblock Review of finger print sensing technologies.
+\newblock In:.
+\newblock January 2009, p.~226 -- 231.
+\newblock DOI: 10.1109/INMIC.2008.4777740.
+
+\bibitem{msiza2011introduction}
+{\sc\bgroup}Msiza{\egroup}, I.~S., {\sc\bgroup}Mistry{\egroup}, J.,
+  {\sc\bgroup}Leke Betechuoh{\egroup}, B., {\sc\bgroup}Nelwamondo{\egroup},
+  F.~V. and~{\sc\bgroup}Marwala{\egroup}, T.
+\newblock On the introduction of secondary fingerprint classification.
+\newblock {\em State of the art in Biometrics}.
+\newblock BoD--Books on Demand.
+\newblock 2011, p.~105.
+
+\bibitem{hack_2}
+{\sc\bgroup}Mura{\egroup}, V., {\sc\bgroup}Orrù{\egroup}, G.,
+  {\sc\bgroup}Casula{\egroup}, R., {\sc\bgroup}Sibiriu{\egroup}, A.,
+  {\sc\bgroup}Loi{\egroup}, G. et~al.
+\newblock LivDet 2017 Fingerprint Liveness Detection Competition 2017.
+\newblock 2018, p.~297--302.
+\newblock DOI: 10.1109/ICB2018.2018.00052.
 
 \bibitem{mwema2015simple}
 {\sc\bgroup}Mwema{\egroup}, J., {\sc\bgroup}Kimwele{\egroup}, M.
@@ -190,6 +308,41 @@
   VeriSpeak 3.0 SDK}.
 \newblock 3/18/2016.
 
+\bibitem{veri12}
+{\sc\bgroup}Neurotechnology{\egroup}.
+\newblock {\em MegaMatcher 12.1, VeriFinger 12.1, VeriLook 12.1, VeriEye 12.1
+  and VeriSpeak 12.1 SDK}.
+\newblock 4/15/2021.
+
+\bibitem{thresholding_1}
+{\sc\bgroup}O’Gorman{\egroup}, L.
+\newblock Binarization and Multithresholding of Document Images Using
+  Connectivity.
+\newblock {\em CVGIP: Graphical Models and Image Processing}.
+\newblock 1994, vol.~56, no.~6, p.~494--506.
+\newblock ISSN 1049-9652.
+
+\bibitem{patriciu2014fingerprint}
+{\sc\bgroup}Patriciu{\egroup}, V.-V. and~{\sc\bgroup}Spinu{\egroup}, S.
+\newblock Fingerprint Ridge Frequency Estimation in the Fourier Domain.
+\newblock {\em Advances in Electrical and Computer Engineering}.
+\newblock Stefan cel Mare University of Suceava.
+\newblock 2014, vol.~14, no.~4, p.~95--98.
+
+\bibitem{thresholding_2}
+{\sc\bgroup}Roy{\egroup}, P., {\sc\bgroup}Dutta{\egroup}, S.,
+  {\sc\bgroup}Dey{\egroup}, N., {\sc\bgroup}Dey{\egroup}, G.,
+  {\sc\bgroup}Chakraborty{\egroup}, S. et~al.
+\newblock Adaptive thresholding: A comparative study.
+\newblock 2014, p.~1182--1186.
+\newblock DOI: 10.1109/ICCICCT.2014.6993140.
+
+\bibitem{schuckers2010computational}
+{\sc\bgroup}Schuckers{\egroup}, M.~E.
+\newblock {\em Computational methods in biometric authentication: statistical
+  methods for performance evaluation}.
+\newblock Springer Science \& Business Media, 2010.
+
 \bibitem{serra1988mathematical}
 {\sc\bgroup}Serra{\egroup}, J.
 \newblock Mathematical morphology for complete lattices.
@@ -203,16 +356,29 @@
 \newblock USA: Academic Press, Inc., 1983.
 \newblock ISBN 0126372403.
 
-\bibitem{serra1983image}
-{\sc\bgroup}Serra{\egroup}, J.
-\newblock {\em Image analysis and mathematical morphology}.
-\newblock Academic Press, Inc., 1983.
-
 \bibitem{shih2009image}
 {\sc\bgroup}Shih{\egroup}, F.~Y.
 \newblock {\em Image processing and mathematical morphology: fundamentals and
   applications}.
 \newblock CRC press, 2009.
+
+\bibitem{far_described}
+{\sc\bgroup}Sivaram{\egroup}, M., {\sc\bgroup}Ahamed A{\egroup}, M.~U.,
+  {\sc\bgroup}Yuvaraj{\egroup}, D., {\sc\bgroup}Megala{\egroup}, G.,
+  {\sc\bgroup}Porkodi{\egroup}, V. et~al.
+\newblock Biometric Security and Performance Metrics: FAR, FER, CER, FRR.
+\newblock In:~{\em 2019 International Conference on Computational Intelligence
+  and Knowledge Economy (ICCIKE)}.
+\newblock 2019, p.~770--772.
+\newblock DOI: 10.1109/ICCIKE47802.2019.9004275.
+
+\bibitem{capacitive}
+{\sc\bgroup}Song{\egroup}, K.-H., {\sc\bgroup}Choi{\egroup}, J.
+  and~{\sc\bgroup}Chun{\egroup}, J.-H.
+\newblock A Method for Enhancing the Sensing Distance of a Fingerprint Sensor.
+\newblock {\em Sensors}.
+\newblock october 2017, vol.~17, p.~2280.
+\newblock DOI: 10.3390/s17102280.
 
 \bibitem{histogram}
 {\sc\bgroup}Toet{\egroup}, A. and~{\sc\bgroup}Wu{\egroup}, T.
@@ -222,11 +388,32 @@
 \newblock december 2014, vol.~23, p.~063017.
 \newblock DOI: 10.1117/1.JEI.23.6.063017.
 
+\bibitem{wayman2005biometric}
+{\sc\bgroup}Wayman{\egroup}, J.~L., {\sc\bgroup}Jain{\egroup}, A.~K.,
+  {\sc\bgroup}Maltoni{\egroup}, D. and~{\sc\bgroup}Maio{\egroup}, D.
+\newblock {\em Biometric systems: Technology, design and performance
+  evaluation}.
+\newblock Springer Science \& Business Media, 2005.
+
+\bibitem{orientation_field_2}
+{\sc\bgroup}Wieclaw{\egroup}, L.
+\newblock A minutiae-based matching algorithms in fingerprint recognition
+  systems.
+\newblock july 2021.
+
 \bibitem{morphing1}
 {\sc\bgroup}Wolberg{\egroup}, G.
 \newblock Image morphing: a survey.
 \newblock {\em The visual computer}.
 \newblock Springer-Verlag.
 \newblock 1998, vol.~14, no.~8, p.~360--372.
+
+\bibitem{naser}
+{\sc\bgroup}Zaeri{\egroup}, N.
+\newblock Minutiae-based Fingerprint Extraction and Recognition.
+\newblock In:.
+\newblock June 2011.
+\newblock DOI: 10.5772/17527.
+\newblock ISBN 978-953-307-618-8.
 
 \end{thebibliography}

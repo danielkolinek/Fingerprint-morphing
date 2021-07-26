@@ -44,6 +44,7 @@ class Params
 {
 	//-i1 6 -i2 7 -geni 9
 	//-f1 ../../img/01_li.bmp -f2 ../../img/01_ri.bmp -gen ../../img/unknown.bmp
+	//-f1 C:\Users\danie\Documents\VUT\Otisky\db\fit_db_classes\whorl\a\1100_2_2_P3.bmp -f2 C:\Users\danie\Documents\VUT\Otisky\db\fit_db_classes\whorl\b\1135_2_3_P1.bmp -gen C:\Users\danie\Documents\VUT\Otisky\db\fit_db_classes\whorl\res_mask\1100_2_2_P3-1135_2_3_P1.tif
 	//fingerprits can be compared like images (fingerprint1), or compare fingerprints in db (index1 ..)
 	//-folder C:\Users\danie\Documents\VUT\Otisky\db\fit_db_classes\arch -suf .bmp
 public:
@@ -256,7 +257,7 @@ int main(int argc, char** argv)
 		//paths to folders with fingerprints
 		string folder_a = params.testFolder + "\\a\\";
 		string folder_b = params.testFolder + "\\b\\";
-		string folder_res = params.testFolder + "\\res_center\\";
+		string folder_res = params.testFolder + "\\res_mask\\";
 		//morph results that will be written in csv
 		const int morph_len = 1010;
 		int morph_results[morph_len] = {};
@@ -264,7 +265,8 @@ int main(int argc, char** argv)
 		int info_iterator = 0;
 		string info_string = "Fingerprint no. ";
 		cout << info_string + to_string(info_iterator);
-
+		string max_image = "";
+		int max_score = 0;
 		//Go through folder and compare input images with morphed
 		for (recursive_directory_iterator next(folder_res), end; next != end; ++next) {
 			string filename_res = next->path().filename().string();
@@ -287,6 +289,11 @@ int main(int argc, char** argv)
 				int score2 = matchFingerprints(userID, filepath.c_str(), params);
 				int score = score1 > score2 ? score2 : score1;
 
+				if (score > max_score) {
+					max_image = filename_res;
+				}
+
+
 				morph_results[score] += 1;
 				//print how much done (only for info)
 				cout << string((info_string + to_string(info_iterator)).length(), '\b');
@@ -300,6 +307,7 @@ int main(int argc, char** argv)
 		for (int i = 0; i < morph_len; i++) {
 			fout << i << "," << morph_results[i] << "\n";
 		}
+		//cout << max_image << endl;
 		//end comparing
 		return 0;
 	}

@@ -1,35 +1,35 @@
 \chapter{Introduction}
-Technology is evolving faster every year which also applies to biometric systems. Fingerprint-based biometric systems are faster than ever gaining acceptance to be used as one of the most effective technology for authentication. Nowadays we use fingerprint-based biometric features not only to unlock our smartphones but even to log into our bank accounts or as a proof of identity on borders in some countries. But as always in technology, when something moves forward the attackers do as well. And in the case of bank accounts or proof of identity, nobody wants to be cracked.
+Technology is evolving faster every year which also applies to biometric systems. Fingerprint-based biometric systems are gaining acceptance faster than ever as one of the most effective technology for authentication. Nowadays we use fingerprint-based biometric features not only to unlock our smartphones but even to log into our bank accounts or as a proof of identity on borders in some countries. But as always in technology, when something moves forward the attackers do as well. In the case of bank accounts or proof of identity, nobody wants to be cracked.
 
-There is put much of afford and work into making sensors and the whole process more robust. In the case of sensors liveness detection can be used as an example, but this feature as many others can not be used in every situation mostly because of its size as an example can be used in smartphones. And the second part that is instantly improving is the algorithm itself. For improving the algorithm there is a lot of testing needed, which brings one big problem and it is a big database of fingerprints. Database means not only a lot of fingerprints from one finger under different angles but also a lot of fingerprints from different people. Therefore there are a lot of algorithms for generating fingerprints used just to make larger databases more than for attack systems.
+There is a lot of effort and work put into making sensors and the whole process more robust. In the case of sensors liveness detection can be used as an example but this feature, as many others, can not be used in every situation mostly because of its size. As an example, it can be used in smartphones. And the second part, that is instantly improving, is the algorithm itself. For improving the algorithm there is a lot of testing needed, which comes with the need for a big database of fingerprints. The database should not only have a lot of fingerprints from one finger under different angles but also a lot of fingerprints from different people. Therefore there are a lot of algorithms for generating fingerprints used just to make larger databases rather than for attack systems.
 
-This work is mainly focused on known fingerprint generation by morphing. This field of generation was not researched much yet, where basically only one paper from the year 2017 was made public and it includes a lot of uncertainties. This work is trying to describe these uncertainties and find improvements in the process of already described morphing and also test the solution against the used biometric systems.
+This work is mainly focused on known fingerprint generation by morphing. This field of fingerprint generation was not much researched yet. Where basically only one paper was made public in 2017 and it includes a lot of uncertainties. This work is trying to describe these uncertainties and to find improvements in the already described process of morphing and lastly to test the solution against the used biometric systems for fingerprint matching made by two prominent companies in biometrics.
 
-Chapter two describes the theory that is needed to be known before getting familiar with the algorithm itself and trying to get its principle. Not only theory needed for implementation is included in this chapter, but also the basics about fingerprints and capturing fingerprints with sensors. The third chapter describes the proposal of all stages of an improved algorithm from the paper mentioned before. The fourth chapter describes an implementation of morphing application and also the second part of this work which is an implementation of fingerprint matching scripts with the use of tools from companies Innovatrics and Neurotec. Where in the fifth chapter are the results of these two scripts compared against implemented algorithm with the use of a database borrowed from the FIT by a supervisor of this work. 
+Chapter two describes the theory needed before getting familiar with the algorithm itself and understanding its principles. Included in this Chapter is not only the theory needed for the implementation but also the basics about fingerprints and capturing fingerprints with sensors. The third Chapter describes the proposal of all stages of an improved algorithm based on the paper mentioned before. The fourth Chapter describes the implementation of a morphing application and also the second part of this work which is the implementation of fingerprint matching scripts with the use of tools from companies Innovatrics and Neurotechnology. Lastly in the fifth Chapter, there are the results of these two scripts compared against implemented algorithm with the use of a database provided by the Faculty of Information Technology at the Brno University of Technology.
 
 \chapter{Biometrics} \label{theory}
-There is described all the theory needed to understand the solution of this thesis in this chapter. This thesis deals with fingerprint generation as it is obvious from the name but the thesis includes the comparison of results against real working solutions as well. The comparison includes an understanding of fingerprint recognition techniques. Both problems fall into the field of biometrics. 
+This Chapter describes all the theory needed to understand the solution of this thesis, which is the application for morphing fingerprints and applications for matching fingerprints. This thesis deals with fingerprint generation but also includes the comparison of results against real working solutions. The comparison includes an understanding of fingerprint recognition techniques. Both problems fall into the field of biometrics.
 
-\section{Introduction to biometrics}
-It is necessary to explain from the beginning, what to imagine under the word biometrics in the field of information technology. The term biometrics in our context means the automatic recognition of a person on the basis of their characteristic physiological and behavioral properties. Three basic methods are defined for recognizing people: a) what a person knows b) what a person has c) what a person is (biometrics, for example, just a fingerprint). While recognition methods based on knowledge (eg password) or ownership (eg key) can be forgotten/lost, guessed/stolen, or shared in some way. \cite{jain2011introduction} Since we still have the biometric properties of our body with us, they are mostly not possible to lose and not to be forgotten at all. However, this is also the biggest weakness of biometric systems, which basically means once some biometric feature is discovered, we no longer have the opportunity to change it.\cite{maltoni2009handbook}
+\section{Introduction to Biometrics}
+It is necessary to explain from the beginning, what do we imagine under the word biometrics in the field of information technology. The term biometrics in our context means the automatic recognition of a person on the basis of their characteristic physiological and behavioral properties. Three basic methods are defined for recognizing people: a) what a person knows, b) what a person has, c) what a person is (in biometrics, for example, just a fingerprint). While recognition methods based on the knowledge (eg. password) or on the ownership (eg key) can be forgotten or lost, guessed or stolen, shared in some way. \cite{jain2011introduction} Since we still have the biometric properties of our body with us, they are mostly not possible to lose and can't be forgotten at all. However, this is also the biggest weakness of biometric systems, which basically means once some biometric feature is discovered, we no longer have the opportunity to change it. \cite{maltoni2009handbook}
 
-There are many important terms in the field of biometrics. Interclass and intraclass variability are among them. Interclass variability says how big is the difference between individual classes (in our case the class is people and we want this feature to be as different as it can be). On the opposite hand, there is the intraclass variability, which sets the differences between the same class (in our the same person). There are seven basic features for comparison of biometrics characteristics\cite{maltoni2009handbook}:
+There are many important terms in the field of biometrics. Interclass and intraclass variability are among them. Interclass variability says how big is the difference between individual classes (in our case the classes are people and we want this feature to be as different as it can be). On the other hand, there is the intraclass variability, which sets the differences between the same class (in our case, it is the same person). There are seven basic features for comparison of biometric characteristics: \cite{maltoni2009handbook}
 
 \begin{itemize}
     \setlength\itemsep{0.2em}
-    \item Universality = Each person should have this feature
-    \item Uniqueness = The feature should differ for each person
-    \item Permanence = The feature should stay the same over the time 
-    \item Measurability = Biometrics is easily acquired
-    \item Performance = Recognition accuracy, speed, resource requirements, etc.
-    \item Acceptability = Willingness to capture the feature 
-    \item Circumvention = Difficulty to create working fake feature \cite{maltoni2009handbook} \cite{jain2007handbook} \cite{01BioPrednaska}
+    \item Universality = Each person should have this feature,
+    \item Uniqueness = The feature should differ for each person,
+    \item Permanence = The feature should stay the same over the time,
+    \item Measurability = Biometrics is easily acquired,
+    \item Performance = Recognition accuracy, speed, resource requirements, etc.,
+    \item Acceptability = Willingness to capture the feature,
+    \item Circumvention = Difficulty to create working fake feature. \cite{maltoni2009handbook} \cite{jain2007handbook} \cite{01BioPrednaska}
 \end{itemize}
 
-There is no expectation at all that any biometrics will be perfect in all these characteristics. This means that no biometrics is ideal, but most of them are acceptable. When choosing which biometrics to use, the decision needs to be made based on the requirements of an application and the features of that biometrics.
+There is no expectation at all that one particular biometrics will be perfect in all these characteristics. This means that no biometrics is ideal but most of them are acceptable. When choosing which biometrics to use the decision needs to be made based on the requirements of an application and the features of that biometrics.
 
 \section{Fingerprint}
-The fingerprint is made by the representation of the epidermis, where the pattern is made by interleaving ridges and valleys. The epidermis itself is in the highest level creating skin together with dermis (called real skin) and subcutaneous (fat) layer  \cite{jain2007handbook}(viz. figure \ref{fig:skin}).
+The fingerprint is made by the representation of the epidermis, where the pattern is made by interleaving ridges and valleys. The epidermis itself is in the highest level creating skin together with the dermis, called real skin, and subcutaneous (fat) layer make up skin (see in Figure \ref{fig:skin}). \cite{jain2007handbook} \cite{holder2011fingerprint}
 
 \begin{figure}[H]
     \centering
@@ -38,9 +38,9 @@ The fingerprint is made by the representation of the epidermis, where the patter
         \label{fig:skin}
 \end{figure}
 
-A combination of genetic and environmental factors is creating the pattern of the ridges in the process of growing capillaries and blood vessels in angiogenesis. Basically, the forming of skin is made by genetic code but the specific way that skin will look like is the result of random acts on the child in his mother’s womb. This is the reason why there is no identical biometrics even in the case of identical twins. The final look of the fingerprint is made approximately in the first seven months of fetal development and then it is the final form. It means that the configuration of papillary lines is not changing throughout a life of a person except for some injuries. And this makes our fingerprints a very attractive biometrics feature for identification. \cite{maltoni2009handbook} \cite{babler1991embryologic}
+A combination of genetic and environmental factors create the pattern of the ridges in the process of growing capillaries and blood vessels in angiogenesis. Basically, the forming of skin is made by genetic code but the specific way that skin will look like is the result of random acts of mother’s womb during infancy. This is the reason why there is no identical biometrics even in the case of identical twins. The final look of the fingerprint is made approximately in the first seven months of fetal development and then it is the final form. That means that the configuration of papillary lines stays the same throughout a life of a person except for some injuries. And this makes our fingerprints a very attractive biometrics feature for identification. \cite{maltoni2009handbook} \cite{holder2011fingerprint} \cite{babler1991embryologic}
 
-Typically the fingerprints are taken in the form that the ridges are dark lines and on the other hand the valleys are light (figure 2.3). Ridges are usually from 100 µm to 300 µm wide and the valleys are around 500 µm wide. The injuries are usually only small scratches or so, and these small injuries usually do not go to the underlying structure of the ridge so the pattern stays unchanged after regeneration. \cite{maltoni2009handbook}
+Typically the fingerprints are taken in the form that the ridges are dark lines in contrast with the valleys which are light (Figure 2.3). Ridges are usually from 100 µm to 300 µm wide and the valleys are around 500 µm wide. Injuries are usually only small scratches or so, and these small injuries usually do not go to the underlying structure of the ridge so the pattern stays unchanged after regeneration. \cite{maltoni2009handbook} \cite{holder2011fingerprint}
 
 \begin{figure}[H]
     \centering
@@ -49,41 +49,41 @@ Typically the fingerprints are taken in the form that the ridges are dark lines 
         \label{fig:fingerprint_1}
 \end{figure}
 
-\subsection{Improvements of fingerprint image and binarization}
-The quality of input images plays a big role in algorithms that implements minutiae extraction and fingerprint recognition. Actually, in real applications even bad conditions like too wet/dry skin, small injuries, bruises, bad pressure on the fingerprint sensor or bad fingerprints (older people or hand working people) is a high chance (around 10$\%$) that the fingerprint is no acceptable.\cite{jain2007handbook}
+\subsection{Improvements of Fingerprint Image and Binarization}
+The quality of input images plays a big role in algorithms that implements minutiae extraction and fingerprint recognition. Actually, in real applications even bad conditions like too wet/dry skin, small injuries, bruises, not enough pressure on the fingerprint sensor or bad fingerprints (older people or hand working people) result in a high probability (around 10\,$\%$) that the fingerprint is not acceptable. \cite{improvement}
 
-Therefore is the algorithm for improving fingerprints images. It improves brightness, the clarity of ridges in places where it is still possible, and marking places where it is not possible as too noisy for next processing. The most common way how to do the improvement is based on context filters. Characteristics of the filter are changing based on the local neighborhood in the context filtering. The change is mostly based on local ridge orientation and local ridge frequency. The unwanted noise and preservation of the true structure of the ridge and valley can be achieved by choosing the right filter.\cite{jain2007handbook} 
+Therefore the algorithm for improving fingerprints images is used. It improves brightness, the clarity of ridges in places where it is still possible and it marks places where it is not possible as too noisy for next processing. The most common way how to do the improvement is based on context filters. Characteristics of the filter are change based on the local neighborhood in the context filtering. The change is mostly based on local ridge orientation and local ridge frequency. The unwanted noise and preservation of the true structure of the ridge and valley can be achieved by choosing the right filter. \cite{jain2007handbook} \cite{binarization}
 
 \begin{figure}[H]
     \centering
         {\includegraphics[width=0.6\linewidth]{obrazky-figures/enhancement.png}}\\
-        \caption{There can be seen result after binarisation in the right picture as a result coming from left picture. \cite{maltoni2009handbook}}
+        \caption{The result after image binarization is shown on the right. \cite{maltoni2009handbook}}
 \end{figure}
 
-\subsection{Fingerprint analysis}
-Ridges contain a lot of information and there are three basic levels that describe the amount of extracted information. The first level extracts only the global pattern of ridge flow. The second contains information about minutiae and the third is the most complex and includes information about pores, the local shape of ridge edge, and even more. \cite{jain2007handbook} \cite{maltoni2009handbook}
+\subsection{Fingerprint Analysis}
+Ridges contain a lot of information and there are three basic levels that describe the amount of extracted information. The first level extracts only the global pattern of ridge flow. The second contains information about minutiae and the third is the most complex and includes information about pores, the local shape of ridge edge, and even more. \cite{daluz2018fundamentals} \cite{maltoni2009handbook}
 
-When we look at ridges globally (1st level), they usually run smoothly and parallel but there can be found at least one area, where some changes can be found like high curvature of ridges or frequent ridge endings. We call these areas singularities or singular areas and they can be divided into three topologies which are \emph{whorl}, \emph{delta}, \emph{loop}. Areas that contain these three topologies are usually marked with these shapes:  $\cap$, $\Delta$ a O. \cite{jain2007handbook} \cite{maltoni2009handbook}
+When we look at ridges globally (on the 1st level), they usually run smoothly and parallel but there can be found at least one area where some changes can be found like high curvature of ridges or frequent ridge endings. We call these areas singularities or singular areas and they can be divided into three topologies which are \emph{whorl}, \emph{delta}, \emph{loop}. Areas that contain these three topologies are usually marked with these shapes:  $\cap$, $\Delta$ and O. \cite{msiza2011introduction} \cite{maltoni2009handbook}
 
-The alignment of fingerprints can be done in some applications by aligning two fingerprints \emph{core} on the core. The core of fingerprint was defined by Edward Henry as "The northernmost point of the innermost ridgeline". In the end, everything depends on what is used in the applications and it is the point of the center of the singularity of the northernmost loop type. (eg Those that belong to the arch class in the figure \ref{fig:classes}). Sometimes it is hard to detect core because some fingerprints simply do not contain whorl or arch, like those which fit into the class of the arch \ref{fig:classes}. In these cases, the core is identified as a point with maximal curvature of the ridge. Because of the high variability of fingerprints, it is hard to identify the core in all the images of fingerprints. Singular points that are used for classification can be seen in figure \ref{fig:classes} and it is used in the way to fasten the classification by working only over fingers with the same class. \cite{maltoni2009handbook}
+The alignment of fingerprints can be done in some applications by aligning two fingerprints \emph{core} on the core. The core of fingerprint was defined by Edward Henry as "The northernmost point of the innermost ridgeline". In the end, everything depends on what is used in the applications and it is the point of the center of the singularity of the northernmost loop type (e.g. those that belong to the arch class in the Figure \ref{fig:classes}). Sometimes it is hard to detect core because some fingerprints simply do not contain whorl or arch, like those which fit into the class of the arch \ref{fig:classes}. In these cases, the core is identified as a point with maximal curvature of the ridge. Because of the high variability of fingerprints, it is hard to identify the core in all the images of fingerprints. Singular points that are used for classification can be seen in the Figure \ref{fig:classes} and it is used in the way to accelerate the classification by working only over fingers with the same class. \cite{daluz2018fundamentals}
 
 \begin{figure}[H]
     \centering
         {\includegraphics[width=0.7\linewidth]{obrazky-figures/závitnice.png}}\\
-        \caption{Singularities of fingerprint\cite{maltoni2009handbook}}
+        \caption{Singularities of a fingerprint \cite{maltoni2009handbook}}
         \label{fig:singularities}
 \end{figure}
 
 \begin{figure}[H]
     \centering
         {\includegraphics[width=1\linewidth]{obrazky-figures/classes.png}}\\
-        \caption{Each fingerprint is representative for each of one of five classes \cite{maltoni2009handbook}\cite{henry1900classification}}
+        \caption{Each fingerprint is representative of each of the five classes \cite{maltoni2009handbook} \cite{henry1900classification}.}
         \label{fig:classes}
 \end{figure}
 
-Important points called minutiae can be found in the pattern on a local level (2nd level). Most of the known and used methods for minutia extraction works with binarized images for which the image needs to be transferred to a grayscale image. After the binarization process called thinning is applied which result are ridges of width only 1px. At the end of scanning of the image those pixels which are known as minutiae can be detected. There are many minutiae (some of them can be seen on picture \ref{fig:minutiae}), but most implementations are using just two which are: 1) ridge ending (termination) or ridge division (bifurcation). Most applications use just these two because of the higher accuracy. \cite{jain2007handbook} \cite{maltoni2009handbook}
+Important points, called minutiae, can be found in the pattern on a local level (on the 2nd level). Most of the known and used methods for minutia extraction work with binarized images for which the image needs to be converted to a grayscale image. After the binarization, the process called thinning is applied which results in ridges of only 1px in width. At the end of the scanning of the image those pixels which are known as minutiae can be detected. There are many minutiae (some of them can be seen in the Figure \ref{fig:minutiae}), but most implementations use just two which are: 1) ridge ending (termination) or ridge division (bifurcation). Most applications use just these two because of their higher accuracy. \cite{jain2007handbook} \cite{naser}
 
-American National Standards Institute (ANSI) has designed a taxonomy of minutiae based on four classes: termination, bifurcation, trifurcation, and not known. But even the model of the FBI is working only with termination and bifurcation. \cite{maltoni2009handbook}
+American National Standards Institute (ANSI) has designed a taxonomy of minutiae-based on four classes: termination, bifurcation, trifurcation, and not known. But even the model used by FBI works only with termination and bifurcation. \cite{maltoni2009handbook}
 
 \begin{figure}[H]
     \centering
@@ -92,25 +92,25 @@ American National Standards Institute (ANSI) has designed a taxonomy of minutiae
         \label{fig:minutiae}
 \end{figure}
 
-As has been written before there can be taken even more information from the fingerprints for example by pores detection (3rd level). The problem of this level is that pictures of fingerprints need to be taken at very high resolution, which means basically 1000dpi or more. But better results are achieved in the result of using just detection of pores and with a combination of these two methods, significant improvements are done in terms of both. Like I wrote the problem is the high resolution of images, so although achieved improvements this method is not used very often.\cite{jain2007handbook} \cite{maltoni2009handbook}
+As it was written before there can be taken even more information from the fingerprints, for example by pores detection (on the 3rd level). The problem of this level is that pictures of fingerprints need to be taken at very high resolution, which means basically 1000 dpi or more. But better results are achieved in the result of using just detection of pores and with a combination of these two methods, significant improvements are reached in terms of both. As already stated the problem is the high resolution of images, so in spite of the achieved improvements this method is not used very often. \cite{jain2007handbook} \cite{naser}
 
-\subsection{Local ridge orientation}
+\subsection{Local Ridge Orientation}
 
-Local ridge orientation can be counted for every arbitrary neighborhood that some ridge comes through. Then local orientation of the actual ridge at pixel $[x,y]$ is the angle $\theta_{xy}$ in which ridge is coming through the arbitrary big neighborhood with a center in $[x,y]$ arbitrarily forms an angle with the horizontal axis. Because ridges are not coming in specific direction, angle $\theta_{xy}$ is assigned as unoriented direction in $\left[0 ... 180^{\circ}\right]$. Because of the complexity of the computation. Many algorithms work only on discrete positions, which brings even more computing efficiency, and orientation for other pixels is computed by interpolation.
+Local ridge orientation can be counted for every arbitrary neighborhood that some ridge comes through. Then the local orientation of the actual ridge at pixel $[x,y]$ is the angle $\theta_{xy}$ in which ridge is coming through the arbitrary big neighborhood with a center in $[x,y]$ and arbitrarily forms an angle with the horizontal axis. Because ridges are not coming in specific direction, angle $\theta_{xy}$ is assigned as unoriented direction in $\left[0 ... 180^{\circ}\right]$. Because of the complexity of the computation. Many algorithms work only on discrete positions, which brings even more computing efficiency, and orientation for other pixels is computed by interpolation. \cite{hong2004fingerprint} \cite{hong1999classification}
 
-This local ridge orientation is matrix D, which elements are coding local orientation of papillary lines from fingerprints (viz. figure \ref{fig:ori}). Each element $\theta{ij}$  which corresponds to the element $[i,j]$ in a matrix which corresponds to pixel $[x, y]$, then indicates the average orientation of the local neighborhood. Value $r_{ij}$ is often computed for every element $theta_{ij}$. This value $r_{ij}$ stands for reliability or consistency of computed orientation in each block. The high value of $r_{ij}$ means that the picture of the fingerprint is in very good resolution and no big damages are contained in the neighborhood.\cite{maltoni2009handbook}
+This local ridge orientation is matrix D whose elements are coding local orientation of papillary lines from fingerprints (see in Figure \ref{fig:ori}). Each element $\theta{ij}$  which corresponds to the element $[i,j]$ in a matrix corresponds to pixel $[x, y]$ then indicates the average orientation of the local neighborhood. Value $r_{ij}$ is often computed for every element $theta_{ij}$. This value $r_{ij}$ stands for reliability or consistency of computed orientation in each block. The high value of $r_{ij}$ means that the picture of the fingerprint is in very good resolution and no big damage is contained in the neighborhood. \cite{maltoni2009handbook}
 
 \begin{figure}[H]
     \centering
         {\includegraphics[width=0.6\linewidth]{obrazky-figures/ori.png}}\\
-        \caption{The transition of a fingerprint image to the corresponding orientation image is calculated over a 16 × 16 square block grid. Each element indicates the local orientation of the fingerprint papillary lines. \cite{maltoni2009handbook}}
+        \caption{The transition of a fingerprint image to the corresponding orientation image is calculated over a $x \times x$ square block grid. Each element indicates the local orientation of the fingerprint papillary lines. \cite{maltoni2009handbook}}
         \label{fig:ori}
 \end{figure}
 
-\subsection{Local frequency of ridges}
-Local frequency of ridges $f_{xy}$ in pixel $[x,y]$ basically means the count of ridges in some window of given width placed over hypothetic segment with the center in $[x,y]$. Two rules for the window have to be satisfied. The first is that it has to be placed perpendicular to the local orientation of the ridges $\theta{xy}$. And the second is that if the frequency is estimated over discrete positions, the orientation field has to be computed over discrete positions as well. The frequency differs in every fingerprint and can even differ in different areas of the same fingerprint.\cite{maltoni2009handbook}
+\subsection{Local Frequency of Ridges}
+Local frequency of ridges $f_{xy}$ in pixel $[x,y]$ basically means the number of ridges in some window of given width placed over the hypothetic segment with the center in $[x,y]$. Two rules for the window have to be satisfied. The first, is that it has to be placed perpendicular to the local orientation of the ridges $\theta{xy}$. And the second, is that if the frequency is estimated over discrete positions, the orientation field has to be computed over discrete positions as well. The frequency differs in every fingerprint and can even differ in different areas of the same fingerprint. \cite{maltoni2009handbook}
 
-The local ridges frequency estimation can be computed as the average count of pixels between two consecutive peaks of gray in a grayscale image in the perpendicular direction to the local orientation of papillary line (figure \ref{fig:freq}). For this purpose, the fingerprint is cut by a plane parallel to the $z$ axis and perpendicular to the local ridge orientation.\cite{hong1998fingerprint}
+The local ridges frequency estimation can be computed as the average count of pixels between two consecutive peaks of gray in a grayscale image in the perpendicular direction to the local orientation of papillary line (Figure \ref{fig:freq}). For this purpose, the fingerprint is cut by a plane parallel to the $z$ axis and perpendicular to the local ridge orientation. \cite{hong1998fingerprint}
 
 \begin{figure}[H]
     \centering
@@ -119,66 +119,66 @@ The local ridges frequency estimation can be computed as the average count of pi
         \label{fig:freq}
 \end{figure}
 
+\section{Fingerprint Sensors}
 \label{sensors}
-\section{Fingerprint sensors}
-Most AFIS (Automated Fingerprint Identification Systems) for criminal and commercial use are accepting digital images in the input as the result of live scanning acquired by capturing fingerprints by an electronic fingerprint sensor. That means no ink is used and the scanned person has to do only one thing and it is a slight push with his finger to the flat surface of the scanner used for live scanning. The sensor is the most important thing of the whole scanner because it is the part that is creating the fingerprint image. There are three basic types of sensors:\cite{jain2007handbook}   
+Most AFIS (Automated Fingerprint Identification Systems) for criminal and commercial use accept digital images on the input as the result of live scanning acquired by capturing fingerprints by an electronic fingerprint sensor. That means no ink is used and the scanned person has to do only one thing and that is a slight push with his finger to the flat surface of the scanner used for live scanning. The sensor is the most important thing of the whole scanner because it is the part that creates the fingerprint image. There are three basic types of sensors: \cite{jain2007handbook}   
 
 \begin{enumerate}
 	\item \textbf{Optical sensors:} 
-	FTIR (Frustrated Total Internal Reflection ) is the oldest and most commonly used technique to capture live scans of fingerprints. The user pushes his finger against the upper side of a scanner, which means that ridges are touching the flat glass surface and valleys are in a short distance. The left side of the prism is illuminated by diffused light. Ridges are absorbing the light coming through the prism to the finger and valleys are reflecting the light. Thanks to this feature it is easy to decide whether it is a ridge or valley. The light rays are coming from the right of the prism and are focused with the lens to CCD or CMOS sensor.\cite{jain2007handbook}     
+	FTIR (Frustrated Total Internal Reflection ) is the oldest and most commonly used technique to capture live scans of fingerprints. The user pushes his finger against the upper side of a scanner, which means that ridges are touching the flat glass surface and valleys are in a short distance. The left side of the prism is illuminated by diffused light. Ridges absorb the light coming through the prism to the finger and valleys reflect the light. Thanks to this feature it is easy to decide whether it is a ridge or valley. The light rays are coming from the right of the prism and are focused with the lens on a CCD or CMOS sensor. \cite{jain2007handbook} \cite{optical}
     
     \item \textbf{Solid-state sensors:}
-    Solid-state sensors began to be used commercially in half of the 90s of the last century. Silicon technology for fingerprint live scanning is made from a lot of small pixels and all those pixels are basically small sensors. There is no need for any optical sensor at all, a user just slightly pushes his finger against the surface of the sensor and his fingerprint is scanned. The scanner works on acquiring the physical feature and converts the feature to an electric signal. There are four most used types of silicon sensor: capacitive, piezoelectric, thermal, and electric-field.\cite{jain2007handbook}
+    Solid-state sensors have been commercially used since the first half of the 90s. Silicon technology for fingerprint live scanning is made from a lot of small pixels and all those pixels are basically small sensors. There is no need for any optical sensor at all, a user just slightly pushes his finger against the surface of the sensor and his fingerprint is scanned. The scanner works on acquiring the physical feature and converts the feature to an electric signal. There are four most used types of silicon sensors: capacitive, piezoelectric, thermal, and electric-field. \cite{jain2007handbook} \cite{capacitive}
     
     \item \textbf{Ultrasound sensors:}
-    This last type can be seen also as a type of ultrasound. The sensor operates by sensing the acoustic signal against the finger so by the echo signal the range of depth for fingerprint image can be counted. This method can be useful in places like hospitals or labs because these sensors are scanning subsoil of fingerprint, which means, it can detect the fingerprint over the fluids or even gloves.\cite{jain2007handbook}\cite{maltoni2009handbook}
+    This last type can be seen also as a type of ultrasound. The sensor operates by sensing the acoustic signal sent against the finger so by the echo signal the range of depth for fingerprint image can be counted. This method can be useful in places like hospitals or labs because these sensors are scanning subsoil of fingerprint, which means, it can detect the fingerprint over the fluids or even gloves. \cite{jain2007handbook} \cite{ultrasonic}
 \end{enumerate}
 
-\subsection{Fingerprint comparison}
-One fingerprint can be captured in many different ways, which makes reliable fingerprint comparison a very difficult problem. Movement, rotation, part overlay, nonlinear coloring, variable pressure, skin changes, noise, mistakes in feature extraction all are huge factors that are responsible for intra-class variability. This means that can happen situation where two images of two different fingerprints will have way more in common, than two images of fingerprints of the same person.\cite{jain2007handbook}\cite{maltoni2009handbook}
+\subsection{Fingerprint Comparison}
+One fingerprint can be captured in many different ways, which makes reliable fingerprint comparison is very difficult problem. Movement, rotation, part overlay, nonlinear coloring, variable pressure, skin changes, noise, mistakes in feature extraction these are all huge factors that are responsible for intra-class variability. This means that a situation can happen, where two images of two different fingerprints will have way more in common, than two images of fingerprints of the same person. \cite{frr_described} \cite{wayman2005biometric}
 
-This is the reason why professional dactyloscopy has to work with many factors before the final verdict if the two fingerprints are from the same person is decided. The factors are: 1. fingerprint has to be from the same class, 2. quantitatively the corresponding features of minutiae must be identical 3. quantitatively a certain number of minutiae must be the same for the examined fingerprints (for example in the USA the minimum is 12 same minutiae) 4. the corresponding features of the compared minutiae must be identical. Special protocols were defined for comparison and there was even created a special diagram to help with dactyloscopy to the detectives if they will ever need to compare fingerprints manually.\cite{maltoni2009handbook}  
+This is the reason why professional dactyloscopy has to work with many factors before the final verdict if it is decided that the two fingerprints are from the same person. The factors are: 1. a fingerprint has to be from the same class, 2. quantitatively the corresponding features of minutiae must be identical, 3. quantitatively a certain number of minutiae must be the same for the examined fingerprints (for example in the USA the minimum is 12 same minutiae), 4. the corresponding features of the compared minutiae must be identical. Special protocols were defined for comparison and there was even a special diagram created to help the detectives with dactyloscopy if they ever need to compare fingerprints manually. \cite{frr_described} \cite{wayman2005biometric}
 
-The same rules don’t have to be followed in the automatic (commercial) comparison of fingerprints. Actually many new methods were created in the last 50 years which are used only for automation although the basics for detecting minutia and comparison on two fingerprints are based on these rules. It is caused by the need for faster detection but many times at the price of worse results. There are three main ways how to compare fingerprints: \cite{jain2007handbook}\cite{maltoni2009handbook}
+The same rules don’t have to be followed in the automatic (commercial) comparison of fingerprints. Actually many new methods were created in the last 50 years which are used only for automation although the basics for detecting minutia and comparison of two fingerprints are based on these rules. It is caused by the need for faster detection but many times at the price of worse results. There are three main ways how to compare fingerprints: \cite{jain2007handbook} \cite{maltoni2009handbook}
 
 \begin{itemize}
 	\item \textbf{Comparison based on correlation similarity:} 
-	It is called correlation because it computes the correlation of two fingerprints that are overlaid one over the other. The correlation is computed over some rotation and movement.\cite{jain2007handbook}\cite{maltoni2009handbook}
+	It is called correlation because it computes the correlation of two fingerprints that are overlaid. The correlation is computed over some rotation and movement. \cite{jain2007handbook} \cite{maltoni2009handbook}
 	
 	\item\textbf{Comparison based on minutiae:}
-	First, all minutiae from both fingerprints are extracted and save into a two-dimensional array as a set of points. And then the matching score of the minutiae basically consists of finding an alignment between the template and the sets of input minutiae, which leads to the maximum number of pairings of minutiae.\cite{jain2007handbook}\cite{maltoni2009handbook}
+	First, all minutiae from both fingerprints are extracted and saved into a two-dimensional array as a set of points. And then the matching score of the minutiae basically consists of finding an alignment between the template and the sets of input minutiae, which leads to the maximum number of pairings of minutiae. \cite{jain2007handbook} \cite{maltoni2009handbook}
 
 	\item \textbf{Comparison based on functions working without minutiae:}
-	As mentioned before the extraction of fingerprint minutiae from images of fingerprints with bad quality or resolution is almost impossible although other features, like frequency ridges shape or some information of the structure, is still possible to extract in pretty good shape even though their matching capability is not that impressive. Algorithms that are working with this approach are using features extracted from the pattern of ridges.\cite{jain2007handbook}\cite{maltoni2009handbook}
+	As mentioned before the extraction of fingerprint minutiae from images of fingerprints with bad quality or resolution is almost impossible although other features, like frequency of ridges, shape, or some information of the structure, is still possible to extract in pretty good shape even though their matching capability is not that impressive. Algorithms that are working with this approach are using features extracted from the pattern of ridges. \cite{jain2007handbook} \cite{maltoni2009handbook}
 \end{itemize}
 
-When somebody says that the biometrics system works in identification mode, it means that the system works in comparison one to many. So that means that the system has N templates and now it wants to compare our one fingerprint with the whole database. If the comparison is made only against users that are registered in the database then this comparison is called closed identification. Closed identification always returns an array of possible candidates that is not empty. In the opposite situation, when we are talking about open identification, where may occur to the identification of a non-registered person, the system can return an empty array.\cite{maltoni2009handbook}
+When somebody says that the biometrics system works in identification mode, it means that the system works in comparison one to many. That means that the system has N templates and now it wants to compare our one fingerprint with the whole database. If the comparison is made only against the users that are registered in the database then this comparison is called closed identification. Closed identification always returns an array of possible candidates that is not empty. In the opposite situation, when we are talking about open identification, where the identification of a non-registered person may occur, the system can return an empty array. \cite{maltoni2009handbook}
 
-\subsection{Comparison errors}
-The \emph{similarity match score} is typically the result of a matching two fingerprints. The value of the similarity score is usually normalized into interval $[0,1]$, which indicates the similarity between the presented set of features and the registered template. Closer to 1 the score is, the more certain system is that the present set of features comes from the same fingerprint as the registered template. Then the \emph{threshold} value $t$ is set for decision making if features are coming from the same fingerprint. Which means that if the value of the score is lower than $t$, non-match result is decided (Features on the input are coming from different fingerprint than the compared template). Otherwise, the match is made true.\cite{maltoni2009handbook}
+\subsection{Comparison Errors}
+The \emph{similarity match score} is typically the result of matching of two fingerprints. The value of the similarity score is usually normalized into interval $[0,1]$, which indicates the similarity between the presented set of features and the registered template. Closer to 1 the score is, the more certain system is that the present set of features comes from the same fingerprint as the registered template. Then the \emph{threshold} value $t$ is set for decision making if features are coming from the same fingerprint. Which means that if the value of the score is lower than $t$, non-match result is decided (Features on the input are coming from different fingerprint than the compared template). Otherwise, the match is made true. \cite{schuckers2010computational}
 
-For matching one to one fingerprint (matching features from a fingerprint on an input against the features from a fingerprint on the output) is the output value of the matching system true = matched or false = non-matched. Two errors of this system working on matching one to one fingerprint can be made: 1) decision about the true match of two sets of features that are coming from different fingerprints. This error is called \emph{false-match}. 2) decision about the false match of two sets of features that are coming from the same fingerprint. This error is called  \emph{false non-match}. \cite{maltoni2009handbook}
+For matching one to one fingerprint (matching features from a fingerprint on an input against the features from a fingerprint on the output) is the output value of the matching system true for matched or false for non-matched. Two errors of this system that works on matching one to one fingerprint can be made: 1)the decision about the true match of two sets of features that are coming from different fingerprints. This error is called \emph{false-match}, 2) the decision about the false match of two sets of features that are coming from the same fingerprint. This error is called  \emph{false non-match}. \cite{schuckers2010computational} \cite{maltoni2009handbook}
 
-It is important to understand the difference between errors false match, false non-match, and more likely used \emph{false acceptance} and \emph{false rejection}. False match or false non-match are used in matching mode one to one while false acceptance or false rejection are errors used in processes of identification and their real meaning actually depends on the type of identity declaration made for a user. Like in the applications for positive identity statement (access control system) for example the false acceptance means false acceptance of impostor to the system and false rejection means rejection of the valid user registered into the system. On the other hand in the application of negative identity claims (for example the application for preventing users from obtaining social benefits under a false identity), false acceptance means rejection of real request that should be served and false rejection means acceptance of impostor request. The application can use of course different metrics than a decision about acceptance/rejection, but false acceptance ( false acceptance rate \textbf{FAR}) and false rejection (false rejection rate \textbf{FRR}) have become popular metrics in the commercial sector.\cite{maltoni2009handbook}
+It is important to understand the difference between errors false match, false non-match, and more likely used \emph{false acceptance} and \emph{false rejection}. False match or false non-match are used in matching mode one to one while false acceptance or false rejection are errors used in processes of identification and their real meaning actually depends on the type of identity declaration made for the user. Like in the applications for positive identity statement (access control system) for example the false acceptance means false acceptance of impostor to the system and false rejection means rejection of the valid user registered into the system. On the other hand, in the application of negative identity claims (for example the application for preventing users from obtaining social benefits under a false identity), false acceptance means rejection of real request that should be served and false rejection means acceptance of impostor request. The application can of course use different metrics from a decision about acceptance/rejection but false acceptance ( false acceptance rate \textbf{FAR}) and false rejection (false rejection rate \textbf{FRR}) have become popular metrics in the commercial sector. \cite{far_described} \cite{maltoni2009handbook}
 
-\subsubsection{Verification error rate}
-For verification can be used false match and false non-match rate. Now let's say that the set of features from the input will be marked as $N$ (as not know) and the saved template saved in the database will be $U$ (as a user). Then the null and alternative hypotheses can be defined as:\cite{maltoni2009handbook}
+\subsubsection{Verification Error Rate}
+For verification, false match and false non-match rate, can be used. Now let's say that the set of features from the input will be marked as $N$ (as not know) and the saved template saved in the database will be $U$ (as a user). Then the null and alternative hypotheses can be defined as: \cite{maltoni2009handbook} \cite{fnmr_1}
 
 \begin{itemize}[label={}]
     \item $H_0: N \neq U$ is the set of features from input that does \textbf{not} match the template from the database.
     \item $H_1: N = U$ is the set of features from input that does match the template from the database.
 \end{itemize}
 
-So the decisions described before can be defined as: $D_0:$ non-match, $D_1:$ match.\cite{maltoni2009handbook}
+So the decisions described before can be defined as: $D_0:$ non-match, $D_1:$ match. \cite{maltoni2009handbook} \cite{fnmr_1}
 
-Similarity measure $s(U, N)$ is included in the verification process when matching $U$ and $N$. So $D_0$ is assigned as the result id similarity score is lower then $t$ and $D_1$ is assigned as result otherwise. Now the two errors mentioned before can be defined as:\cite{maltoni2009handbook}
+Similarity measure $s(U, N)$ is included in the verification process when matching $U$ and $N$. So $D_0$ is assigned as the result if the similarity score is lower then $t$ and $D_1$ is assigned as the result otherwise. Now the two errors mentioned before can be defined as: \cite{maltoni2009handbook}
 
 \begin{itemize}[label={}]
     \item Error 1: false match ($H_0$ is true and $D_1$ is assigned as result)
     \item Error 2: false non-match ($H_1$ is true and $D_0$ is assigned as the result).
 \end{itemize}
 
-The probability of error 1 is called \emph{false match rate} \textbf{FMR} and the probability  of error 2 is called \emph{false non-match rate} \textbf{FNMR}:\cite{maltoni2009handbook}
+The probability of error 1 is called \emph{false match rate} \textbf{FMR} and the probability  of error 2 is called \emph{false non-match rate} \textbf{FNMR}: \cite{maltoni2009handbook}
 
 \begin{align}
     FMR = P(D_1 | H_0 )
@@ -186,9 +186,9 @@ The probability of error 1 is called \emph{false match rate} \textbf{FMR} and th
 \begin{align}
     FNMR = P(D_0 | H_1 )
 \end{align}
-The power test $(1 - FNMR)$ is sometimes used.\cite{maltoni2009handbook}
+The power test $(1 - FNMR)$ is sometimes used. \cite{maltoni2009handbook}
 
-A large dataset of fingerprints is needed to evaluate the biometric system. After obtaining a large dataset evaluation of the system is made by running the matching algorithm over the dataset. Then the score called \emph{genuine distribution} is obtained by matching features from the same finger of the same person from the same hand with  $p (s | H_1)$. And the score called \emph{impostor distribution} can be obtained as well by matching features from two fingers that are not the same (different person / different finger) by $p (s | H_0)$. The common graph as a result of computed and compared FMR and FNMR over threshold $t$ is illustrated in image \ref{fig:fmr}. 
+A large dataset of fingerprints is needed to evaluate the biometric system. After obtaining a large dataset, evaluation of the system is made by running the matching algorithm over the dataset. Then the score, called \emph{genuine distribution}, is obtained by matching features from the same finger of the same person from the same hand with the probability  $p (s | H_1)$. And the score called \emph{impostor distribution} can be obtained as well by matching features from two fingers that are not the same (different person / different finger) by $p (s | H_0)$. The common graph as a result of computed and compared FMR and FNMR over threshold $t$ is illustrated in the Figure \ref{fig:fmr}.  \cite{maltoni2009handbook} \cite{fnmr_1}
 \begin{align}
     \mathrm{FNMR}=\int_{0}^{t} p\left(s \mid H_{1}\right) ds
 \end{align}
@@ -197,7 +197,7 @@ A large dataset of fingerprints is needed to evaluate the biometric system. Afte
     \mathrm{FMR}=\int_{t}^{1} p\left(s \mid H_{0}\right) ds
 \end{align}
 
-As can be seen in the graph or definition, the FMR and FNMR are functions of the value $t$ and there should be made a compromise between these two. The system itself will not output always non-noisy or perfect images of fingerprint, therefore $t$ should be lowered, but not too much because the lover $t$ is, the higher FMR is and more impostors are welcome in our system. The system itself is not usually developed just for one purpose therefore graph of \emph{Receiver Operating Characteristic} ROC or \emph{Detection-Error Tradeoff} DET should be as an output of testing as well. The ROC or DET is not dependent on $t$ what can be useful for the comparison of different matching systems. The ROC is used for plotting one function against the other, for example, FMR against (1-FNMR) can be plotted. A DET graph is a plot of error rates for binary classification systems (in our system 1 = match 0 = non-match). So with the DET graph, we can plot FMR against FNMR. \cite{maltoni2009handbook}
+As it can be seen in the graph or in the definition, the FMR and FNMR are functions of the value $t$ and there should be a compromise made between these two. The system itself will not output always non-noisy or perfect images of fingerprint, therefore $t$ should be lowered, but not too much because the lower the $t$ is, the higher FMR is and more impostors are welcomed in our system. The system itself is not usually developed just for one purpose therefore graph of \emph{Receiver Operating Characteristic} ROC or \emph{Detection-Error Tradeoff} DET should be as an output of testing as well. The ROC or DET is not dependent on $t$ which can be useful for the comparison of different matching systems. The ROC is used for plotting one function against the other, for example, FMR against (1-FNMR) can be plotted. A DET graph is a plot of error rates for binary classification systems (in our system 1 = match 0 = non-match). So with the DET graph, we can plot FMR against FNMR. \cite{maltoni2009handbook}
 
 \begin{figure}[H]
     \centering
@@ -206,72 +206,64 @@ As can be seen in the graph or definition, the FMR and FNMR are functions of the
         \label{fig:fmr}
 \end{figure}
 
-\subsection{Attacks on biometric fingerprint systems}
-Every biometric system has to consist of at least four modules which are sensor, feature extractor, matcher, and decision module. \cite{1262027} The schema of basic system can be seen in image \ref{fig:attack}. 
+\subsection{Attacks on Biometric Fingerprint Systems}
+Every biometric system has to consist of at least four modules which are a sensor, a feature extractor, a matcher, and a decision module. \cite{1262027} The schema of basic system can be seen in the Figure \ref{fig:attack}. 
 
 \begin{itemize}
-	\item Sensors are described in section \ref{sensors}. 
+	\item Sensors are described in Section \ref{sensors}. 
 	\item Feature extractor generates template based on extracted important data from raw data on input.
-	\item Matcher is a module producing matching score, which stands for similarity of input biometric and biometric from the database generated by matching algorithm.
-	\item The decision module compares the matching score with the threshold and decides on either accepting or rejecting biometric on an input.  
-\end{itemize}\cite{1262027}
+	\item Matcher is a module producing matching score, which stands for similarity of input biometric and biometric from the database generated by the matching algorithm.
+	\item The decision module compares the matching score with the threshold and decides on either accepting or rejecting biometric on an input. \cite{1262027}
+\end{itemize}
 
 \begin{figure}[H]
     \centering
         {\includegraphics[width=\linewidth]{obrazky-figures/attack.png}}\\
-        \caption{Attacks on the biometric system (numbered arrows shows points for possible attacks)}
+        \caption{Possible attacks on the biometric system (numbered arrows shows points for possible attacks)}
         \label{fig:attack}
 \end{figure}
 
-There exist attack points not only in every module of a biometric system but also in every connection. There are 8 attack points show in figure \ref{fig:attack}. The attacks are divided into two basic groups: direct and indirect attacks.\cite{jain2015attacks}
+There exist attack points not only in every module of a biometric system but also in every connection. There are 8 attack points shown in Figure \ref{fig:attack}. The attacks are divided into two basic groups: direct and indirect attacks. \cite{hack_2} \cite{jain2015attacks}
 
-Direct attacks do not require any knowledge about any other part of the system than the sensor. Attack on the sensor can be done with fake biometric (for example fake fingerprint made from gel, wax, ..) or just damaging the sensor itself.\cite{jain2015attacks}
+Direct attacks do not require any knowledge about any other part of the system than the sensor. Attack on the sensor can be done with any fake biometric (for example fake fingerprint made from gel, wax, ..) or just by damaging the sensor itself. \cite{jain2015attacks}
 
-Indirect attacks are the attacks where the impostor needs to know some information about the inner parts of the recognition system, which includes any of the parts (arrows with numbers) from figure \ref{fig:attack} except number 1, which is an attack on sensor.\cite{jain2015attacks}
+Indirect attacks are the attacks where the impostor needs to know some information about the inner parts of the recognition system, which includes any of the parts (arrows with numbers) from Figure \ref{fig:attack} except number 1, which is an attack on the sensor. \cite{jain2015attacks} \cite{hack_3}
 
-While the sensor is sending raw data through a communication channel to a feature extractor for pre-processing it is possible to steal the biometric (point 2). The stolen biometric is later replayed to a feature extractor to bypass the sensor. To attack the feature extractor (point 3) the impostor pushes on output feature values except for the original ones. Attack on the communication channel between feature extractor and matcher (point 4) is similar to the attack on point 2 with the exception of stolen values.\cite{attack2}\cite{jain2015attacks}
+While the sensor is sending raw data through a communication channel to a feature extractor for pre-processing it is possible to steal the biometric (point 2). The stolen biometric is later replayed to a feature extractor to bypass the sensor. To attack the feature extractor (point 3) the impostor pushes on output feature values except for the original ones. Attack on the communication channel between feature extractor and matcher (point 4) is similar to the attack on point 2 with the exception of stolen values. \cite{attack2} \cite{jain2015attacks}
 
-Attack on matcher module is simply pushing on the output the desired value which can be the high score to pass the threshold or lower the score for the opposite result as same as just saying match or no match in cases where the decision is done already in a matching module.\cite{attack2} \cite{jain2015attacks}
+Attack on matcher module is simply pushing on the output the desired value which can be the high score to pass the threshold or lower the score for the opposite result as same as just saying match or no match in cases where the decision is done already in a matching module. \cite{attack2} \cite{jain2015attacks}
 
-Attack on the database (point 6) is as simple as pushing new or removing or modifying the existing templates in the existing database used by the biometric system. This attack is not easy as it seems, because saved templates are usually protected by steganography, watermarking, and other methods, which requires huge knowledge about the system. Another attack that can be done only while transmitting data from the database to the matcher is on point 7. This attack involves stealing, replacing, or altering biometric templates. \cite{mwema2015simple}\cite{jain2015attacks}
+Attack on the database (point 6) is as simple as pushing new or removing or modifying the existing templates in the existing database used by the biometric system. This attack is not as easy as it seems because saved templates are usually protected by steganography, watermarking and other methods, which require huge knowledge about the system. Another attack that can be done only while transmitting data from the database to the matcher is on point 7. This attack involves stealing, replacing, or altering biometric templates. \cite{mwema2015simple} \cite{jain2015attacks}
 
-The last point where the impostor can be successful is on the communication channel between the matcher and the decision module (point 8). Although all the steps before were successful and well secured, the result can be still overridden, which causes the same result as attacking any point before.\cite{jain2015attacks}
+The last point where the impostor can be successful is on the communication channel between the matcher and the decision module (point 8). Although all the steps before were successful and well secured, the result can be still overridden, which causes the same result as attacking any point before. \cite{jain2015attacks} \cite{hack_3}
 
+\section{Mathematical Morphology}
+In the last sixty years, there has been made a huge progress in the area of image processing. The innovation is mostly in the meaning of transforming an image into a better-represented form for further processing which can be image analysis or pattern recognition. The innovation never ends and very big attention is given to the field of mathematics morphology, because of its properties. The valued properties are quantitative descriptions of geometric structure and shape as well as a mathematical description of algebra, topology, probability, and integral geometry. \cite{morphilogy2} \cite{shih2009image}
 
-\subsection{Morphing}
-Morphing itself is the process of transformation between states of appearance. Basic operations used in morphing are translations rotations but it gets to harder operations like shapeshifting. \cite{morphing3} Image morphing has been shown as an extremely powerful tool not only for entertainment purposes. Morphing is mostly known as a technique that uses coupling image warping with color interpolation. Image warping is used for geometric transformation in 2D for maintaining feature alignment between features like the position of the nose and eyes. And the color interpolation is used for blending colors from input images.\cite{morphing2}\cite{morphing1}
+Mathematical morphology is having a huge impact on a lot of industries. Even in biology where it can be used for the extraction of forms or structures of animals or plants. Of course, it is used in the computer industry as well where it is mostly used in computer vision for the extraction of representative components that can describe the whole topology or shape. There is a lot of mathematics used in morphology, the analysis is based on set theory, topology, lattice algebra, functions, and many more. \cite{morphilogy2} \cite{shih2009image}
 
-The first step of morphing is finding the location of features from the input images. Then the primitives like mesh nodes, curves, or points are made correspondence between them is established. The primitives are established like that each is specifying one image feature or landmark. The second step is to compute the mapping function defying the special relationships between all points from both images. Mapping functions are used for interpolating positions while morphing two images together. After interpolation of positions, the color interpolation is run as the last step of morphing. \cite{morphing1}
+An image is basically a multidimensional signal. The morphology was designed as complex as it can be. The morphological operations are generally designed, that they can be used for analyzing any signal or even multidimensional geometric pattern. \cite{morphilogy2} \cite{shih2009image}
 
-In the past few years, big data and deep learning have become a trend, which can be seen even in morphing. For example, the generative adversarial network works for morphing well. The network is trained to synthesize frames by a given data-set of samples along the whole process of transformation. \cite{morphing3}
+\subsection{Binary Morphology}
+As stated before the mathematical morphology helps to obtain or even obtains by itself some information. There are three described transformations: unary (one image on the input and one image on the output), dyadic (merging result to one image from two input images), and information extraction (one image on the input and information on the output). The binary stands for the binary image which means that every pixel can contain only 2 values (in the binary 0 and 1). It is usually the rule that objects in front have the value 1 and objects in the back have the value 0. The advantage of binary images is that they store only pixels with the value 1 because the other pixels are 0. So we need to store only two values and that is the pixel value in its position (x, y). The advantage can be seen against the gray-scale image, where every element needs to store three values (x, y, z) where the z is the intensity of black color. On the other hand, gray-scale images store more information but in the extracted ridges this information is useless. \cite{shih2009image}
 
-\section{Mathematical morphology}
-In the last sixty years, there has been made huge progress in the area of image processing. The innovation is mostly in the meaning of transforming an image into a better-represented form in the next use, which can be image analysis or pattern recognition. The innovation never ends and very big attention is given to the field of mathematics morphology, because of its properties. The valued properties are quantitative descriptions of geometric structure and shape as well as a mathematical description of algebra, topology, probability, and integral geometry.\cite{shih2009image}
-
-Mathematical morphology is having a huge impact on a lot of industries. Even in biology where it can be used on the extraction of forms or structures of animals or plants. Of course, it is used in the computer industry as well where it is mostly in computer vision for the extraction of representative components that can describe the whole topology or shape. There is a lot of mathematics used in morphology, the analysis is based on set theory, topology, lattice algebra, function, and many more.\cite{shih2009image}
-
-Image is basically some multidimensional signal. The morphology was designed as complex as it can be. The morphological operations are that generally, that they can be used for analyzing any signal or even multidimensional geometric pattern.\cite{shih2009image}
-
-\subsection{Binary morphology}
-As written before the mathematical morphology is to help obtain or even obtain by itself some information. There are three described transformations: unary(one image on the input and one image on the output), dyadic (merging result to one image from two input images), and information extraction(one image on the input and information on the output). The binary stands for binary image what means that every pixel can contain only 2 values (in the basic 0 and 1). It is usually the rule that objects in front are with value 1 and objects in back has value 0. The advantage of binary images is that it has to store only pixels with value 1 because we know, that other pixels are 0 so we need to store only 2 values and that is the position (x, y). The advantage can be seen against the gray-scale image, where every element needs to store (x, y, z) where the z is the intensity of black color. On the other hand gray-scale stores more information, but in the extracted ridges, this information is useless.\cite{shih2009image}
-
-\subsection{Binary dilation}
-Minkowsky came first with the idea of dilation and it the reason why it can sometimes call Minkowsky complement. On this basis, we have our binary image on an input which is a set of positions. Then we combine our set with a template by use of the sum of the elements of the set. Definition is: Let $K$ and $L$ be two sets in $E^N$ with elements $k$ and $l$ in this order, where $k = (k_1, k_2, ..., k_N)$ and $l = (l_1, l_2, ..., l_N )$ stands for N-pairs positions of elements. Then the set of all possible vector sums of pairs of elements is the binary dilation $K$ by $L$, there one vector comes from $K$ and the other one from $L$. As described binary dilation works with binary images therefore is the name.\cite{shih2009image}
+\subsection{Binary Dilation}
+Minkowsky came first with the idea of dilation and it was the reason why it is sometimes called the Minkowsky complement. At the beginning, we have our binary image on the input which is a set of positions. Then we combine our set with a template by use of the sum of the elements of the set. The definition is: Let $K$ and $L$ be two sets in $E^N$ with elements $k$ and $l$ in this order, where $k = (k_1, k_2, ..., k_N)$ and $l = (l_1, l_2, ..., l_N )$ stands for N-pairs positions of elements. Then the set of all possible vector sums of pairs of elements is the binary dilation $K$ by $L$, there one vector comes from $K$ and the other one from $L$. As described, binary dilation works with binary images therefore the name. \cite{shih2009image} \cite{goutsias2000mathematical}
 
 
-Let $K \subset E^N$ and $L \in E^N$. The shift $K$ by $L$, marked as $(K)_l$ is defined as: \cite{shih2009image} \cite{haralick1987image}
+Let $K \subset E^N$ and $L \in E^N$. The shift $K$ by $L$, marked as $(K)_l$ is defined as: \cite{shih2009image} \cite{goutsias2000mathematical}
 \begin{align}
     (K)_{l}=\left\{m \in E^{N} \mid m=k+l \quad \text { for some } k \in K\right\}
 \end{align}
 
-Let $K, L \subset E^N$. Binary dilation K o B, marked as $K \oplus_b L$, is defined as: \cite{shih2009image} \cite{haralick1987image}
+Let $K, L \subset E^N$. Binary dilation K o B, marked as $K \oplus_b L$, is defined as: \cite{shih2009image} \cite{goutsias2000mathematical}
 \begin{align}
     K \oplus_{l} L=\left\{m \in E^{N} \mid m=k+l \quad \text { for any } k \in K \quad \text { k } l \in L\right\}
 \end{align}
 
-The set $K$ and set $L$ a having the symmetrical role. For a better understanding of the dilation here is the definition of local dilation (one step): Dilation $K \oplus_l L$ is the place of all centers $m$, in the way that shifts $(L)_m$, which is placed at the beginning $L$ in $m$, hits the set $K$.\cite{shih2009image}
+The set $K$ and set $L$ have the symmetrical role. For a better understanding of the dilation here is the definition of local dilation (one step): Dilation $K \oplus_l L$ is the place of all centers $m$, in the way, that shifts $(L)_m$ which is placed at the beginning $L$ in $m$, hits the set $K$.\cite{shih2009image} \cite{goutsias2000mathematical}
 
-\textbf{Properties of the dilation:}
+\textbf{Properties of the dilation:} \cite{shih2009image}
 \begin{align}
     &\text{If K contains beginning:} 0 \in L, \text{then} K \oplus L \supseteq K\\
     &\mathrm{K} \oplus_{l} L=L \oplus_{l} K\\
@@ -281,23 +273,24 @@ The set $K$ and set $L$ a having the symmetrical role. For a better understandin
     &\text { If } K \subseteq L, \text { then } K \oplus_{l} M \subseteq L \oplus_{l} M\\
     &(K \cap L) \oplus_{l} M \subseteq\left(K \oplus_{l} M\right) \cap\left(L \oplus_{l} M\right)\\
     &(K \cup L) \oplus_{l} M=\left(K \oplus_{l} M\right) \cup\left(L \oplus_{l} M\right)
-    \cite{shih2009image}
 \end{align}
 
-\subsection{Binary erosion}
-Erosion is based on the same principle, one input binary image, and one binary mask or core. Erosion is an opposite operation to the dilation where the vector subtraction of elements from the set. In simple way, lets $K$ and $L$ be sets in $E^N$ with elements $k$ and $l$. The erosion $K$ by $L$ is set of all the elements $x$ for which applies $x + k \in K$ and for all $l \in L$.\cite{shih2009image}
+\subsection{Binary Erosion}
+Erosion is based on the same principle one input binary image and one binary mask or core. Erosion is an opposite operation to dilation where it combines two sets using vector subtraction of set elements. In a simpler way, let $K$ and $L$ be sets in $E^N$ with elements $k$ and $l$. The erosion $K$ by $L$ is a set of all the elements $x$ for which applies $x + k \in K$ and for all $l \in L$. \cite{shih2009image} \cite{morph_new}
 
-The definition of binary erosion $K$ by $L$ which is marked $A \ominus_b B$ is:\cite{dil1} \cite{dil2}
+
+The definition of binary erosion $K$ by $L$ which is denoted as $A \ominus_b B$ is: \cite{dil2}
 \begin{align} 
 	K \ominus_l L = \{ x \in E^N | x+l \in K \textrm{ for each } l \in L \}
 \end{align}
 
-Another interpretation of binary erosion $K \ominus_l L$ can be a place of all centers $s$, so the shift $(L)_m$ is completely included in the set $K$. Definition in this case is:\cite{dil2}
+Another interpretation of binary erosion $K \ominus_l L$ can be a place of all centers $s$ so that the shift $(L)_m$ is completely included in the set $K$. The definition in this case is: \cite{dil2} \cite{morph_new}
+
 \begin{align} 
 K \ominus_l L = \{ m \in E^N | L_m \subseteq K \}
 \end{align}
 
-\textbf{Properties of the erosion:}
+\textbf{Properties of the binary erosion:} \cite{shih2009image}
 
 \begin{align}
     &\text{If L contains beginning: }0 \in L, then K \ominus_l L \subseteq K\\
@@ -309,10 +302,10 @@ K \ominus_l L = \{ m \in E^N | L_m \subseteq K \}
     &(K \cup L) \ominus_{l} M \supseteq\left(K \ominus_{l} M\right) \cup\left(L \ominus_{l} M\right)\\
     &K \ominus_{l}(L \cup M)=\left(K \ominus_{l} L\right) \cap\left(K \ominus_{l} M\right)\\
     &K \ominus_{l}(L \cap M) \supseteq\left(K \ominus_{l} L\right) \cup\left(K \ominus_{l} M\right)
-    \cite{shih2009image}
 \end{align}
 
-The algebraic basis for mathematic morphology was introduced by Heijmans a Ronse \cite{heijmans1990algebraic}. As you could guess dilatation is not always reversible by erosion and conversely. $M = K \ominus_l L$ can be as example, when if erosion is used of both sides by L is having as result $M \ominus_l L = (K \oplus_l L) \ominus_l L \neq K$. So in the end the relation of closure $(K \oplus L) \ominus L \supseteq K$ is valid relation in this case. One interesting thing is that when the dilation and erosion are used clearly in binary image $K$ in structured element $L$, the index $l$ is omitted as can be seen in this relation. One example of binary erosion and dilation is shown in the picture\ref{fig:dil_morph}.
+The algebraic basis for mathematic morphology was introduced by Heijmans and Ronse \cite{heijmans1990algebraic}. As you could guess, dilation is not always reversible by erosion and the other way around. $M = K \ominus_l L$ can be as example, when if erosion is used on both sides by L has as result $M \ominus_l L = (K \oplus_l L) \ominus_l L \neq K$. So in the end the relation of closure $(K \oplus L) \ominus L \supseteq K$ is a valid relation in this case. One interesting thing is that when the dilation and erosion are used clearly in binary image $K$ in a structured element $L$, the index $l$ is omitted as can be seen in this relation. One example of binary erosion and dilation is shown in the Figure\ref{fig:dil_morph}. \cite{morph_new}
+
 
 \begin{figure}[H]
     \centering
@@ -322,14 +315,14 @@ The algebraic basis for mathematic morphology was introduced by Heijmans a Ronse
 \end{figure}
 
 \subsection{Thinning} \label{thinnin}
-Thinning is a special kind of erosion. The main difference is in factors, which are: 1) the component in an image on the input can not disappear. 2) Output of thinning are 1 pixel wide objects, which means that the 1px wide line that is in the same distance from all the original edges (in the center). The structural shape of the object represented as a graph is an output of thinning. That is why it is used as a basic step in image processing in many industries like control of industrial parts or in our fingerprint detection. \cite{shih2009image}
+Thinning is a special kind of erosion. The main difference is in the factors, which are: 1) the component in an image on the input can not disappear. 2) the output of thinning are 1 pixel wide objects, which means that the 1px wide line is in the same distance from all the original edges (in the center). The structural shape of the object represented as a graph is the output of thinning. That is why it is used as a basic step in image processing in many industries such as control of industrial parts or in our fingerprint detection. \cite{shih2009image}
 
-The main use of thinning result which is the skeleton of an object is the representation and classification of the objects in the binary image. The first form of thinning was the definition of digital skeletons and algorithms based on set transformation and it was introduced by Jang and Chin \cite{jang1990analysis}. Another view on the thinning operation was introduced by Serra a Meyer \cite{serra1983image} \cite{serra1988mathematical} and their approach was based on operation "hit-or-miss" and in this approach the definition is: 
+The main use of the result of thinning which is the skeleton of an object, is the representation and classification of objects in a binary image. The first form of thinning was the definition of digital skeletons and algorithms based on set transformation and it was introduced by Jang and Chin \cite{jang1990analysis}. Another view on the thinning operation was introduced by Serra and Meyer and their approach was based on the operation "hit-or-miss" and in this approach the definition is: \cite{serra1988mathematical}
 \begin{align}
 K \wedge L=K-\left(K \mathrm{~s}^{*} L\right)=K \cap\left(K \mathrm{~s}^{*} L\right)^{m}
-\end{align}\cite{serra1988mathematical}
+\end{align}
 
-The definition shows that thinning is basically nothing else than finding and deleting. All the presence of $L$ in $K$ are localized and subtracted by the operation $K s^* L$. All the elements that were found in $K$ are deleted. To complete the whole process of thinning, the sequence of structural elements is used: $\{K\}=\left\{L^{1}, L^{2}, \ldots, L^{8}\right\}$, where $K^{i}$ is turned version of $K^{i-1}$. In use on digital images and this implementation sequence of 8 elements is used:\cite{serra1988mathematical}
+The definition shows that thinning is basically nothing else than finding and deleting. All the presence of $L$ in $K$ are localized and subtracted by the operation $K s^* L$. All the elements that were found in $K$ are deleted. To complete the whole process of thinning, the sequence of structural elements is used: $\{K\}=\left\{L^{1}, L^{2}, \ldots, L^{8}\right\}$, where $K^{i}$ is turned version of $K^{i-1}$. When used on digital images and this implementation of sequence of 8 elements is used: \cite{serra1988mathematical}
 
 $$\begin{array}{l}
  
@@ -384,11 +377,11 @@ L^{5}=\left[\begin{array}{lll}
 
 \end{array}$$
 
-Then the thinning by eight elements is defined as:\cite{shih2009image} \cite{serra1983image} \cite{serra1988mathematical}
+Then the thinning by eight elements is defined as: \cite{shih2009image}  \cite{serra1988mathematical}
 \begin{align}K \wedge\{L\}=\left(\cdots\left(\left(K \wedge L^{1}\right) \wedge L^{2}\right) \cdots\right) \wedge L^{8}
 \end{align}
 
-In the process of thinning must be achieved erase of the edges under the condition that connectivity can not be changed. All eight cores are designed the way that they are together to meet the conditions. The process of using all eight cores is repeated until there is no change from the last step. The result of thinning is shown in image \ref{fig:dil_thin} \cite{shih2009image}
+In the process of thinning, erase of the edges must be achieved under the condition that the connectivity can not be changed. All eight cores are designed the way that they are together to meet the conditions. The process of using all eight cores is repeated until there is no change from the last step. The result of thinning is shown in the Figure \ref{fig:dil_thin} \cite{shih2009image}
 
 \begin{figure}[H]
     \centering
@@ -397,44 +390,55 @@ In the process of thinning must be achieved erase of the edges under the conditi
         \label{fig:dil_thin}
 \end{figure}
 
-\section{Digital image processing}
-Image processing is used to extract some useful information or get an enhanced image from the image on an input. The use of image processing has been increasing exponentially in the last decades and it is being used from entertainment to medicine. \cite{imageProcessing}
+\section{Digital Image Processing}
+Image processing is used to extract some useful information or to get an enhanced image from the image on the input. The use of image processing has been increasing exponentially in the last decades and it is being used from entertainment to medicine. \cite{imageProcessing}
 
-Digital image processing is a huge field and it consists of encompassing digital signal processing techniques and specific techniques to image. Image can be described as function f(x,y), where x and y are continuous variables. It has to be sampled and transformed into a matrix of numbers for digital processing. So the digital image processing stands for manipulation with these finite numbers. There are several types of image processing:\cite{imageProcessing}
+Digital image processing is a huge field and it consists of encompassing digital signal processing techniques and specific techniques on image. Image can be described as function f(x,y), where x and y are continuous variables. It has to be sampled and transformed into a matrix of numbers for digital processing. So the digital image processing stands for manipulation with these finite numbers. There are several types of image processing: \cite{imageProcessing}
 
 \begin{itemize}
-	\item \textbf{image enhancement:} Image is manipulated mostly by heuristic techniques and it is easier to extract the information from the result.
-	\item \textbf{image restoration:} Processing of damaged images which is trying to find statistical or mathematical descriptions of degradation to revert the degradation.
-	\item \textbf{image analysis:} processing of an image for automatic extraction of information. (examples are image segmentation or edge extraction)
-	\item \textbf{image compression:} compression applied on digital images with a goal to reduce their cost for transmission and storage.
-\end{itemize}\cite{imageProcessing}
+	\item \textbf{image enhancement:} Image is manipulated mostly by heuristic techniques and it is easier to extract the information from the result,
+	\item \textbf{image restoration:} Processes the damaged images to find statistical or mathematical descriptions of degradation in order to revert the degradation,
+	\item \textbf{image analysis:} processing of an image for automatic extraction of information. (examples are image segmentation or edge extraction),
+	\item \textbf{image compression:} compression is applied on digital images with a goal to reduce their cost for transmission and storage.
+\end{itemize}
 
-\subsection{Histogram equalization}
-Histogram equalization is a technique for adjusting image intensities to enhance contrast. The histogram is a graphical representation of the intensity distribution of an image. Enhancing image contrast is accomplished by spreading out the most frequent intensity values. The global contrast is usually increased by this technique where the data on an input were represented with very close contrast. \cite{histogram}
+\subsection{Thresholding}
+The most common and basic image processing technique to obtain binary or multilevel images from gray-scale images is thresholding. The basic principle of thresholding methods is to replace each pixel in an input image with a black pixel if the image intensity is less than the global threshold value or with a white pixel if the image intensity is higher than the threshold value. There is also the locally adaptive threshold. Both of these approaches come with disadvantages. The global thresholding does not work with the local information and local thresholding does not work with the global information. \cite{thresholding_1} Therefore the methods like adaptive thresholding exists. \cite{thresholding_2} \cite{binarization} This thesis is works only with global thresholding.
+
+
+\subsection{Histogram Equalization}
+Histogram equalization is a technique for adjusting image intensities to enhance contrast. The histogram is a graphical representation of the intensity distribution of an image. Enhancing image contrast is accomplished by spreading out the most frequent intensity values. The global contrast is usually increased by this technique where the data on the input were represented with very close contrast. \cite{histogram}
 
 \begin{figure}[H]
     \centering
         {\includegraphics[width=0.8\linewidth]{obrazky-figures/histogram.png}}\\
-        \caption{Histogram equalization: a)input image, b) input image histogram, c)input image after histogram equalization d)input image histogram after equalization\cite{histogram}}
+        \caption{Histogram equalization: a) input image, b) input image histogram, c) input image after histogram equalization d) input image histogram after equalization \cite{histogram}}
         \label{fig:histogram_eq}
 \end{figure}
 
 \subsubsection{Contrastive Limited Adaptive Equalization (CLAHE)}
-The technique of histogram equalization is having problems with over-amplification of noise. Therefore the separate histograms are calculated in adaptive histogram equalization (AHE). AHE can achieve higher contrast enhancement, but because some homogeneous regions may be oversaturated, it amplifies the noise. Therefore the amplification is limited by clipping the histogram at a predefined value in the CLAHE algorithm. \cite{histogram}
+The technique of histogram equalization has problems with over-amplification of noise. Therefore the separate histograms are calculated in adaptive histogram equalization (AHE). AHE can achieve higher contrast enhancement. But because some homogeneous regions may be oversaturated, it amplifies the noise. Therefore the amplification is limited by clipping the histogram at a predefined value before computing cumulative distribution function in the CLAHE algorithm. \cite{histogram}
+
+\subsection{Morphing}
+Morphing itself is the process of transformation between states of appearance. Basic operations used in morphing are translations rotations but it gets to harder operations like shapeshifting. \cite{morphing3} Image morphing has been shown as an extremely powerful tool not only for entertainment purposes. Morphing is mostly known as a technique that uses coupling image warping with color interpolation. Image warping is used for geometric transformation in 2D for maintaining feature alignment between features like the position of the nose and eyes. And the color interpolation is used for blending colors from input images. \cite{morphing2} \cite{morphing1}
+
+The first step of morphing is finding the location of features from the input images. Then the primitives like mesh nodes, curves, or points are made correspondence between them is established. The primitives are established like that each is specifying one image feature or landmark. The second step is to compute the mapping function defying the special relationships between all points from both images. Mapping functions are used for interpolating positions while morphing two images together. After interpolation of positions, the color interpolation is run as the last step of morphing. \cite{morphing1}
+
+In the past few years, big data and deep learning have become a trend, which can be seen even in morphing. For example, the generative adversarial network works for morphing well. The network is trained to synthesize frames by a given data-set of samples along the whole process of transformation. \cite{morphing3}
 
 
+\chapter{The Design of Solution}
 \label{suggestion}
-\chapter{The suggestion of solution}
-This chapter describes the techniques needed to create morphed fingerprints. For certain parts, such as thinning, it is necessary to know the theory described in the chapter \ref{theory}.
+This Chapter describes the techniques needed to create morphed fingerprints. For certain parts, such as thinning, it is necessary to know the theory described in the Chapter \ref{theory}.
 
-\section{Fingerprint image preprocessing}\label{preprocessing}
-The first step is to convert the fingerprint image from input to the gray-scale image. The papillary lines are thus marked in darker gray in the figure and the valley in white or lighter shades of gray. First, so that we do not work on unnecessarily large fingerprint images, the detection of fingerprint boundary points (leftmost point, lowest point, ..) and subsequent trimming of the excess background is performed. For subsequent processing, a fingerprint mask is calculated in the same step. For the most realistic results of morphing, it is necessary to ensure the highest possible similarity between prints before its implementation, and therefore the color normalization is performed using the minimax algorithm, where there is a linear mapping to the interval between min and max.
+\section{Fingerprint Image Preprocessing}\label{preprocessing}
+The first step is to convert the fingerprint image from input to a gray-scale image. The papillary lines are thus marked in a darker gray color in the Figure and the valley in white or in a lighter shades of gray. Before any calculations, the image is equalized by CLAHE. First, so that we do not work on unnecessarily large fingerprint images, the detection of fingerprint boundary points (leftmost point, lowest point, ..) and subsequent trimming of the excess background is performed. After trimming, the smaller fingerprint is resized to the size of the bigger fingerprint. For subsequent processing, a fingerprint mask is calculated in the same step. For the most realistic results of morphing, it is necessary to ensure the highest possible similarity between fingerprints before its implementation. Therefore the color normalization is performed using the minimax algorithm where there is a linear mapping to the interval between min and max.
 
-\section{Fingerprints alignment}
-To find the best position to align two fingerprints on top of each other, a technique based on oriented fields is used. The use of kernel or delta alignment has also been considered, but some fingerprints are very different and a similar implementation would then not work properly.
+\section{Fingerprints Alignment}
+To find the best position to align two fingerprints on top of each other, a technique based on oriented fields is used. The use of kernel or delta alignment has also been considered but some fingerprints are very different and a similar implementation would then not work properly.
 
-\subsection{Algorithm for fingerprint orientation field} \label{oricomp}
-Let $[x, y]$ be a pixel in the fingerprint image. Then the angle $\theta_{x,y}$ is a local orientation of all the ridges in pixel $[x, y]$ that are coming through the arbitrarily large surroundings centered in pixel $[x, y]$. $\theta_{x,y}$ is in the range $[0..\pi]$ just because the ridges have no direction. Then the fingerprint orientation field is matrix D, in which the elements store the local orientation of the ridges in the given surroundings. Each element $ \theta_{x, y} $ of the matrix D indicates the average orientation of the lines around the pixel $[x, y]$, where the pixel $[x, y]$ represents the square grid located above this point. The result fingerprint orientation field can be seen in the image \ref{fig:ori_img}. Each element $ \theta_{x, y} $ is often associated with a value of $ r_{x, y} $, which indicates the degree of reliability of the orientation.\cite{ori}
+\subsection{Algorithm for Fingerprint Orientation Field} \label{oricomp}
+Let $[x, y]$ be a pixel in the fingerprint image. Then the angle $\theta_{x,y}$ is a local orientation of all the ridges in pixel $[x, y]$ that are coming through the arbitrarily large surroundings centered in pixel $[x, y]$. $\theta_{x,y}$ is in the range $[0..\pi]$ just because the ridges have no direction. Then the fingerprint orientation field is matrix D, in which the elements store the local orientation of the ridges in the given surroundings. Each element $ \theta_{x, y} $ of the matrix D indicates the average orientation of the lines around the pixel $[x, y]$, where the pixel $[x, y]$ represents the square grid located above this point. The result fingerprint orientation field can be seen in the image \ref{fig:ori_img}. Each element $ \theta_{x, y} $ is often associated with a value of $ r_{x, y} $, which indicates the degree of reliability of the orientation. \cite{ori}
 
 \begin{figure}[H]
     \centering
@@ -443,14 +447,14 @@ Let $[x, y]$ be a pixel in the fingerprint image. Then the angle $\theta_{x,y}$ 
         \label{fig:ori_img}
 \end{figure}
 
-Algorithm description:
+Description of the algorithm:
 
 \begin{enumerate}
-	\item In the beginning, the normalized image $\mathcal{G}$ needs to be divided into w*w blocks. Then there is no ridge in the block, value 0 is assigned and r is set to 0 as well otherwise the r is set to 1 and the calculation can begin. \cite{ori}
+	\item In the beginning, the normalized image $\mathcal{G}$ needs to be divided into w*w blocks. Then there is no ridge in the block, value 0 is assigned and r is set to 0 as well otherwise the r is set to 1 and the calculation can begin. \cite{ori} \cite{orientation_field_2}
 	
-	\item For each pixel (x,y) the gradients  $\partial_{i}(x, y)$ and $\partial_{j}(x, y)$ needs to be computed by the Sobel operator.\cite{ori}
+	\item For each pixel (x,y) the gradients  $\partial_{i}(x, y)$ and $\partial_{j}(x, y)$ need to be computed by the Sobel operator.\cite{ori}
 	
-	  \item The local orientation is set for each block with center in pixel (x, y), by these equations:\cite{ori}
+	  \item The local orientation is set for each block with center in pixel (x, y), by these equations: \cite{ori} \cite{orientation_field_2}
         \begin{equation} 
             \mathcal{V}_{i}(x, y)=\sum_{u=x-\frac{w}{2}}^{x+\frac{w}{2}} \sum_{v=y-\frac{w}{2}}^{y+\frac{w}{2}} 2 \partial_{i}(u, v) \partial_{j}(u, v)
         \end{equation}
@@ -463,16 +467,16 @@ Algorithm description:
             \theta(x, y)=\frac{1}{2} \tan ^{-1}\left(\frac{\mathcal{V}_{j}(x, y)}{\mathcal{V}_{j}(x, y)}\right)
         \end{equation}
         
-        Where $\theta(x, y)$ is the smallest square estimation of the local orientation of the ridges in the block centered at (x, y).
+        Where $\theta(x, y)$ is the smallest square estimation of the local orientation of the ridges in the block centered at (x, y). \cite{orientation_field_2}
          
-	\item To remove or at least reduce errors that cause noise or other, the low pass filter can be used. It can be used because of the low variability of ridges in the near surroundings except around the singular points. Before filtration every $\theta(x, y)$ needs to be converted into the vector field. Equation of conversion to vector field:\cite{ori}
+	\item To remove or at least to reduce errors that cause noise or other, the low pass filter can be used. It can be used because of the low variability of ridges in the near surroundings except around the singular points. Before filtration, every $\theta(x, y)$ needs to be converted into the vector field. Equation of conversion to vector field: \cite{ori} \cite{orientation_field_2}
     \begin{equation}
          \Phi_{i}(x, y)=\cos (2 \theta(x, y))
     \end{equation}   
     \begin{equation}
          \Phi_{j}(x, y)=\sin (2 \theta(x, y))
-     \end{equation}\cite{ori}
-     The filtration with low pass filter:\cite{ori}
+     \end{equation}
+     The filtration with low pass filter: \cite{ori}
      \begin{equation}
          \begin{split}
              \Phi_{i}^{\prime}(x, y)= \sum_{u=-w_{\Phi} / 2}^{w_{\Phi} / 2} \sum_{v=-w_{\Phi} / 2}^{w_{\Phi} / 2} \\ W(u, v) \Phi_{i}(x-u w, y-v w)
@@ -483,22 +487,23 @@ Algorithm description:
              \Phi_{y}^{\prime}(x, y)=\sum_{u=-w_{\Phi} / 2}^{w_{\Phi} / 2} \sum_{v=-w_{\Phi} / 2}^{w_{\Phi} / 2} \\ W(u, v) \Phi_{j}(x-u w, y-v w)
         \end{split}
      \end{equation}
-	Where the $W$ is a low pass filter. In default, 5x5 is the size of the filter.   
+	Where the $W$ is a low pass filter. In default, 5x5 is the size of the filter. \cite{orientation_field_2}
 	
      \item 
-     The computation of the smoothed local orientation is then performed using equation:
+     The computation of the smoothed local orientation is then performed using the following equation: \cite{ori} \cite{orientation_field_2}
       \begin{equation}
         \mathcal{O}(x, y)=\frac{1}{2} \tan \left(\frac{\Phi_{j}^{\prime}(x, y)}{\Phi_{i}^{\prime}(x, y)}\right)
      \end{equation}
-\end{enumerate}\cite{ori}
+\end{enumerate}
 
+\subsection{Algorithm for Alignment Using Fingerprint Orientation Field}
 After computing the oriented field for both fingerprints, it is finally possible to start aligning them. The method tries to maximize the similarity of oriented fields at their intersections.
 
-The oriented fields $ \mathcal{O}_1 $ and $ \mathcal{O}_2 $ are calculated in blocks w x w and at each position (x, y) it contains the value of the size of the angle $ \theta $ and r = [0,1]. Then the similarity between oriented arrays is calculated: \cite{morphing_paper} 	
+The oriented fields $ \mathcal{O}_1 $ and $ \mathcal{O}_2 $ are calculated in blocks $w \times w$ and at each position (x, y) it contains the value of the size of the angle $ \theta $ and r = [0,1]. Then the similarity between oriented arrays is calculated: \cite{morphing_paper} 	
 
 \begin{equation}
 \begin{split}
-S\left(\mathcal{O}^{1}, \mathcal{O}^{2}\right)=\\
+S\left(\mathcal{O}^{1}, \mathcal{O}^{2}\right)=
 \frac{\sum_{(x, y) \in\left(V_{\mathcal{O} 1} \cap V_{\mathcal{O} 2}\right)}\left(r_{x, y}^{y}+r_{x, y}^{2}\right) \cdot \psi\left(\theta_{x, y}^{1}, \theta_{x, y}^{2}\right)}{\sum_{(x, y) \in\left(V_{\mathcal{O}^{1}} \cap V_{\mathcal{O}^{2}}\right)}\left(r_{x, y}^{1}+r_{x, y}^{2}\right)}
 \end{split}
 \end{equation}
@@ -508,34 +513,34 @@ S\left(\mathcal{O}^{1}, \mathcal{O}^{2}\right)=\\
 \psi\left(\theta_{1}, \theta_{2}\right)=1-\frac{2 \cdot\left|\theta_{1}-\theta_{2}\right|}{\pi}
 \end{equation}
 
-and positions of the front are included in $V_{\mathcal{O}}$:
+and positions of the front are included in $V_{\mathcal{O}}$: \cite{morphing_paper}
 \begin{equation}
 V_{\mathcal{O}}=\left\{(x, y) | o_{x, y} \in \mathcal{O} \wedge r_{x, y}>0\right\}
-\end{equation}\cite{morphing_paper}
+\end{equation}
 
-The alignment is computed for every position and angle the positions are skipped for positions of oriented fields on which they do not overlap sufficiently (at least $25\%$ overlap).\cite{morphing_paper}
+The alignment is computed for every position and angle. The positions are skipped for positions of oriented fields on which they do not overlap sufficiently (at least $25\,\%$ overlap). \cite{morphing_paper}
 
 \begin{equation}
 \frac{\left|V_{\mathcal{O}^{1}} \cap V_{\mathcal{O}}\right|}{\max \left(\left|V_{\mathcal{O}^{1} }\right|, | V_{\mathcal{O}^{2} }|\right)} \geq min_{V R}
-\end{equation}\cite{morphing_paper}
+\end{equation}
 
-In my implementation, I only consider rotation in the range $ <-\pi/2; \pi/2> $ and a shift of a maximum of 50 \% of the width when moving right or left and 50 \% of the height when moving up or down. Larger changes either led to inaccuracies or did not affect the result. Furthermore, I always try to put a smaller fingerprint on a larger one. After aligning the prints, parts that are not intersecting are trimmed. An example of the result is in image \ref{fig:prunik}.
+In this implementation, the only considered rotation is in the range $ <-\pi/2; \pi/2> $ and a shift of a maximum of 50\,\% of the width when moving right or left and 50\,\% of the height when moving up or down. Larger changes either led to inaccuracies or did not affect the result. After aligning the fingerprints, parts that do not intersect are trimmed. An example of the result is the Figure \ref{fig:prunik}.
 \begin{figure}[H]
     \centering
         {\includegraphics[width=0.5\linewidth]{obrazky-figures/prunik.png}}\\
-        \caption{a)fingerprint 1 b) fingerprint 2 c) aligned fingerprint orientation fields}
+        \caption{a) first fingerprint, b) second fingerprint c) aligned fingerprint orientation fields}
         \label{fig:prunik}
 \end{figure}
 
-\section{Ridge frequency image}
+\section{Ridge Frequency Image}
 It is possible to model levels of gray as sine waves in the near neighborhood of the fingerprint. This can be applied only in cases where no singular point is present in the examined neighborhood. For these cases, the frequency from near neighborhoods will be used. The definition and equations:
-Let's have $ \mathcal{G} $ denoting the normalized fingerprint image and $\mathcal{O}$ oriented field calculated as described in the previous section. Then: \cite{ori}
+Let's have $ \mathcal{G} $ denoting the normalized fingerprint image and $\mathcal{O}$ the oriented field calculated as described in the previous Section. Then: \cite{patriciu2014fingerprint}
 
 
 \begin{enumerate}
-    \item The fingerprint image ($\mathcal{G}$) is divided into blocks with size $w \times w$ usually 16 $\times$ 16. The block size has to be the same as block size for the fingerprint orientation field($\mathcal{O}$).\cite{hong1998fingerprint}
+    \item The fingerprint image ($\mathcal{G}$) is divided into blocks with size $w \times w$ usually 16 $\times$ 16. The block size has to be the same as block size for the fingerprint orientation field($\mathcal{O}$). \cite{hong1998fingerprint}
     
-    \item Compute an \emph{oriented window}(something else then \ref{oricomp}) with size $l \times w$ usual size is 32 $\times$ 16 for each block centered at $(x, y)$.\cite{hong1998fingerprint}
+    \item Compute an \emph{oriented window} (something else than \ref{oricomp}) with size $l \times w$. Usual size is 32 $\times$ 16 for each block centered at $(x, y)$. \cite{hong1998fingerprint}
     
     \item Compute the x-signature $X[0], X[1], ... X[l-1]$ of ridges inside oriented window for every block centered in $(x, y)$, where:
     \begin{align}
@@ -543,43 +548,7 @@ Let's have $ \mathcal{G} $ denoting the normalized fingerprint image and $\mathc
     u=x+\left(d-\frac{w}{2}\right) \cos \mathcal{O}(x, y)+\left(k-\frac{l}{2}\right) \sin \mathcal{O}(x, y)\\
     v=y+\left(d-\frac{w}{2}\right) \sin \mathcal{O}(x, y)+\left(\frac{l}{2}-k\right) \cos \mathcal{O}(x, y)
     \end{align}
-	In the case where no singularity or minutiae is not present in the oriented window, x-signature creates a sin curve and frequency can be counted from it. Let the average count of pixels between two ridges be $\mathcal{T}(x, y)$. Then the equation for frequency $\Omega(x, y)$ is: $\Omega(i, j)=1 / \mathcal{T}(i, j)$. Value -2 is assigned if no ridge is found in the oriented window, so it is marked as non-valid.\cite{hong1998fingerprint}
-    
-    \item The ridge frequency in fingerprint images lies in a certain range. In the most common resolution, o 500dpi the range is $[ 1/3, 1/25]$. This range is used to check if the value is valid, if the frequency is not laying in this range then -1 is assigned as non-valid frequency.\cite{hong1998fingerprint}
-    
-    \item For blocks in which a singularity or landmark appears, the value must be calculated by interpolating the frequencies of adjacent blocks. The interpolation is performed as follows:\cite{hong1998fingerprint}
-    
-    \textbf{Step 1:}For each block with center at $(x, y)$,
-    \begin{align}
-        \Omega^{\prime}(x, y)=\left\{\begin{array}{ll}
-        \Omega(x, y), & \text { if } \Omega(x, y) \neq-1 \\
-        \frac{\sum_{u=-w_{\Omega} / 2}^{w_{\Omega} / 2} \sum_{v=-w_{\Omega} / 2}^{w_{\Omega} / 2} W_{g}(u, v) \mu(\Omega(x-u w, y-v w))}{\sum_{u=-w_{\Omega} / 2}^{w_{\Omega} / 2} \sum_{v=-w_{\Omega} / 2}^{w_{\Omega} / 2} W_{g}(u, v) \delta(\Omega(x-u w, y-v w)+1)} & \text { otherwise }
-        \end{array}\right.
-    \end{align}
-        where
-    \begin{align}
-        \begin{aligned}
-        \mu(a) &=\left\{\begin{array}{ll}
-        0, & \text { if } a \leq 0 \\
-        a, & \text { otherwise }
-        \end{array}\right.\\
-        \delta(a) &=\left\{\begin{array}{ll}
-        0, & \text { if } a \leq 0 \\
-        1, & \text { otherwise }
-        \end{array}\right.
-        \end{aligned}
-    \end{align}
-	
-	$W_g$ stands for discrete Gaussian filter, where size of the filter is: $w_\Omega = 7$, mean has value of 0 and variance is 9.\cite{hong1998fingerprint}
-    
-    \textbf{Step 2:} Repeat step 1 until the is one frequency in the image with value -1, before repetition swap $\Omega$ and $\Omega'$
-    
-    \item Similarly, as with the fingerprint orientation field, the low pass filter can be used to remove outliers. This can proceed because the frequency is changing really slowly in the near neighborhood:
-    \begin{align}
-        F(x, y)=\sum_{u=-w_{\Omega} / 2}^{w_{l} / 2} \sum_{v=-w_{\Omega} / 2}^{w_{l} / 2} W_{l}(u, v) \Omega^{\prime}(x-u w, y-v w)
-    \end{align}
-	
-	$W_l$ stands for the low pass two dimensional filter with unit integral and size $w_l = 7$. \cite{hong1998fingerprint}
+	In the case where no singularity or minutiae is present in the oriented window, x-signature creates a sin curve and frequency can be counted from it. Let the average number of pixels between two ridges be $\mathcal{T}(x, y)$. Then the equation for frequency $\Omega(x, y)$ is: $\Omega(i, j)=1 / \mathcal{T}(i, j)$. Value -2 is assigned if no ridge is found in the oriented window, so it is marked as non-valid. \cite{hong1998fingerprint}
 	
 \end{enumerate}
 \begin{figure}[H]
@@ -590,30 +559,30 @@ Let's have $ \mathcal{G} $ denoting the normalized fingerprint image and $\mathc
 \end{figure}
 
 \section{Minutiae}
-The application uses an algorithm working on the extraction of minutiae with the use of thinning. To extract the minutiae, it is necessary to first calculate the oriented field described above. Then distinguish the background and the fingerprint. An important step is the extraction of ridges and creates a binary image, where the ridges carry the value 1. The last step of line extraction is thinning, see \ref{thinnin}.
+The application uses an algorithm that works on the extraction of minutiae with the use of thinning. To extract the minutiae, it is necessary to first calculate the oriented field described above. Then to distinguish the background and the fingerprint. An important step is the extraction of ridges and that creates a binary image, where the ridges carry the value 1. The last step of line extraction is thinning, see \ref{thinnin}.
 
-Subsequent extraction of the minutiae is performed by using the crossing number method on the neighborhood of the point P at a distance of 1. Or on its 8 surrounding pixels:\cite{thinning}
+Subsequent extraction of the minutiae is performed by using the crossing number method on the neighborhood of the point P at a distance of 1. Or on its 8 surrounding pixels: \cite{thinning}
 
 \begin{equation}
     C N=0.5 \sum_{i=1}^{8}\left|P_{i}-P_{i+1}\right|, \quad P_{9}=P_{1}
 \end{equation} .
 
-Subsequently, false markers will be removed in post-processing. The first part is ridge counting. Ridge counting determines how many lines pass through or touch the line that connects the core and delta. For this operation, it is necessary to determine the delta and the core of the fingerprint as accurately as possible. Then:
+Subsequently, false markers will be removed in post-processing. The first part is ridge counting. Ridge counting determines how many lines pass through or touch the line that connects the core and delta. For this operation, it is necessary to determine the delta and the core of the fingerprint as accurately as possible. Then: \cite{thinning}
 
 \begin{itemize}
 	\item If ridge bifurcation lays on the ridge, then two ridges are counted
 	\item If the ridge is touching the island or dot, then one ridge is counted.
-    \item The valley must be interrupted by a line between the delta and the core, otherwise, one line is subtracted. (Applies to loop lines only.)\cite{thinning}
+    \item The valley must be interrupted by a line between the delta and the core, otherwise, one line is subtracted. (Applies to loop lines only.)
 \end{itemize}
 
-In the end, the minutiae validity needs to be checked. The check is made by distance measurement: Firstly the average count of pixels between 2 ridges is counted (ridge counting distance = RCG). Secondly, the distance between delta and core (DC) is counted. Then the distance of minutiae from the next minutiae has to be larger than RCG/DC.\cite{thinning}
+In the end, the minutiae validity needs to be checked. The check is made by distance measurement. Firstly the average count of pixels between 2 ridges is counted (ridge counting distance = RCG). Secondly, the distance between delta and core (DC) is counted. Then the distance of minutiae from the next minutiae has to be larger than RCG/DC. \cite{thinning}
 
-\section{The cutline estimation}
-This is the line around which most minutiae occur and when generating a new fingerprint, it ensures that there will be a sufficient number of minutiae from both fingerprints in the newly generated fingerprint. The straight line is calculated after performing all previously described operations, so it is computed from aligned and truncated impressions from parts of the non-intersection and with their oriented fields. Minutiae extracted from these prints are denoted as $T^1$ for fingerprint 1 and $ T^2 $ for fingerprint 2.\cite{morphing_paper}
+\section{The Cutline Estimation}
+This is the line around which most minutiae occur and when generating a new fingerprint, it ensures that there will be a sufficient number of minutiae from both fingerprints in the newly generated fingerprint. The straight line is calculated after performing all previously described operations, so it is computed from aligned and truncated impressions from parts of the non-intersection and with their oriented fields. Minutiae extracted from these prints are denoted as $T^1$ for fingerprint 1 and $ T^2 $ for fingerprint 2. \cite{morphing_paper}
 
-The $ \rho = (\rho_x, \rho_y) $ is assigned as a barycenter. The article does not say what exactly it is, so I used the core or delta if cores is not present. \cite{morphing_paper}
+The $ \rho = (\rho_x, \rho_y) $ is assigned as a barycenter. The article does not say what exactly it is, so the core was used or delta if core is not present. \cite{morphing_paper}
 
-Then the cutline $l$ has these paramtres:\cite{morphing_paper}
+Then the cutline $l$ has these parameters: \cite{morphing_paper}
 \begin{equation}
     \begin{array}{l}
     a_{l} \cdot x+b_{l} \cdot y+c_{l}=0 \\
@@ -637,7 +606,7 @@ Where $S_o$ is the similarity of the oriented fields, $S_v$ is the similarity of
     S_{v}=\frac{\sum_{(i, j) \in C}\left(1-\frac{\left|v_{i, j}^{1}-v_{i, j}^{2}\right|}{\left(\max _{F}-\min _{F}\right)}\right)}{|C|}
 \end{equation}
 
-Only the elements that are in the intersection of oriented fields and their distance is maximal $d_{max}$ from actual cutline $l$ is in the $C$. So:
+Only the elements that are in the intersection of oriented fields and their distance is maximal $d_{max}$ from actual cutline $l$ is in the $C$. So: \cite{morphing_paper}
 
 \begin{equation}
   \begin{split}
@@ -655,35 +624,35 @@ Only the elements that are in the intersection of oriented fields and their dist
      \zeta_{m}(A, B)=\\\frac{Z\left(|A|_{l}^{P}, \mu_{m}, \tau_{m}\right)+Z\left(|B|_{l}^{N}, \mu_{m}, \tau_{m}\right)}{2}
  \end{split}
  \end{equation}
- where the $|T|_{l}^{P}$ stands for minutiae which are over the cutline (from the first fingerprint) and $|T|_{l}^{N}$ stand for minutiae under the cutline. So:
+ where the $|T|_{l}^{P}$ stands for minutiae which are over the cutline (from the first fingerprint) and $|T|_{l}^{N}$ stand for minutiae under the cutline. So:\cite{morphing_paper}
  \begin{equation}
      \begin{array}{l}
         |T|_{l}^{P}=\left|\left\{m \in T | \phi_{l}\left(m_{x}, m_{y}\right) \geq 0\right\}\right| \\
         |T|_{l}^{N}=\left|\left\{m \in T | \phi_{l}\left(m_{x}, m_{y}\right)<0\right\}\right|
     \end{array}
- \end{equation}\cite{morphing_paper}
+ \end{equation}
 
 The result needs to be normalized into the range $<0;1>$. Therefore the sigmoid function Z is and is controlled by the parameters $\mu$ a $\tau$. \cite{morphing_paper}
 \begin{equation}
     Z(v, \mu, \tau)=\frac{1}{1+e^{-\tau(v-\mu)}}
 \end{equation}
-As the result cutline is assigned cutline with highest score $S_c$.\cite{morphing_paper}
+As the result cutline is assigned cutline with highest score $S_c$. \cite{morphing_paper}
  
 \label{imageBased1}
-\section{Image-based fingerprint generation} \label{picgen}
-The fingerprint is generated by merging fingerprint intersections. Let $ \hat{F}^{p} $ be the part of the fingerprints above the cutline and $ \hat{F}^{n} $ be the part of the fingerprints below the cutline, which we determine as follows:
+\section{Image-based Fingerprint Generation} \label{picgen}
+The fingerprint is generated by merging fingerprint intersections. Let $ \hat{F}^{p} $ be the part of the fingerprints above the cutline and $ \hat{F}^{n} $ be the part of the fingerprints below the cutline, which we determine as follows: \cite{morphing_paper}
 \begin{equation}
     (p, n)=\left\{\begin{array}{ll}
     (1,2) & \text { if } \zeta_{m}\left(T^{1}, T^{2}\right) \geq \zeta_{m}\left(T^{2}, T^{1}\right) \\
     (2,1) & \text { otherwise }
     \end{array}\right.
-\end{equation}\cite{morphing_paper}
+\end{equation}
 
-Then the fingerprint generation looks like: 
+Then the fingerprint generation looks like: \cite{morphing_paper}
 \begin{equation}
     D^{I}(x, y)=w_{x, y}^{l_{\max }} \cdot \hat{F}^{p}(x, y)+\left(1-w_{x, y}^{l_{m a x}}\right) \cdot \hat{F}^{n}(x, y)
-\end{equation}\cite{morphing_paper}
-where $w_{x, y}^{l_{\max }}$ is weight to balance the mixing in near distance to the cutline.\cite{morphing_paper}
+\end{equation}
+where $w_{x, y}^{l_{\max }}$ is weight to balance the mixing in near distance to the cutline. \cite{morphing_paper}
     
 \begin{equation}
     w_{x, y}^{l_{\max }}=\left\{\begin{array}{c}
@@ -694,28 +663,33 @@ where $w_{x, y}^{l_{\max }}$ is weight to balance the mixing in near distance to
 \end{equation}
 
 \label{imageBased2}
-\section{Improved image based generation}
-After going through image-based generation from the previous section \ref{imageBased1} some ideas have been shown. Some improvements were made in steps after generation and mostly to make the generation more universal to different fingerprints. The first improvement was made on the computation of the mask for fingerprint. Since the given database contains fingerprints scanned with some noise, maximal movement in pixels had to be added to avoid containing it in mask, where the optimal value was considered as 5px.
+\section{Improved Image Based Generation}
+After going through image-based generation from the previous Section \ref{imageBased1} some ideas have been shown. Some improvements were made in steps after generation and mostly to make the generation more universal to different fingerprints. The first improvement was made on the computation of the mask for fingerprint. Since the given database contains fingerprints scanned with some noise, maximal movement in pixels had to be added to avoid containing it in the mask, where the optimal value was considered as 5px.
 
-The main change making the most of improvement is rotating the cutline around the center of the first fingerprint. The option of rotating the cutline around the core or delta can lead to maximalize only one fingerprint on the whole image based on the position of the core or delta on the fingerprint. This can be seen in the example from picture \ref{fig:bad_show}.
+\subsection{Mask Alignment}
+The first change in the algorithm was made in aligning the fingerprints. Since the alignment by orientation field sometimes cuts a lot from one of the fingerprints it was tried to minimalize this mistake by aligning the fingerprints with masks. This approach maximizes the space coverage of fingerprints.
+
+Masks contain values 0 = background, 1 = foreground and they are the same size. Mask from 2nd fingerprint is being aligned on the mask from 1st fingerprint. The rotated masks in the range $ <-\pi/2; \pi/2>$ are computed and stored in an array. Each rotated mask is moved over the 1st fingerprint mask in the range  $ <-h\_w; h\_w>$ for width and $ <-h\_h; h\_h>$ for height where $h\_w$ is half of the width and $h\_h$ is half of the height of the fingerprint mask.
+
+Then the similarity value is computed as the sum of values of the intersection of the 1st fingerprint mask and the rotated mask. The rotated and moved mask position with the highest score is assigned as the optimal alignment.
+
+
+\subsection{Cutline}
+The main change that makes the best improvement is to rotate the cutline around the center of the first fingerprint. The option of rotating the cutline around the core or delta can lead to the maximalization of only one fingerprint on the whole image based on the position of the core or delta on the fingerprint. This can be seen in the example from picture \ref{fig:bad_show}.
 
 \begin{figure}[H]
     \centering
         {\includegraphics[width=1\linewidth]{obrazky-figures/bad_show.png}}\\
-        \caption{Demonstration of fingerprint generation problem (in1, in2 = input fingerprints, out = morphed fingerprint). Only small part at bottom is contained from fingerprint in1}
+        \caption{Demonstration of fingerprint generation problem (in1, in2 = input fingerprints, out = morphed fingerprint). Only small part at the bottom is contained from fingerprint in1}
         \label{fig:bad_show}
 \end{figure}
 
-Putting barycenter into the center deletes this kind of mistake. But also brings one for the human eye. The fingerprints can contain more than one core this way. And sometimes are easily discovered as fake by the human eye.
+The last change made was going over the result with the Gaussian filter with kernel 5x5 to blur the whole fingerprint a bit and make the transitions between fingerprints less visible. This option works properly only in some cases and is not included in the final testing.
 
-The next idea that proved to be right was to apply contrast limited adaptive histogram equalization (CLAHE) after the whole fingerprint generation. Since the given database is containing fingerprints that differ a bit more in contrast. The CLAHE makes these differences less visible.
+\section{Minutiae-based Fingerprint Generation}
+To complete all ideas about fingerprint image generation, the second fingerprint generation from paper \cite{morphing_paper} is mentioned as well. But because of different topics and the author’s tests against VeriFinger which ended worse than image-based morphing, this solution was neither implemented nor tested. 
 
-The last change made was going over the result with the Gaussian filter with kernel 5x5 to blur a bit the whole fingerprint and make less visible the transitions between fingerprints. This option works properly only in some cases and is not included in final testing.
-
-\section{Minutiae-based fingerprint generation}
-To complete all ideas about fingerprint image generation the second fingerprint generation from paper \cite{morphing_paper} is mentioned as well. But because of different topics and the author’s tests against VeriFinger which ended worse than image-based morphing, this solution was neither implemented or tested. 
-
-A realistic fingerprint can be generated synthetically based on features with a combination of fingerprint orientation fields and frequencies. The first step is to obtain dual identity fingerprint information ($ \tilde{O} $ orientation field, $ \tilde{\Upsilon} $ frequency field and $ \tilde{T} $ markers) by combining the first and second fingerprints similar to the method \ref{picgen}. \cite{morphing_paper}
+A realistic fingerprint can be generated synthetically based on features with a combination of fingerprint orientation fields and frequencies. The first step is to obtain dual identity fingerprint information ($ \tilde{O} $ orientation field, $ \tilde{\Upsilon} $ frequency field and $ \tilde{T} $ markers) by combining the first and the second fingerprints similar to the method \ref{picgen}. \cite{morphing_paper}
 
 \begin{equation}
     \tilde{O}(x, y)=w_{x, y}^{l_{\max }} \cdot \hat{O}^{p}(x, y)+\left(1-w_{x, y}^{l_{\max }}\right) \cdot \hat{O}^{n}(x, y)
@@ -731,15 +705,15 @@ A realistic fingerprint can be generated synthetically based on features with a 
 The generation itself is based on two steps:
 
 \begin{enumerate}
-    \item In the first step, we work only with minutiae and fingerprint orientation field from the input, which carry information about the position $ x_i, y_i $ and the type of marker. We recognize only two types of minutiae and that is the bifurcation and the ridge ending. Then the minutiae are placed in position according to the position and turn it by an angle according to the field of orientations.\cite{syntetic_gen_paper}
+    \item In the first step, we work only with minutiae and fingerprint orientation field from the input which carry information about the position $ x_i, y_i $ and the type of marker. We recognize only two types of minutiae and that is the bifurcation and the ridge ending. Then the minutiae are placed in position according to the position and turned by an angle according to the field of orientations. \cite{syntetic_gen_paper}
     
-    \item In the second step, the papillary lines are "grown" from the markers using a Gabor filter modified to work with the frequency field $v$ and the fingerprint orientation field $ \ phi_{x y} $:\cite{syntetic_gen_paper}
+    \item In the second step, the papillary lines are ``grown`` from the markers using a Gabor filter modified to work with the frequency field $v$ and the fingerprint orientation field $ \ phi_{x y} $: \cite{syntetic_gen_paper}
     \begin{equation}
         \text{gabor}\left(r, s: \phi_{x y}, \nu\right)=e^{-\frac{(r+s)^{2}}{2 \sigma^{2}}} \cdot \cos \left[2 \pi \nu\left(r \sin \phi_{x y}+s \cos \phi_{x y}\right)\right]
     \end{equation}
 \end{enumerate}
 
-In the end, it is possible to crop the fingerprint to the shape of the fingerprint and add a little noise to make it "real" for the human eye as well. Trimming will be performed according to the mask calculated in the section\ref{preprocessing}.
+In the end, it is possible to crop the fingerprint to the shape of the fingerprint and add a little noise to make it ``real`` for the human eye as well. Trimming will be performed according to the mask calculated in the Section \ref{preprocessing}.
 
 \begin{figure}[H]
     \centering
@@ -749,89 +723,90 @@ In the end, it is possible to crop the fingerprint to the shape of the fingerpri
 \end{figure}
 
 \chapter{Implementation}
-This chapter describes the implementation of both morphing applications and fingerprint matching applications with the use of tools from Innovatrics and Neurotec. A laptop with the following configuration was used for testing:
+This Chapter describes the implementation of both morphing applications and fingerprint matching applications with the use of tools from Innovatrics \cite{innovatricsonline} and Neurotechnology \cite{Neurotechonline}. A laptop with the following configuration was used for testing:
 \begin{itemize}
     \item CPU: Intel Core i5-6200U
     \item RAM: 8GB DDR4
-    \item SSD: SSD 2400s M.2 2280 128GB
+    \item SSD: Samsung SSD 860 EVO, M.2 - 500GB
     \item OS: Windows 10
 \end{itemize}
 
+\section{Morphing Application}
 \label{mainmorph}
-\section{Morphing application}
-The application for morphing was implemented in Python version 3.8.5. as a console application with the use of these libraries: NumPy, SciPy, PIL, Matplotlib, OpenCV, and one GitHub repository, which was used for minutiae detection and thinning. The application is generating one morphed fingerprint from two fingerprints on the input based on an algorithm described in chapter \ref{suggestion}. 
+The application for morphing was implemented in Python version 3.8.5. as a console application with the use of the following libraries: NumPy, SciPy, PIL, Matplotlib, OpenCV, and a GitHub repository \cite{GitHubme63:online}, which was used for minutiae detection and thinning. The application generates a morphed fingerprint from two fingerprints on the input based on an algorithm described in Chapter \ref{suggestion}. 
 
-The application runs on two modes first is for just to generate one morphed result, second is to generate all results from folders on an input. Both needs to get set \texttt{-{}-blocksize} or optionally \texttt{-{}-center}, \texttt{-{}-plot} or \texttt{-{}-save}. First then needs to get set input images (\texttt{-{}-image\_1} and \texttt{-{}-image\_2}). The second needs to get set input folders (\texttt{-{}-filder1}, \texttt{-{}-folder2} and \texttt{-{}-folder3}) and suffix of input images (\texttt{-{}-suf}).
+The application runs in two modes. The first is used to generate one morphed result, the other is to generate all the results from folders on the input. Both need to set \texttt{-{}-blocksize} or optionally \texttt{-{}-center}, \texttt{-{}-plot} or \texttt{-{}-save}. The first mode then needs to set the input images (\texttt{-{}-image\_1} and \texttt{-{}-image\_2}). The other needs to set the input folders (\texttt{-{}-filder1}, \texttt{-{}-folder2} and \texttt{-{}-folder3}) and set the suffix of input images (\texttt{-{}-suf}).
 
-\subsubsection{Application control}
+\subsubsection{Application Control}
 \texttt{python morph.py [-h] [-{}-image\_1 /path/to/first/fingerprint/image/]} \\ \texttt{[-{}-image\_2 /path/to/second/fingerprint/image/] -{}-blocksize int [-{}-save \\ filename] [-{}-folder1 folder] [-{}-folder2 folder] [-{}-folder3 folder] [-{}-plot]} \\ \texttt{[-{}-suf .bmp/ .tif /...] [-{}-center]}
 
 \begin{itemize}
     \item \texttt{-h}: Show help 
-    \item \texttt{-{}-image\_1 /path/to/first/fingerprint/image/}: First input image for morphing. Only for one generation.
-    \item \texttt{-{}-image\_2 /path/to/second/fingerprint/image/}: Second input image for morphing. Only for one generation.
+    \item \texttt{-{}-image\_1 /path/to/first/fingerprint/image/}: the first input image for morphing. Only for one generation.
+    \item \texttt{-{}-image\_2 /path/to/second/fingerprint/image/}: the second input image for morphing. Only for one generation.
     \item \texttt{-{}-blocksize int}: Integer value for blocksize
-    \item \texttt{-{}-save filename}: Save to file filename. If not set, nothing is saved.
-    \item \texttt{-{}-folder1 folder}: Folder with first input images. Argument used only for generating over whole folder.
-    \item \texttt{-{}-folder2 folder}: Folder with second input images. Argument used only for generating over whole folder.
-    \item \texttt{-{}-folder2 folder}: Folder for output images. Argument used only for generating over whole folder.
+    \item \texttt{-{}-save filename}: Save to a file ``filename``. If not set nothing is saved.
+    \item \texttt{-{}-folder1 folder}: Folder with the first input images. Argument used only for generating over the whole folder.
+    \item \texttt{-{}-folder2 folder}: Folder with the second input images. Argument used only for generating over the whole folder.
+    \item \texttt{-{}-folder3 folder}: Folder for output images. Argument used only for generating over the whole folder.
     \item \texttt{-{}-plot}: Plots few steps with Matplotlib. Steps: 
-    Input images without background, orientation fields, alligned fingerprints, frequency image and minutiae, optimal cutline with barycenter and result. Demonstration of output can be seen in figure \ref{fig:app_plot}
+    Input images without background, orientation fields, alligned fingerprints, frequency image and minutiae, optimal cutline with barycenter and result. Demonstration of output can be seen in Figure \ref{fig:app_plot}
 	\item \texttt{-{}-suf .bmp/.tif /...}: Suffix of files in the folders that should be taken as an input.
-	\item \texttt{-{}-center}: Take center of fingerprints as a barycenter for cutline
-	\item \texttt{-{}-eq}: Use CLAHE on result
-	\item \texttt{-{}-gaus}: Use gaussian blur on result
+	\item \texttt{-{}-center}: Take center of fingerprints as a barycenter for cutline.
+	\item \texttt{-{}-mask}: Align fingerprints by most coverage of masks.
+	\item \texttt{-{}-eq}: Use CLAHE on result.
+	\item \texttt{-{}-gaus}: Use gaussian blur on result.
 \end{itemize}
 
 \begin{figure}[H]
     \centering
         {\includegraphics[width=1\linewidth]{obrazky-figures/app_plot.png}}\\
-        \caption{Demonstration of plotting the output with steps from morphing application (left window: 1st line = fingerprints with cropped background, 2nd line = orientation fields, 3rd line aligned fingerprints)(right window: 1st and 2nd line = fingerprint with cropped overlaying part, frequency image, minutiae; 3rd line= cutline on 1st and 2ns fingerprint, last is result)}
+        \caption{Demonstration of plotting the output with steps from morphing application (left window: 1st line = fingerprints with cropped background, 2nd line = orientation fields, 3rd line aligned fingerprints; right window: 1st and 2nd line = fingerprint with cropped overlaying part, frequency image, minutiae; 3rd line= cutline on 1st and 2nd fingerprint, last is result)}
         \label{fig:app_plot}
 \end{figure}
 
-\section{Innovatrics IDKit PC SDK}
-IDKit is a tool for creating applications used for fingerprint identification. The IDKit PC SDK supports a number of image formats (RAW, PNG, BMP, JPEG, JPEG 2000, GIF, WSQ, TIF) and is compatible with a wide range of scanners. The tool has support for working with the database, which can be in SQLite / MySQL / MSSQL / Oracle formats. \cite{idkitsdk} On the one hand, this is a very useful function, but in my solution, when I did not find a function in the documentation for comparing fingerprints, which could work without the database, it is made the implementation a bit more difficult.
+\section{Innovatrics IDKit PC SDK v8.0.1.0}
+IDKit \cite{innovatricsonline} is a tool for creating applications used for fingerprint identification. The IDKit PC SDK supports a number of image formats (RAW, PNG, BMP, JPEG, JPEG 2000, GIF, WSQ, TIF) and is compatible with a wide range of scanners. The tool has support for working with the database, which can be in SQLite / MySQL / MSSQL / Oracle formats. \cite{idkitsdk}
 
-Innovatrics IDKit PC SDK is officially supported for Windows 32-bit and 64-bit for version 7 and higher, Linux 32-bit and 64-bit (Red Hat), Centos version 7 and higher. \ Cite {idkitsdk}. The application was implemented for Windows 10 and the source code is also submitted with the project, which can be run in Visual Studio 2019.
+Innovatrics IDKit PC SDK is officially supported for Windows 32-bit and 64-bit for version 7 and higher, Linux 32-bit and 64-bit (Red Hat), Centos version 7 and higher. \cite{idkitsdk}. The application was implemented for Windows 10 and the source code is also submitted with the project, which can be run in Visual Studio 2019.
 
+\subsection{Application for Comparing Fingerprints} 
 \label{fca}
-\subsection{Fingerprints compare application} 
-The application is implemented in C++ using the Innovatrics IDKit PC SDK. Visual Studio 2019 was used for development. It is possible to start evaluation over only three inputs (fingerprint 1, fingerprint 2, morphed fingerprint from two previous ones) when the morphed fingerprint is evaluated against two inputs, but also evaluation over the whole folder is possible when the output is a .csv file that contains the similarity score accumulator, from which it is then possible to create an FMR curve. 
+The application is implemented in C++ using the Innovatrics IDKit PC SDK. Visual Studio 2019 was used for development. It is possible to start evaluation over only three inputs (fingerprint 1, fingerprint 2, morphed fingerprint from the two previous ones) when the morphed fingerprint is evaluated against two inputs. But also evaluation over the whole folder is possible. Then the output is a .csv file that contains the similarity score accumulator, from which then it is possible to create an FMR curve. The lowest size for image on input is 90px width and 90px height.
 
-The output of the application are scores for comparison over just three fingerprints (just one run) for both fingerprints from input in comparison with the morphed one. For the whole folder, only the lower score is stored in the .csv file. To load the file into excel, just simply load data from .csv and set delimiter as coma if it is not set automatically.
+The outputs of the application are scores for comparison over just three fingerprints (just one run) for both fingerprints from input in comparison with the morphed one. For the whole folder, only the lower score is stored in the .csv file. To load the file into excel, just simply load data from .csv and set the  delimiter as coma, if it is not set automatically.
 
-To run the application, it is first necessary to generate files for the Visual studio using CMake in the build folder. Then, in the project, set the language to C++ 17 (project entry $ \rightarrow $ Properties $ \rightarrow $ C / C ++ $ \rightarrow $ Language $ \rightarrow $ C ++ Language Standard). Finally, set compare as the running project. The source files are here: evaluation \_ modules/ Compare\_ fingerprint/src, the project for Visual studio here: evaluation \_ modules/Compare\_ fingerprint/build/ compare and executable in the Debug pad.
+To run the application, it is first necessary to generate files for the Visual studio using CMake in the build folder. Then, in the project, set the language to C++ 17 (project entry $ \rightarrow $ Properties $ \rightarrow $ C / C ++ $ \rightarrow $ Language $ \rightarrow $ C ++ Language Standard). Finally, set compare as the running project. The source files are located: \texttt{evaluation\_modules/Compare\_finge\-rprint/src}, the project for Visual studio here:\texttt{evaluation\_modules/Compare\_fingerpri\-nt/build/} compare and executable in the Debug pad.
 
-\subsubsection{Application control}
+\subsubsection{Application Control}
 \texttt{./compare.exe -db \_ -s -f1 \_ -f2 \_ -i1 \_ -i2 \_ -gen \_ -geni \_ -suf \_}
 \begin{itemize}
-    \item \texttt{-db "databaseString"}: The default value is iengine.db 
-    \item \texttt{-s}: Save the result to the database
-    \item \texttt{-f1 "finger.bmp"}: First fingerprint image
-    \item \texttt{-i1 indexOtisku}: First fingerprint index in the database
-    \item \texttt{-f2 "finger2.bmp"}: Second fingerprint image
-    \item \texttt{-i2 indexOtisku}: Second fingerprint index in the database
-    \item \texttt{-gen genFinger.bmp}: Morphed fingerprint image
-    \item \texttt{-geni genIndex}: Index of morphed fingerprint image in the database 
-    \item \texttt{-suf suffix}: Suffix of images in folder
+    \item \texttt{-db ``databaseString``}: The default value is iengine.db.
+    \item \texttt{-s}: Save the result to the database.
+    \item \texttt{-f1 ``finger.bmp``}: First fingerprint image.
+    \item \texttt{-i1 integer}: First fingerprint index in the database.
+    \item \texttt{-f2 ``finger2.bmp``}: Second fingerprint image.
+    \item \texttt{-i2 integer}: Second fingerprint index in the database.
+    \item \texttt{-gen ``genFinger.bmp``}: Morphed fingerprint image.
+    \item \texttt{-geni integer}: Index of morphed fingerprint image in the database.
+    \item \texttt{-suf suffix}: Suffix of images in folder.
 \end{itemize}
 
+\subsection{Console Application for Fingerprint Classification}
 \label{clasifyApp}
-\subsection{Console application for classifying fingerprints}
-The application is implemented in C++ with the use of the same tools as the previous application described in section \ref{fca} with the use of functions described in section \ref{API}. The application is used to be run through python script src/scripts/divideToClasses.py. That is why the application is having the width and height of the image as arguments. The class is returned as a return code and also printed into the terminal. Return values are integer numbers (0 = unknown, 1 = left loop, 2 = right loop, 3 = arch, 4 = whorl). The lowest size for image on input is 90px width and 90px height.
+The application is implemented in C++ with the use of the same tools as the previous application, described in Section \ref{fca} and with the use of functions described in Section \ref{API}. The application is meant to be run using python script located in \texttt{src/scripts/divideToC\-lasses.py}. That is why the application is having the width and height of the image as arguments. The class is returned as a return code and also printed into the terminal. Return values are integer numbers: 0 is unknown, 1 is left loop, 2 is right loop, 3 is arch, 4 is whorl. The lowest size for image on input is 90 px in width and 90 px in height.
 
-\subsubsection{Application control}
+\subsubsection{Application Control}
 \texttt{./class\_detect.exe image\_name width height}
 \begin{itemize}
-    \item \texttt{imagename}: path/to/image.bmp of the fingerprint, which we need to get type of class from
-    \item \texttt{width}: Width of fingerprint image
-    \item \texttt{height}: Height of fingerprint image
+    \item \texttt{imagename}: \texttt{path/to/image.bmp} of the fingerprint which is needed to get the type of class.
+    \item \texttt{width}: Width of fingerprint image.
+    \item \texttt{height}: Height of fingerprint image.
 \end{itemize}
 
+\subsubsection{Python Script}
 \label{classscript}
-\subsubsection{Python script}
-Python script was created to run application made in C++ over whole folder. Script just recursively goes through folder finds all images, each image puts on input of C++ application and based on returned result copies result into suitable folder. The output folders are arch, left\_loop, right\_loop, whorl and unknown representing each class. 
+Python script was created to run the application made in C++ over the whole folder. Script just recursively goes through a folder, finds all the images and puts each image on the input of the application. Based on the returned result, it copies result into suitable folder. The output folders are \texttt{arch}, \texttt{left\_loop}, \texttt{right\_loop}, \texttt{whorl} and \texttt{unknown} representing each class. 
 
 \textbf{Script control}\\
 \texttt{ python divideToClasses.py input\_folder input\_image\_suffix output\_folder \\ path\_to\_class\_detect.exe}
@@ -839,51 +814,56 @@ Python script was created to run application made in C++ over whole folder. Scri
 	\item \texttt{input\_folder}: Folder containing fingerprint images
 	\item \texttt{input\_image\_suffix}: Suffix of fingerprint images (.bmp/.tiff/...)
 	\item \texttt{output\_folder}: Folder for outputting results
-	\item \texttt{path\_to\_class\_detect.exe}: path to executable file of application for classifying fingerprints
+	\item \texttt{path\_to\_class\_detect.exe}: Path to executable file of the application for classifying fingerprints
 \end{itemize}
 
+\subsection{Used API Description}
 \label{API}
-\subsection{Used API description}
-This section is describing functions called from C++ API, that were needed for the implementation of fingerprint compare application. The documentation that comes with IDKit is only described how to compare fingerprints with the database. Therefore the database functions are described as well. Most of the functions are returning return values (\texttt{IDKIT\_API}), which can be found in documentation (\cite{idkitsdk}). This work is not describing any of the return values.
+This Section describes the functions called from C++ API, that were needed for the implementation of the application for comparing fingerprints. The documentation that comes with IDKit only describes how to compare fingerprints with the database. Therefore the database functions are described as well. Most of the functions have return values (\texttt{IDKIT\_API}), which can be found in the documentation (\cite{idkitsdk}).
 
-\subsubsection{Initialization and Database connect}
-Before using whole API first the library has to be initialized, which comes also with license check. This all is made with function \texttt{IDKIT\_API int IEngine\_InitModule()}. Function takes no parameters as same as function that should be called on the of use of the API \texttt{IDKIT\_API int IEngine\_TerminateModule()}. 
+\subsubsection{Initialization and Connection to Database}
+Before using the whole API, first, the library has to be initialized, which comes also with a license check. This all is made with function \texttt{IDKIT\_API int IEngine\_InitModule()}. The function takes no parameters as same as the function that should be called on the of use of the API \texttt{IDKIT\_API int IEngine\_TerminateModule()}. 
 
-For connecting to database that is containing or will contain biometric data \texttt{IDKIT\_API int IEngine\_Connect(const char * connectionString)} function is used. The function takes one parameter and it is a connection string. It is allowed to connect to an SQLite database or memory database. If the string contains only the file name (for example \texttt{idkit.db}) the SQLite connection is selected automatically and if the file does not exist a new one is created. After finishing the job with our database, connections should be closed with the function \texttt{IDKIT\_API int IEngine\_CloseConnection(IENGINE\_CONNECTION con\-nection)}, which takes no parameters.
+To connect the database that will contain biometric data \\ \texttt{IDKIT\_API int IEngine\_Connect(const char * connectionString)} function is used. The function takes one parameter a connection string. It is allowed to connect to an SQLite database or memory database. If the string contains only the file name (for example \texttt{idkit.db}) the SQLite connection is selected automatically and if the file does not exist a new one is created. After finishing the job with the database, connections should be closed with the function \texttt{IDKIT\_API int IEngine\_CloseConnection(IENGINE\_CONNECTION con\-nection)}, which takes no parameters.
 
-\subsubsection{Register fingerprint}
-The first step in registering a fingerprint is the initialization of the user, which is made by calling API function \texttt{IDKIT\_API IENGINE\_USER IEngine\_InitUser()}. This function returns an ID of the user or NULL in an unsuccessful case. The user is just created and it needs to be said that it is still not registered in the database. To free user function \texttt{IDKIT\_API int IEngine\_FreeUser(IENGINE\_USER user)} is used.
+\subsubsection{Register Fingerprint}
+The first step in registering a fingerprint is the initialization of the user, which is made by calling the API function \texttt{IDKIT\_API IENGINE\_USER IEngine\_InitUser()}. This function returns an ID of the user or NULL in an unsuccessful case. The user is just created and it needs to be said that it is still not registered in the database. To free the user, function \texttt{IDKIT\_API int IEngine\_FreeUser(IENGINE\_USER user)} is used.
 
-Then we need to load the fingerprint picture and add it to the created user with function \\
-\texttt{IDKIT\_API int IEngine\_AddFingerprintFromFile(IENGINE\_USER user,\\ IENGINE\_FINGER\_POSITION fingerPosition, const char * filename)}. The first parameter is the user we just created, the second is the finger to which the image of fingerprint belongs (for more see \cite{idkitsdk} page 106) and last is the filename of the image we are trying to upload.
+Then we need to load the fingerprint picture and add it to the created user using the function \\
+\texttt{IDKIT\_API int IEngine\_AddFingerprintFromFile(IENGINE\_USER user,\\ IENGINE\_FINGER\_POSITION fingerPosition, const char * filename)}. The first parameter is the user we just created, the second is the finger to which the image of fingerprint belongs (for more see \cite{idkitsdk} page 106) and the last is the filename of the image we are trying to upload.
 
-Now after assigning fingerprint to the user we need to register the user to the database simply by calling \texttt{IDKIT\_API int IEngine\_RegisterUser(const IENGINE\_USER user, int *\\ userID)}, where the first parameter is the user we created and a second is the return value for an ID of a just registered user. To remove user from the database function \texttt{IDKIT\_API int IEngine\_Remove User(int userID)} is used.
+Now after assigning the fingerprint to the user we need to register the user to the database simply by calling \texttt{IDKIT\_API int IEngine\_RegisterUser(const IENGINE\_USER user, \\int * userID)}, where the first parameter is the user we created and the second is the return value for an ID of a just registered user. To remove the user from the database, the function \texttt{IDKIT\_API int IEngine\_Remove User(int userID)} is used.
 
 To be able to create another user with its own data, the structure of the user needs to be cleared after storing it in the database. This is made by calling the function \texttt{IDKIT\_API int IEngine\_ClearUser(IENGINE\_USER user)}.
 
-\subsubsection{Match fingerprints}
-First, we need to prepare the user to be matched like described in the section before or select user from the database with function \texttt{IDKIT\_API int IEngine\_GetUser(IENGINE\_USER user, int userID)}, where the user is output for founded user in the database by userID. The second threshold needs to be set as a deciding parameter with function \texttt{IDKIT\_API int IEngine\_SetParame\-ter (IENGINE\_CONFIG parameter, int value)}. The first parameter is the parameter we want to set (in our case \texttt{CFG\_ SIMILARITY\_THRESHOLD}), and we want to set the value as 0 in our case because we want all the results. Otherwise, all results below the threshold are set to 0. The default value for the threshold is 40.
+\subsubsection{Match Fingerprints}
+First, we need to prepare the user to be matched, as described in the Section before, or select user from the database with function \texttt{IDKIT\_API int IEngine\_GetUser(IENGINE\_USER user, int userID)}, where the user is the output for founded user in the database by userID. The second threshold needs to be set as a deciding parameter with function \texttt{IDKIT\_API int IEngine\_SetParame\-ter (IENGINE\_CONFIG parameter, int value)}. The first parameter is the parameter we want to set (in our case \texttt{CFG\_ SIMILARITY\_THRESHOLD}), and we want to set the value as 0 in our case because we want all the results. Otherwise, all results below the threshold are set to 0. The default value for the threshold is 40.
 
-Matching of two fingerprints is then done with a function \texttt{IDKIT\_API int IEngine\_Match Fingerprint(const IENGINE\_USER user, int fingerprintIndex, int userID, int * bestIndex, int * score)}. The first parameter user is the input user with which the comparison will be made. Parameter fingerprintIndex is an index of the fingerprint that we are comparing. In my implementation, all fingerprints are always saved on index 0. Parameter userId is the id of the user in the database, against which we want to compare our user. Parameter bestIndex is output for best-matched fingerprint index from the user in DB. If this is not important and we do not need this output, the value can be set to NULL and this output is ignored. The last parameter score is the return value of the match score of two fingerprints. If the score falls below the threshold, then the return value is 0.  
+Matching of two fingerprints is then done using a function \texttt{IDKIT\_API int IEngine\_Mat\-chFingerprint(const IENGINE\_USER user, int fingerprintIndex, int userID, \\ int * bestIndex, int * score)}. The first parameter is the input user with which will be made the comparison. Parameter fingerprintIndex is an index of the fingerprint that we are comparing. In my implementation, all fingerprints are always saved at index 0. Parameter userId is the id of the user in the database, against which we want to compare our user. Parameter bestIndex is output for best-matched fingerprint index from the user in DB. If this is not important and we do not need this output, the value can be set to NULL and this output is ignored. The last parameter score is the return value of the match score of two fingerprints. If the score falls below the threshold then the return value is 0.  
   
+\subsubsection{Fingerprint Image from Database}
 \label{ffdb}
-\subsubsection{Fingerprint image from Database}
 To get fingerprint from db function \texttt{IDKIT\_API int IEngine\_GetFingerprintImage(const IENGINE\_USER user, int fingerprintIndex,
-IENGINE\_IMAGE\_FORMAT format, unsign\-ed char * fingerprintImage, int * length)} is used. user is an input parameter for the user from which we want to get the fingerprint image, fingerprintIndex is an index of the fingerprint we want to get an image from. Formats are listed in \cite{idkitsdk} on page 106. fingerprintImage is the output image of our fingerprint and length is the size of allocated memory for the resulting image.
+IENGINE\_IMAGE\_FORMAT format, \\ unsigned char * fingerprintImage, int * length)} is used. user is an input parameter for the user from which we want to get the fingerprint image, fingerprintIndex is an index of the fingerprint we want to get an image from. Formats are listed in \cite{idkitsdk} on page 106. fingerprintImage is the output image of our fingerprint and length is the size of allocated memory for the resulting image.
 
-\subsubsection{Detect fingerprint class}
+\subsubsection{Detect Fingerprint Class}
 To detect the fingerprint class function \texttt{IDKIT\_API int IEngine\_GetFingerprintClass( const unsigned char* fingerprintImage, int
-length, int * fingerprintClass)} can be used. Parameters fingerprintImage and length are the same as described in section \ref{ffdb}. Parameter fingerprintClass is output for the class of fingerprint. API supports 4+1 kinds of classes and these are left loop, right loop, arch, whorl + unknown.  
+length, int * fingerprintClass)} can be used. Parameters fingerprintImage and length are the same as described in Section \ref{ffdb}. Parameter fingerprintClass is output for the class of fingerprint. API supports 4+1 kinds of classes and these are: left loop, right loop, arch, whorl + unknown.  
 
 \section{Neurotec Biometric SDK}
 Neurotec Biometric SDK is a toolkit for all SDKs (MegaMatcher SDK, VeriFinger SDK, VeriLook SDK, VeriEye SDK, VeriSpeak SDK) from Neurotechnology. It contains all the necessary libraries, documentation and tutorial, and some sample programs. Where, of course, there is the possibility of connecting Different SDKs into one solution. \cite{veri6}
 
 VeriFinger is then only a fingerprint identification tool. VeriFinger allows both 1 to 1 and 1 to N fingerprint comparisons. The Neurotec fingerprint engine has been recognized by NIST in accordance with the MINEX tests. \cite{veri6}
 
-\subsection{Fingerprint match console app}
-The application was created according to the tutorial supplied with the Neurotec package in the C language. The application is used to compare fingerprints 1: 1 and returns the similarity score both on the return code of the application and on the standard output. Upload the evaluation folder to start the application \_modules/Neurotec\_Biometric\_6\_0\_SDK\_Tri\-al/src to folder tools Neurotec\_Biometric\_6\_0\_SDK\_Trial and in the project, VerifyFinger changes the source file to main.c. Source files for included: evaluation\_modules/Neuro\-tec\_Biometric\_6\_0\_SDK\_Trial/src/Biometrics/C, executable in: /evaluation\_module\-s/Neurotec\_Biometric\_6\_0\_SDK\_Trial/Bin.
+\subsection{Fingerprint Match Console App VeriFinger v6 and v12.1}
+The applications were created according to the tutorial supplied with the Neurotec package in the C/C++ language. The application is used to compare fingerprints 1: 1 and returns the similarity score both on the return code of the application and on the standard output. 
 
-\subsubsection{Console app controls}
+For evaluation using VeriFinger v6 or v12.1, it is necessary to have images with DPI 500, for which a python script \texttt{changeDPIFolder.py} was created in the scripts folder. The script is executed as: \texttt{python3 changeDPIFolder.py "input / folder" "DPI"}. The results of the converted files to the required DPI are generated in the \texttt{res} folder and the files have \texttt{.tif} extension.
+
+\subsubsection{Console Application VeriFinger v6 Controls}
+\label{v6_console}
+Upload the evaluation folder to start the application \texttt{evaluation\_modules/Neurotec\_Biom\-etric\_6\_0\_SDK\_Tri\-al/src} to folder \texttt{Neurotec\_Biometric\_6\_0\_SDK\_Trial} and in the pro\-ject, VerifyFinger changes the source file to main.c. Source files for included: \texttt{evaluation\_m\-odules/Neuro\-tec\_Biometric\_6\_0\_SDK\_Trial/src/Biometrics/C}, executable in: \texttt{/eval\-uation\_module\-s/Neurotec\_Biometric\_6\_0\_SDK\_Trial/Bin}.
+
 \texttt{VerifyFinger.exe fingerprint1 fingerprint2}
 \begin{itemize}
     \item \texttt{fingerprint1} Path to the first fingerprint
@@ -892,48 +872,148 @@ The application was created according to the tutorial supplied with the Neurotec
 
 A script (runtests.py) written in Python 3.7 was created to automatically evaluate the entire folder, which, as with the Innovatrics version, saves the output to a .csv file for subsequent simple evaluation and creation of an FMR graph. The script is called: \texttt{python3 runtests.py "input /folder" "input.files.extension"}.
 
-For evaluation using VeriFinger v6, it is necessary to have images with DPI 500, for which a python script \texttt{changeDPIFolder.py} was created in the scripts folder. The script is executed as: \texttt{python3 changeDPIFolder.py "input / folder" "DPI"}. The results of the converted files to the required DPI are generated in the \texttt{res} folder and the files have \texttt{.tif} extension.
+\subsubsection{Console Application VeriFinger v12.1 Controls}
+The application was implemented using a tutorial, which can be downloaded with the VeriFinger v12.1. Therefore to translate the C++ application just copy the source file \texttt{VerifyFingerCPP.cpp} from \texttt{evaluation\_modules/Neurotec\_Biometric\_12\_1\_SDK} to \texttt{/N\-eurotec\_Biometric\_12\_1\_SDK/Tu\-torials/Biometrics/CPP/VerifyFingerCPP}. Then compile the project with the language to C++ 14 (set the language as in \ref{fca}) and use the generated ``.exe`` file.
 
-\chapter{Solution evaluation}
-To evaluate the application generating fingerprints by morphing a large database of fingerprints is needed. Although the database used in the paper which was a huge inspiration for this thesis is FVC2002 set A, the solution was not tested over this database for two reasons. The first reason is, that the author tells in the paper, that the pictures were selected randomly, which means that although I would have the database I am not able to check my result application against theirs from the randomness. The second reason is that the database comes with a book \cite{maltoni2009handbook} on CD and in the other way is not freely accessible. Therefore the database of fingerprints from the Brno University of Technology borrowed by Ing. Ondřej Kanich Ph.D. was used.
+\texttt{VerifyFinger.exe fingerprint1 fingerprint2}
+\begin{itemize}
+    \item \texttt{fingerprint1} Path to the first fingerprint
+    \item \texttt{fingerprint2} Path to the second fingerprint
+\end{itemize}
 
-\section{Fingerprint database EBD}
-The database was obtained by Security Technology Research and Development which is the Research group at the Faculty of Information Technology, Brno University of Technology. The database was scanned for academic purposes in several projects. Because of this purpose and legal terms in relating to privacy none of the fingerprints is shown in this work. For visual demonstration of how the application is working were used only public images were found by the Google search engine.
+The same script as in \ref{v6_console} is used for the evaluation of the whole folder.
 
-The database in version as I got consists of 9450 fingerprints which means, based on the fact that from every person were taken fingerprints from all fingers on both hands, 945 different people. The fingerprints were obtained by different sensors and this all gave more than enough variety for the application testing.
+\subsection{Used API}
+This Section describes functions called from C++ API that was needed for the implementation of fingerprint the application for comparing fingerprints with the use of software from Neurotechnology.
 
-\section{Results}
-To evaluate final applications there was needed to make some reduction in database, mainly because of time complexity. On average one fingerprint takes 37 seconds to generate on my working machine described at the beginning of this chapter. The time differs a lot based on used block size. So mentioned time was measured for 10-pixel blocksize, which was chosen based on the best results overall.
+\subsubsection{Initialization}
+First, the \texttt{NBiometricClient} object has to be initialized. The initialization for the object is done without any parameters like \texttt{NBiometricClient biometric\-Client;}. The NBiometricClient is used for device integration such as fingerprint sensor and makes it easy to implement the typical workflow, such as enrollment of scanned images. In our case, we need to specify the threshold to 0 so nothing is cut to 0 for our FMR curve by \\ \texttt{biometricClient.SetMatchingThreshold(0);} and set the level of matching speed to the lowest which means the precision to highest with\\ \texttt{biometricClient.SetFingersMatchingSpeed(nmsLow);}.
 
-To try most of the variability and most possibilities, first, the fingerprints were sort-out based on their classes with the use of script from section \ref{classscript}. Then 2 folders were created in each class folder with excluding the unknown class folder. Folder a) included 10 randomly chosen fingerprints and folder b) included 100 randomly chosen fingerprints. Then the morphing was run over these folders as each fingerprint from folder a) was combined with every fingerprint from folder b). This created 1000 fingerprints from each class.
+Then the two subjects for verification need to be created by \texttt{NSubject subject;}. The initialization of the object again takes no parameters and everything is assigned later, because the subject insides depends on system used (can include faces, fingerprints, iris, ...). \texttt{NSubject} represents living creatures and stores their biometric data such as fingerprints or face. First the id of the subject is set by \texttt{subject.SetId(subjectId);} and then the finger object is created \texttt{NFinger finger;} with the loaded fingerprint image by\\ \texttt{finger.SetFileName(fileName);}. In the end we add the fingerprint to our subject by \texttt{subject.GetFingers().Add(finger);}
 
-To generate interclass fingerprints folder combined was created and from the first two classes (left loop and right loop) 3 random fingerprints were selected, then from the other two, only 2 fingerprints were selected. For folder, b) 25 fingerprints from each class were selected, and then the generation was run the same. This generation was run twice, once for generation from the center and secondly from the core (described in section \ref{mainmorph}). That means, that even with this reduction the time taken by generation was over 102 hours.
+\subsubsection{Verification}
+After creating the both \texttt{NSubject}, lets say, \texttt{referenceSubject} and \texttt{candidateSubject} we can start the verification by \texttt{NBiometricClient} which was created before by\\ \texttt{biometricCli\-ent.Verify(referenceSubject, candidateSubject);}. The verification returns \texttt{NBiomet\-ricStatus}. We look for return status is 1 (verification succeeded) or in case the threshold is set to any other value than 0. Then also return status is 610 which stands for ``Match not found``. All other status values are described in \cite{veri12}. The matching result can be obtained from referenceSubject by\\ \texttt{referenceSubject.GetMatchingResults().Get(0).GetScore();}
 
-After generation, the testing has begun with application from section \ref{clasifyApp} over each folder containing results from each class. 
+\chapter{Evaluation of the Proposed Solution}
+To evaluate the application used for generating fingerprints by morphing a large database of fingerprints is needed. Because the database FVC2002 is used in the paper \cite{morphing_paper} which was a huge inspiration for this thesis the solution was tested over this database against VeriFinger v6. Than the database of fingerprints from the Brno University of Technology borrowed by Ing. Ondřej Kanich Ph.D. was used to generate new database of almost 10 000 morphed fingerprints to test the solution against software from VeriFinger v6 and Innovatrics.
+
+\section{Fingerprint Database EBD}
+\label{EBD}
+The database was obtained by Security Technology Research and Development which is the Research group at the Faculty of Information Technology, Brno University of Technology. The database was scanned for academic purposes in several projects. Because of this purpose and legal terms in relating to privacy, none of the fingerprints are shown in this work. For visual demonstration of how the application works mostly public images were found by the Google search engine were used.
+
+The database in the received version consists of 9450 fingerprints which makes up 945 different people, based on the fact that from every person fingerprints from all fingers on both hands were taken. The fingerprints were obtained by different sensors and this all gave more than enough variety for the application testing.
+
+\section{Fingerprint Database FVC2002}
+The database FVC2002 was used in the Second International Competition for Fingerprint Verification Algorithms. Only 31 competitors were included and the evaluation of competition was done in April 2002 where the results were presented at 16th International Conference on Pattern Recognition. \cite{FVC2002S73:online}
+
+The database consists of 4 sub-databases: \cite{FVC2002S73:online}
+\begin{itemize}
+	\item \textbf{DB1:} fingerprints were taken by the optical sensor "TouchView II" by Identix,
+	\item \textbf{DB2:} fingerprints were taken by the optical sensor "FX2000" by Biometrika,
+	\item \textbf{DB3:} fingerprints were taken by the capacitive sensor "100 SC" by Precise Biometrics,
+	\item \textbf{DB4:} fingerprints synthetically generated by SFinGe v2.51.
+\end{itemize}
 
 \begin{figure}[H]
     \centering
-        {\includegraphics[width=1\linewidth]{obrazky-figures/results_core.png}}\\
-        \caption{Results of each class for morphing from section \ref{imageBased1}. Redline is showing default threshold 40.}
+        {\includegraphics[width=0.8\linewidth]{obrazky-figures/db_ex.png}}\\
+        \caption{Sample image of each sub database from database FVC2002 \cite{FVC2002S73:online}}
+        \label{fig:db_ex}
+\end{figure}
+
+For the use of this thesis, only the first database was used to compare the solution to the paper \cite{morphing_paper}. The free version of the database is downloadable on the webpage of the competition \cite{FVC2002S73:online}. The free version consists of 80 fingerprints which are more than needed for the generation of fingerprints since the fingerprints are randomly selected. 
+
+\section{Databases of Morphed Fingepritns}
+\label{database_morphed}
+To evaluate the final applications, a reduction of the database mentioned in \ref{EBD} was needed to decrease time complexity. On average, a fingerprint takes 37\,seconds to generate on the working machine specified at the beginning of this Chapter. The time differs a lot based on the used block size. So the mentioned time was measured for 10-pixel blocksize, which was chosen based on the overall best results.
+
+To try most of the variability and most possibilities, first, the fingerprints were sorted based on their classes with the use of the script from Section \ref{classscript}. Then 2 folders were created in each class folder with excluding the unknown class folder. Folder a) included 10 randomly chosen fingerprints and folder b) included 100 randomly chosen fingerprints. Then the morphing was run over these folders as each fingerprint from folder a) was combined with every fingerprint from folder b).
+
+To generate interclass fingerprints, a combined folder was created. From the first two classes (left loop and right loop) 3 random fingerprints were selected. Then from the other two, only 2 fingerprints were selected. For folder b) 25 fingerprints from each class were selected and then the generation was run the same way. This generation was run twice, once for generation from the center and once from the core (described in Section \ref{mainmorph}). That means, that even with this reduction the time taken by generation was over 102 hours.
+
+The finished result are 2 databases, each for one method described in Sections \ref{imageBased1} and \ref{imageBased2}. Each database consists of 5 sub-databases representing one of the classes and one mixed. All together, there are 9 982 morphed fingerprints generated and prepared for the final evaluation of this thesis. An example of each class can be seen in Figure \ref{fig:db_morphed}.
+
+\begin{figure}[H]
+    \centering
+        {\includegraphics[width=0.8\linewidth]{obrazky-figures/db_gen_example.png}}\\
+        \caption{Sample fingerprint images of each sub-database from the database of morphed fingerprints, each letter represents one fingerprint generated out of each class: a) arch, b) left loop, c) right loop, d) whorl, e) combined.}
+        \label{fig:db_morphed}
+\end{figure}
+
+The number of fingerprints is not exactly 10 000 because some generated fingerprints were incompatible with the applications for comparing fingerprints. Mostly because of the size, where the Innovatrics input has to be a fingerprint image at least 80 pixels wide and 80 pixels high.
+
+Also, not all the generated fingerprints are perfect, some are very easily recognizable as fake by the human eye but the tested systems from Innovatrics or VeriFinger evaluated the comparison with a high score was found as the biggest hole for the Innovatrics or Neurotechnology fingerprint matching in comparison to morphed fingerprints. Where there can be two cores included in a fingerprint, but not as shown as in Figure \ref{fig:res_double_core}. This fingerprint was generated by the method mentioned in Section \ref{imageBased2} and it could achieve a similarity score of 122 compared to Innovatrics. These images are mostly included in the \texttt{res\_center} folder for the whorl class of fingerprints. 
+
+\begin{figure}[H]
+    \centering
+        {\includegraphics[width=0.25\linewidth]{obrazky-figures/res_double_core.png}}\\
+        \caption{Morphing result with two cores}
+        \label{fig:res_double_core}
+\end{figure}
+
+The worst generated fingerprints are from the arch class. These fingerprints have their core in the lower part of the fingerprint which leads to bad results if we try to put the cutline in the core and divide the fingerprint into the lower and the higher part. Also because the methods for generating fingerprints do not include ridge line width adjustment, some fingerprints look similar to in Figure \ref{fig:ridgebad}.
+
+\begin{figure}[H]
+    \centering
+        {\includegraphics[width=0.25\linewidth]{obrazky-figures/ridgebad.png}}\\
+        \caption{Bad case of morphed fingerprint}
+        \label{fig:ridgebad}
+\end{figure}
+
+\section{Results}
+\label{Results}
+As a first step, the first fingerprint generation (\ref{imageBased1}) was evaluated against the paper \cite{morphing_paper} even though the paper says that the fingerprints were selected randomly. For evaluation, the 1 315 fingerprints were generated and tested against the VeriFinger v6 where this implementation was successful in 76.3\,\% of all comparisons against the default threshold. In the paper, they were successful in 81.1\,\% of all cases. The difference could be caused by the differently picked random images or some slight differences in implementation. The FMR curve of the result can be seen in Figure \ref{fig:verifingerv6FAR}.
+
+\begin{figure}[H]
+    \centering
+        {\includegraphics[width=0.8\linewidth]{obrazky-figures/verifingerv6FAR.png}}\\
+        \caption{FMR for VeriFinger v6, the orange line shows the default threshold of 40.}
+        \label{fig:verifingerv6FAR}
+\end{figure}
+
+After the generation of the morphed database and the first testing, the testing against the new versions of the software was run using the application from Section \ref{clasifyApp} over each folder containing the results from each class. As it can be seen in Figures \ref{fig:grapf_normal} and \ref{fig:grapf_normal_veri}. The method with morphing fingerprints, based on method \ref{imageBased1}, which uses the core of the fingerprint as barycenter is not as effective. With the comparison using the default threshold, only 24.68\,\% of the morphed fingerprints were effective for Innovatrics and 27.9\,\% for Neurotechnology VeriFinger.
+
+We can also see that the least successful class of fingerprints was the arch which is because the core of this class is positioned far from the center of the fingerprint close to the bottom as shown in Figure \ref{fig:bad_show}. Where whorl, on the other hand, is placed in the center of fingerprint in most cases so the same part of both fingerprints is included in the result morphed image.
+
+\begin{figure}[H]
+    \centering
+        {\includegraphics[width=0.8\linewidth]{obrazky-figures/results_core.png}}\\
+        \caption{The FMR curve of results for each class for morphing from Section \ref{imageBased1} for Innovatrics. The Red line shows the default threshold of 40.}
         \label{fig:grapf_normal}
 \end{figure}
 
-As it can be seen in the first graph \ref{fig:grapf_normal}, the method with morphing fingerprints based on method \ref{imageBased1}, which is using the core of the fingerprint as barycenter is not as effective. With the comparison with the default threshold, only 24.68\% the morphed fingerprints were effective.
+\begin{figure}[H]
+    \centering
+        {\includegraphics[width=0.8\linewidth]{obrazky-figures/results_core_veri.png}}\\
+        \caption{The FMR curve of results for each class for morphing from Section \ref{imageBased1} for Neurotechnology VeriFinger. The Red line shows the default threshold of 48.}
+        \label{fig:grapf_normal_veri}
+\end{figure}
 
-On the other side the second method \ref{imageBased2}, which is using center of fingerprint as barycenter for the cutline ended with 41.24 \% with the comparison for default threshold. The results are displayed in the graph \ref{fig:grapf_center}.
+On the other side, the second method (described in \ref{imageBased2}), which uses the center of fingerprint as barycenter for the cutline and alignment based on masks, ended with 41.72 \,\% for Innovatrics and 41.7 \,\% for Neurotechnology VeriFinger with the comparison using the default threshold. The results are displayed in Figures \ref{fig:grapf_center} and \ref{fig:grapf_center_veri}.
 
 \begin{figure}[H]
     \centering
-        {\includegraphics[width=1\linewidth]{obrazky-figures/results_center.png}}\\
-        \caption{Results of each class for morphing from section \ref{imageBased2}. Redline is showing default threshold 40.}
+        {\includegraphics[width=0.8\linewidth]{obrazky-figures/results_center.png}}\\
+        \caption{The FMR curve of results for each class for morphing from section \ref{imageBased2} for Innovatrics. The Red line shows the default threshold of 40.}
         \label{fig:grapf_center}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+        {\includegraphics[width=0.8\linewidth]{obrazky-figures/results_center_veri.png}}\\
+        \caption{The FMR curve of results for each class for morphing from section \ref{imageBased2} for Neurotechnology VeriFinger. The Red line shows the default threshold of 48.}
+        \label{fig:grapf_center_veri}
+\end{figure}
+
+Although the second image-based method tries to improve the method of morphing by moving the barycenter for cutline into the center of fingerprint, the arch class is still performing the worst, at around 20\,\%. This is caused because the arch class in most cases still has the most important part of the fingerprint at bottom of the fingerprint. So although the cutline is maximalizing the count of minutiae, the frequency and local orientation fields, the final result includes less important information from the second fingerprint. 
+
+On the other side stands whorl class, which is successful in more than 60\,\% of all cases. The core is situated in the center of the fingerprint and the position slightly differs which leads to fingerprints that contain both cores, as described and showed in Section \ref{database_morphed}. The tested software from Innovatrics and Neurotechnology VeriFinger is not capable of recognizing these fingerprints as fake and in contrast, evaluates them with high scores.
+
 \chapter{Conclusion}
-This thesis is containing the theory needed for the implementation of the application, but also the theory for capturing fingerprints, which is needed for the testing database. This thesis also covers the design and implementation of application for the generation of fingerprints by the morphing method. The aim of this work was to test these methods against the real biometric systems from companies Innovatrics and Neurotechnology and show the threat which this method is. The first step was research about existing solutions and only two were found in one paper (On the Feasibility of Creating Double-Identity Fingerprints \cite{morphing_paper}). 
+This thesis contains the theory needed for the implementation of the applications for the fingerprint morphing and matching fingerprints and the theory behind capturing of fingerprints which was needed for the testing fingerprint database maintained by the faculty. This thesis also covers the design and implementation of an application used for the generation of fingerprints using the morphing methods. The aim of this work was to test fingerprint morphing methods against the real biometric systems from companies Innovatrics and Neurotechnology and to show the threat which this method represents. The first step was researched about existing solutions and only two were found in the paper On the Feasibility of Creating Double-Identity Fingerprints. 
 
-The paper contains a description of the two algorithms based on the same technique. Only the image-based morphing was implemented because the second technique was less effective in the author’s results. It was decided to put more time into improving the image-based morphing and adjust some steps to make the method work better on fingerprints captured in different conditions. Where in the result the improved method was more than 16 \% successful than the first one compared to Innovatrics biometric system. The results were generated from a database provided by the Faculty of Information Technology at the Brno University of Technology. 
+The paper contains a description of the two algorithms based on the same technique. Only the image-based morphing was implemented because the second technique was less effective in the author’s results. It was decided to put more time into improving the image-based morphing and some steps were adjusted to make the method work better on fingerprints captured in different conditions. As the result, the improved method was more than 16\,\% successful than the first one compared to Innovatrics biometric system. The results were generated from a database provided by the Faculty of Information Technology at the Brno University of Technology. 
 
-The finding that not an extremely hard technique for the generation of fingerprints by morphing can have a success rate over 41\% against the real system is in my opinion the main benefit of this work. In the future there is a lot of space for improvements. New techniques that are more precise can be found, for example, the cutline can be moved more to the center of minutiae of both fingerprints after the alignment, or trying to make some minimal amount of minutiae from each fingerprint can maybe help improving the result.
+The finding that the technique for the generation of fingerprints by morphing that was designed and implemented as the part of this thesis can have a success rate over 41\,\% against the real system is in my opinion the main benefit of this work. In the future, there is a lot of space for improvements. New techniques that are more precise can be found, for example, the cutline can be moved more to the center of minutiae of both fingerprints after the alignment, or some minimal amount of minutiae from each fingerprint that should be included from each fingerprint can maybe help to improve the result.
 
-To summarize the whole thesis, starting with chapter 2, the basics about fingerprints and their recognition, capturing the fingerprints and a little bit from mathematical morphology and digital image processing, that is needed to understand are covered there. In chapter 3 the suggested solution for morphing application, starting with pre-processing the input, aligning the fingerprints, computing the cutline, and generating the final result. Chapter 4 then describes the implementation of morphing applications and both applications for detection and description of used Innovatrics API. Chapter 5 then includes measured results and proves that morphed images can be considered as a threat to actual biometric systems.
+To summarize the whole thesis, Chapter 2 covers basic concerns (that need to ne understood): the basics about fingerprints and their recognition, capturing the fingerprints and a little bit from mathematical morphology and digital image processing. In Chapter 3 the suggested solution for morphing application, starting with pre-processing the input, aligning the fingerprints, computing the cutline, and generating the final result. Chapter 4 then describes the implementation of morphing applications and both applications for the detection and the description of used Innovatrics API. Chapter 5 then includes measured results and proves that the morphed images can be considered a threat to actual biometric systems.

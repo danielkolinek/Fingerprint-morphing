@@ -14,6 +14,22 @@ Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: projekt-20-literatura-bibliography.bib
 Warning--to sort, need author or key in Skinanat76:online
 Warning--to sort, need author or key in Morpholo62:online
+Warning--to sort, need author or key in innovatricsonline
+Warning--to sort, need author or key in Neurotechonline
+Warning--to sort, need author or key in GitHubme63:online
+Warning--to sort, need author or key in FVC2002S73:online
+Warning--empty year in Neurotechonline
+Warning--empty url in Neurotechonline
+Warning--empty year and revised in Neurotechonline
+Warning--empty year in FVC2002S73:online
+Warning--empty url in FVC2002S73:online
+Warning--empty year and revised in FVC2002S73:online
+Warning--empty year in GitHubme63:online
+Warning--empty url in GitHubme63:online
+Warning--empty year and revised in GitHubme63:online
+Warning--empty year in innovatricsonline
+Warning--empty url in innovatricsonline
+Warning--empty year and revised in innovatricsonline
 Warning--empty year in Morpholo62:online
 Warning--empty url in Morpholo62:online
 Warning--empty year and revised in Morpholo62:online
@@ -24,19 +40,37 @@ Warning--empty journal in attack2
 Warning--empty edition in attack2
 Warning--empty number in attack2
 Warning--empty edition in babler1991embryologic
+Warning--empty editor and organization in frr_described
+Warning--empty isbn and issn in frr_described
 Warning--empty edition in syntetic_gen_paper
+Warning--empty edition in binarization
+Warning--empty edition in daluz2018fundamentals
+Warning--empty isbn in daluz2018fundamentals
+Warning--empty edition in morph_new
+Warning--empty isbn in morph_new
 Warning--empty year in 01BioPrednaska
 Warning--empty url in 01BioPrednaska
 Warning--empty year and revised in 01BioPrednaska
 Warning--empty edition in morphing_paper
 Warning--empty number in morphing_paper
 Warning--empty isbn and issn in morphing3
-Warning--empty edition in dil1
-Warning--empty edition in haralick1987image
+Warning--empty edition in hack_3
+Warning--empty number in hack_3
+Warning--empty edition in goutsias2000mathematical
+Warning--empty isbn in goutsias2000mathematical
+Warning--empty edition in morphilogy2
 Warning--empty edition in heijmans1990algebraic
 Warning--empty journal in henry1900classification
 Warning--empty edition in henry1900classification
 Warning--empty number in henry1900classification
+Warning--empty edition in holder2011fingerprint
+Warning--empty isbn in holder2011fingerprint
+Warning--empty journal in hong1999classification
+Warning--empty edition in hong1999classification
+Warning--empty number in hong1999classification
+Warning--empty journal in hong2004fingerprint
+Warning--empty edition in hong2004fingerprint
+Warning--empty number in hong2004fingerprint
 Warning--empty edition in hong1998fingerprint
 Warning--empty edition in idkitsdk
 Warning--empty isbn in idkitsdk
@@ -47,64 +81,95 @@ Warning--empty edition in jain2011introduction
 Warning--empty isbn in jain2011introduction
 Warning--empty edition in jain2015attacks
 Warning--empty edition in jang1990analysis
+Warning--empty edition in improvement
 Warning--empty editor and organization in thinning
 Warning--empty booktitle in thinning
+Warning--empty edition in fnmr_1
+Warning--empty number in fnmr_1
 Warning--empty edition in morphing2
 Warning--empty edition in ori
+Warning--empty address and school in ultrasonic
+Warning--empty school in ultrasonic
 Warning--empty edition in maltoni2009handbook
 Warning--empty isbn in maltoni2009handbook
+Warning--empty editor and organization in optical
+Warning--empty booktitle in optical
+Warning--empty isbn and issn in optical
+Warning--empty edition in msiza2011introduction
+Warning--empty number in msiza2011introduction
+Warning--empty journal in hack_2
+Warning--empty edition in hack_2
+Warning--empty number in hack_2
 Warning--empty edition in mwema2015simple
 Warning--empty edition in veri6
 Warning--empty isbn in veri6
+Warning--empty edition in veri12
+Warning--empty isbn in veri12
+Warning--empty edition in thresholding_1
+Warning--empty edition in patriciu2014fingerprint
+Warning--empty journal in thresholding_2
+Warning--empty edition in thresholding_2
+Warning--empty number in thresholding_2
+Warning--empty edition in schuckers2010computational
+Warning--empty isbn in schuckers2010computational
 Warning--empty edition in serra1988mathematical
 Warning--empty number in serra1988mathematical
 Warning--empty edition in dil2
-Warning--empty edition in serra1983image
-Warning--empty isbn in serra1983image
 Warning--empty edition in shih2009image
 Warning--empty isbn in shih2009image
+Warning--empty editor and organization in far_described
+Warning--empty isbn and issn in far_described
+Warning--empty edition in capacitive
+Warning--empty number in capacitive
 Warning--empty edition in histogram
 Warning--empty number in histogram
+Warning--empty edition in wayman2005biometric
+Warning--empty isbn in wayman2005biometric
+Warning--empty journal in orientation_field_2
+Warning--empty edition in orientation_field_2
+Warning--empty number in orientation_field_2
 Warning--empty edition in morphing1
-You've used 32 entries,
+Warning--empty editor and organization in naser
+Warning--empty booktitle in naser
+You've used 59 entries,
             3721 wiz_defined-function locations,
-            964 strings with 9950 characters,
-and the built_in function-call counts, 16125 in all, are:
-= -- 1202
-> -- 613
-< -- 73
-+ -- 266
-- -- 223
-* -- 949
-:= -- 2196
-add.period$ -- 104
-call.type$ -- 32
-change.case$ -- 210
-chr.to.int$ -- 112
-cite$ -- 86
-duplicate$ -- 956
-empty$ -- 1969
-format.name$ -- 143
-if$ -- 3763
+            1109 strings with 14823 characters,
+and the built_in function-call counts, 29507 in all, are:
+= -- 2189
+> -- 1191
+< -- 130
++ -- 560
+- -- 475
+* -- 1715
+:= -- 4014
+add.period$ -- 181
+call.type$ -- 59
+change.case$ -- 396
+chr.to.int$ -- 194
+cite$ -- 178
+duplicate$ -- 1745
+empty$ -- 3561
+format.name$ -- 275
+if$ -- 6820
 int.to.chr$ -- 0
-int.to.str$ -- 32
+int.to.str$ -- 59
 missing$ -- 0
-newline$ -- 203
-num.names$ -- 61
-pop$ -- 422
+newline$ -- 357
+num.names$ -- 107
+pop$ -- 806
 preamble$ -- 1
-purify$ -- 154
+purify$ -- 289
 quote$ -- 0
-skip$ -- 638
+skip$ -- 1163
 stack$ -- 0
-substring$ -- 849
-swap$ -- 188
-text.length$ -- 21
+substring$ -- 1484
+swap$ -- 326
+text.length$ -- 43
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 64
-warning$ -- 54
-while$ -- 136
-width$ -- 34
-write$ -- 371
-(There were 54 warnings)
+type$ -- 119
+warning$ -- 119
+while$ -- 234
+width$ -- 61
+write$ -- 656
+(There were 119 warnings)
